@@ -1,0 +1,32 @@
+{
+  "name": "react-native-modalbox",
+  "version": "1.0.0",
+  "description": "A <Modal/> component for react-native",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maxs15/react-native-modalbox.git"
+  },
+  "keywords": [
+    "react-component",
+    "react-native",
+    "ios",
+    "modal",
+    "box",
+    "modalbox",
+    "window",
+    "swipe"
+  ],
+  "author": "Maxime Mezrahi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/maxs15/react-native-modalbox/issues"
+  },
+  "homepage": "https://github.com/maxs15/react-native-modalbox#readme",
+  "dependencies": {
+    "react-native-overlay": "^0.2.8"
+  }
+}
