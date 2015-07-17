@@ -89,6 +89,7 @@ AppRegistry.registerComponent('App', () => Example);
 | isOpen | false | `bool` | If `true`, the modal will show up |
 | swipeToClose | true | `bool` | Set to `true` to enable the swipe down to close feature |
 | swipeThreshold | 50 | `number` | The threshold to reach in pixels to close the modal |
+| aboveStatusBar | true | `bool` | If true the modal will appear above the status bar |
 
 ## Events
 
