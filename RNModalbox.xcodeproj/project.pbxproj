@@ -1,0 +1,267 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D4CC549F1B59873900F31148 /* RNOverlayManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D4CC54991B59873900F31148 /* RNOverlayManager.m */; };
+		D4CC54BA1B59891300F31148 /* RNClickThroughWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = D4CC54B61B59891300F31148 /* RNClickThroughWindow.m */; };
+		D4CC54BB1B59891300F31148 /* RNOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = D4CC54B81B59891300F31148 /* RNOverlay.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		D4CC547D1B5986F500F31148 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		D4CC547F1B5986F500F31148 /* libRNModalbox.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRNModalbox.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		D4CC54991B59873900F31148 /* RNOverlayManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RNOverlayManager.m; path = "node_modules/react-native-overlay/RNOverlayManager.m"; sourceTree = "<group>"; };
+		D4CC54B51B59891300F31148 /* RNClickThroughWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RNClickThroughWindow.h; path = "node_modules/react-native-overlay/RNClickThroughWindow.h"; sourceTree = "<group>"; };
+		D4CC54B61B59891300F31148 /* RNClickThroughWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RNClickThroughWindow.m; path = "node_modules/react-native-overlay/RNClickThroughWindow.m"; sourceTree = "<group>"; };
+		D4CC54B71B59891300F31148 /* RNOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RNOverlay.h; path = "node_modules/react-native-overlay/RNOverlay.h"; sourceTree = "<group>"; };
+		D4CC54B81B59891300F31148 /* RNOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RNOverlay.m; path = "node_modules/react-native-overlay/RNOverlay.m"; sourceTree = "<group>"; };
+		D4CC54B91B59891300F31148 /* RNOverlayManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RNOverlayManager.h; path = "node_modules/react-native-overlay/RNOverlayManager.h"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D4CC547C1B5986F500F31148 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D4CC54761B5986F500F31148 = {
+			isa = PBXGroup;
+			children = (
+				D4CC54B51B59891300F31148 /* RNClickThroughWindow.h */,
+				D4CC54B61B59891300F31148 /* RNClickThroughWindow.m */,
+				D4CC54B71B59891300F31148 /* RNOverlay.h */,
+				D4CC54B81B59891300F31148 /* RNOverlay.m */,
+				D4CC54B91B59891300F31148 /* RNOverlayManager.h */,
+				D4CC54991B59873900F31148 /* RNOverlayManager.m */,
+				D4CC54801B5986F500F31148 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D4CC54801B5986F500F31148 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D4CC547F1B5986F500F31148 /* libRNModalbox.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D4CC547E1B5986F500F31148 /* RNModalbox */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D4CC54931B5986F500F31148 /* Build configuration list for PBXNativeTarget "RNModalbox" */;
+			buildPhases = (
+				D4CC547B1B5986F500F31148 /* Sources */,
+				D4CC547C1B5986F500F31148 /* Frameworks */,
+				D4CC547D1B5986F500F31148 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RNModalbox;
+			productName = modalbox;
+			productReference = D4CC547F1B5986F500F31148 /* libRNModalbox.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D4CC54771B5986F500F31148 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0640;
+				TargetAttributes = {
+					D4CC547E1B5986F500F31148 = {
+						CreatedOnToolsVersion = 6.4;
+					};
+				};
+			};
+			buildConfigurationList = D4CC547A1B5986F500F31148 /* Build configuration list for PBXProject "RNModalbox" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = D4CC54761B5986F500F31148;
+			productRefGroup = D4CC54801B5986F500F31148 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D4CC547E1B5986F500F31148 /* RNModalbox */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D4CC547B1B5986F500F31148 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D4CC54BB1B59891300F31148 /* RNOverlay.m in Sources */,
+				D4CC54BA1B59891300F31148 /* RNClickThroughWindow.m in Sources */,
+				D4CC549F1B59873900F31148 /* RNOverlayManager.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		D4CC54911B5986F500F31148 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SRCROOT)/../node_modules/react-native/React/**",
+					"$(SRCROOT)/../react-native/React/**",
+					"$(SRCROOT)/../../React/**",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		D4CC54921B5986F500F31148 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SRCROOT)/../node_modules/react-native/React/**",
+					"$(SRCROOT)/../react-native/React/**",
+					"$(SRCROOT)/../../React/**",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D4CC54941B5986F500F31148 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = RNModalbox;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		D4CC54951B5986F500F31148 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = RNModalbox;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D4CC547A1B5986F500F31148 /* Build configuration list for PBXProject "RNModalbox" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D4CC54911B5986F500F31148 /* Debug */,
+				D4CC54921B5986F500F31148 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D4CC54931B5986F500F31148 /* Build configuration list for PBXNativeTarget "RNModalbox" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D4CC54941B5986F500F31148 /* Debug */,
+				D4CC54951B5986F500F31148 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D4CC54771B5986F500F31148 /* Project object */;
+}
