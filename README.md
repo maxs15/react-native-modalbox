@@ -18,10 +18,11 @@ Using the new react native [Animated](http://facebook.github.io/react-native/doc
 
 ```javascript
 var React     = require('react-native');
-var Recorder  = require('react-native-modalbox');
+var Modal     = require('react-native-modalbox');
 
 var {
-  View
+  View,
+  AppRegistry
 } = React;
 
 var Example = React.createClass({
