@@ -27,6 +27,6 @@
   },
   "homepage": "https://github.com/maxs15/react-native-modalbox#readme",
   "dependencies": {
-    "react-native-overlay": "^0.2.8"
+    "react-native-overlay": "^0.2.9"
   }
 }
