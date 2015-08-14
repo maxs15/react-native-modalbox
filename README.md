@@ -3,7 +3,9 @@
 A react native <Modal> component, easy, fully customizable, implementing the 'swipe down to close' feature.
 Using the new react native [Animated](http://facebook.github.io/react-native/docs/animations.html#content) library.
 
+## Preview
 ![](https://i.imgur.com/QTAYh81.gif)
+![](http://i.imgur.com/3XULLt8.gif)
 
 ## Getting started
 
@@ -14,83 +16,28 @@ Using the new react native [Animated](http://facebook.github.io/react-native/doc
 5. Click `RNModalbox.xcodeproj` in the project navigator and go the `Build Settings` tab. Make sure 'All' is toggled on (instead of 'Basic'). Look for `Header Search Paths` and make sure it contains both `$(SRCROOT)/../react-native/React` and `$(SRCROOT)/../../React` - mark both as `recursive`.
 5. Run your project (`Cmd+R`)
 
-## Usage
+## Example
+Check [index.ios.js](https://github.com/maxs15/react-native-modalbox/blob/master/Example/index.ios.js) in the Example folder.
 
-```javascript
-var React     = require('react-native');
-var Modal     = require('react-native-modalbox');
 
-var {
-  View,
-  AppRegistry
-} = React;
-
-var Example = React.createClass({
-
-  getInitialState: function() {
-    return {
-      isOpen: false,
-      closingState: false
-    }
-  },
-
-  open: function() {
-    this.setState({isOpen: true});
-  },
-
-  close: function() {
-    this.setState({isOpen: false});
-  },
-
-  onClosed: function() {
-    console.log('the modal is closed');
-    // If the modal has been closed with a swipe down, we change the state to hide the modal completely 
-    if (this.state.isOpen != false)
-      this.setState({isOpen: false});
-  },
-
-  onOpened: function() {
-    console.log('the modal is opened');
-  },
-
-  onClosingState: function(state) {
-    this.setState({closingState: state});
-  },
-
-  render: function() {
-    var modalRelease = <View/>;
-
-    if (this.state.closingState)
-      modalRelease = <View><Text>Release To leave</Text></View>;
-
-    return (
-      <Modal
-        style={styles.customModalStyle}
-        isOpen={this.state.isOpen}
-        swipeToClose={true}
-        onClosed={this.onClosed}
-        onOpened={this.onOpened}
-        onClosingState={this.onClosingState}>
-          {modalRelease}
-          <Button icon={"cross"} style={styles.modalButton} onPress={this.close}/>
-          <Text>I'm the content of the modal!</Text>
-      </Modal>
-    );
-  }
-
-});
-
-AppRegistry.registerComponent('App', () => Example);
-```
+## Methods
+| Prop  | Params  | Description |
+| :------------ |:---------------:| :---------------:|
+| open | - | Open the modal |
+| close | - | Close the modal |
 
 ## Properties
 
 | Prop  | Default  | Type | Description |
 | :------------ |:---------------:| :---------------:| :-----|
-| isOpen | false | `bool` | If `true`, the modal will show up |
 | swipeToClose | true | `bool` | Set to `true` to enable the swipe down to close feature |
 | swipeThreshold | 50 | `number` | The threshold to reach in pixels to close the modal |
 | aboveStatusBar | true | `bool` | If true the modal will appear above the status bar |
+| position | center | `string` | Control the modal position using `top` or `center` or `bottom`
+| backdrop | true | `bool` | Display a backdrop behind the modal
+| backdropOpacity | 0.5| `bool` | Opacity of the backdrop
+| backdropColor | black| `bool` | backgroundColor of the backdrop
+| backdropContent | null| `ReactElement` | Add an element in the backdrop (a close button for example)
 
 ## Events
 
