@@ -66,6 +66,7 @@ var Modal = React.createClass({
     return {
       position: new Animated.Value(screen.height),
       backdropOpacity: new Animated.Value(0),
+      isOpen: false,
       isAnimateClose: false,
       isAnimateOpen: false,
       swipeToClose: false,
@@ -155,6 +156,7 @@ var Modal = React.createClass({
     );
     this.state.animOpen.start(() => {
       this.state.isAnimateOpen = false;
+      this.state.isOpen = true;
       if (this.props.onOpened) this.props.onOpened();
     });
   },
@@ -182,6 +184,7 @@ var Modal = React.createClass({
     );
     this.state.animClose.start(() => {
       this.state.isAnimateClose = false;
+      this.state.isOpen = false;
       this.setState({});
       if (this.props.onClosed) this.props.onClosed();
     });
@@ -256,7 +259,7 @@ var Modal = React.createClass({
    * Render the component
    */
   render: function() {
-    var visible   = this.state.isAnimateOpen || this.state.isAnimateClose;
+    var visible   = this.state.isOpen || this.state.isAnimateOpen || this.state.isAnimateClose;
     var pan       = this.state.pan ? this.state.pan.panHandlers : {};
     var offsetX   = (screen.width - this.state.width) / 2;
     var backdrop  = this.renderBackdrop();
