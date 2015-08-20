@@ -50,7 +50,6 @@ var Modal = React.createClass({
 
   getDefaultProps: function () {
     return {
-      isOpen: false,
       swipeToClose: true,
       swipeThreshold: 50,
       aboveStatusBar: true,
@@ -78,6 +77,14 @@ var Modal = React.createClass({
   componentDidMount: function() {
     if (this.props.swipeToClose)
       this.createPanResponder();
+  },
+
+  componentWillReceiveProps: function(props) {
+    if (typeof props.isOpen == "undefined") return;
+    if (props.isOpen)
+      this.open();
+    else
+      this.close();
   },
 
   /****************** ANIMATIONS **********************/
@@ -280,7 +287,7 @@ var Modal = React.createClass({
   /****************** PUBLIC METHODS **********************/
 
   open: function() {
-    if (!this.state.isAnimateOpen) {
+    if (!this.state.isAnimateOpen && (!this.state.isOpen || this.state.isAnimateClose)) {
       this.onViewLayoutCalculated = () => {
         this.setState({});
         this.animateOpen();
@@ -290,7 +297,7 @@ var Modal = React.createClass({
   },
 
   close: function() {
-    if (!this.state.isAnimateClose) {
+    if (!this.state.isAnimateClose && (this.state.isOpen || this.state.isAnimateOpen)) {
       this.animateClose();
     }
   }
