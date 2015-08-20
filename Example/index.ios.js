@@ -66,6 +66,12 @@ var styles = StyleSheet.create({
 
 var Example = React.createClass({
 
+  getInitialState: function() {
+    return {
+      isOpen: false
+    };
+  },
+
   openModal1: function(id) {
     this.refs.modal1.open();
   },
@@ -83,11 +89,11 @@ var Example = React.createClass({
   },
 
   openModal5: function(id) {
-    this.refs.modal5.open();
+    this.setState({isOpen: true});
   },
 
   closeModal5: function(id) {
-    this.refs.modal5.close();
+    this.setState({isOpen: false});
   },
 
   onClose: function() {
@@ -130,7 +136,7 @@ var Example = React.createClass({
           <Text style={styles.text}>Modal on bottom with backdrop</Text>
         </Modal>
 
-        <Modal style={[styles.modal, styles.modal4]} position={"center"} backdropContent={BContent} ref={"modal5"}>
+        <Modal isOpen={this.state.isOpen} onClosed={this.closeModal5} style={[styles.modal, styles.modal4]} position={"center"} backdropContent={BContent}>
           <Text style={styles.text}>Modal with backdrop content</Text>
         </Modal>
       </View>
