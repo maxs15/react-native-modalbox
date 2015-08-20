@@ -42,7 +42,8 @@ Check [index.ios.js](https://github.com/maxs15/react-native-modalbox/blob/master
 | onClosingState | state `bool` | When the state of the swipe to close feature has changed (usefull to change the content of the modal, display a message for example) |
 
 ## Methods
-These methods are optional, you can use the isOpen property instead
+These methods are optional, you can use the isOpen property instead   
+
 | Prop  | Params  | Description |
 | :------------ |:---------------:| :---------------:|
 | open | - | Open the modal |
