@@ -6,11 +6,12 @@ var {
   StyleSheet,
   PanResponder,
   Animated,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  Dimensions
 } = React;
 
 var Overlay         = require('react-native-overlay');
-var screen          = require('Dimensions').get('window');
+var screen          = Dimensions.get('window');
 
 var styles = StyleSheet.create({
 
