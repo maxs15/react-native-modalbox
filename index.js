@@ -39,6 +39,7 @@ var Modal = React.createClass({
   propTypes: {
     swipeToClose: React.PropTypes.bool,
     swipeThreshold: React.PropTypes.number,
+    swipeArea: React.PropTypes.number,
     onClosed: React.PropTypes.func,
     onOpened: React.PropTypes.func,
     onClosingState: React.PropTypes.func,
@@ -204,8 +205,10 @@ var Modal = React.createClass({
    */
   createPanResponder: function() {
     var closingState = false;
+    var inSwipeArea  = true;
 
     var onPanRelease = (evt, state) => {
+      if (!inSwipeArea) return;
       if (state.dy > this.props.swipeThreshold)
         this.animateClose();
       else
@@ -225,9 +228,18 @@ var Modal = React.createClass({
       animEvt(evt, state);
     };
 
+    var onPanStart = (evt, state) => {
+      if (this.props.swipeArea && (evt.nativeEvent.pageY - this.state.positionDest) > this.props.swipeArea) {
+        inSwipeArea = false;
+        return false;
+      }
+      inSwipeArea = true;
+      return true;
+    };
+
     this.state.pan = PanResponder.create({
-      onStartShouldSetPanResponder: () => true,
-      onMoveShouldSetPanResponder: () => true,
+      onStartShouldSetPanResponder: onPanStart,
+      onMoveShouldSetPanResponder: () => inSwipeArea,
       onPanResponderMove: onPanMove,
       onPanResponderRelease: onPanRelease,
       onPanResponderTerminate: onPanRelease,
