@@ -7,14 +7,9 @@ Using the new react native [Animated](http://facebook.github.io/react-native/doc
 ![](https://i.imgur.com/QTAYh81.gif)
 ![](http://i.imgur.com/3XULLt8.gif)
 
-## Getting started
+## Install
 
-1. `npm install react-native-modalbox@latest --save`
-2. In XCode, in the project navigator, right click `Libraries` ➜ `Add Files to [your project's name]`
-3. Go to `node_modules` ➜ `react-native-modalbox` and add `RNModalbox.xcodeproj`
-4. In XCode, in the project navigator, select your project. Add `libRNModalbox.a` to your project's `Build Phases` ➜ `Link Binary With Libraries`
-5. Click `RNModalbox.xcodeproj` in the project navigator and go the `Build Settings` tab. Make sure 'All' is toggled on (instead of 'Basic'). Look for `Header Search Paths` and make sure it contains both `$(SRCROOT)/../react-native/React` and `$(SRCROOT)/../../React` - mark both as `recursive`.
-5. Run your project (`Cmd+R`)
+`npm install react-native-modalbox@latest --save`
 
 ## Example
 Check [index.ios.js](https://github.com/maxs15/react-native-modalbox/blob/master/Example/index.ios.js) in the Example folder.
