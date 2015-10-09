@@ -132,7 +132,7 @@ var Example = React.createClass({
           <Text style={styles.text}>Modal centered</Text>
         </Modal>
 
-        <Modal style={[styles.modal, styles.modal4]} position={"bottom"} swipeArea={30} ref={"modal4"}>
+        <Modal style={[styles.modal, styles.modal4]} position={"bottom"} ref={"modal4"}>
           <Text style={styles.text}>Modal on bottom with backdrop</Text>
         </Modal>
 

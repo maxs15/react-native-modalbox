@@ -6,8 +6,8 @@
     "start": "node_modules/react-native/packager/packager.sh"
   },
   "dependencies": {
-    "react-native": "^0.10.1",
-    "react-native-button": "^1.2.0",
-    "react-native-modalbox": "^1.1.5"
+    "react-native": "^0.12.0",
+    "react-native-button": "^1.2.1",
+    "react-native-modalbox": "^1.2.0"
   }
 }
