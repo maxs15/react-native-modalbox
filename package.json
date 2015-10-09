@@ -1,6 +1,6 @@
 {
   "name": "react-native-modalbox",
-  "version": "1.1.5",
+  "version": "1.2.0",
   "description": "A <Modal/> component for react-native",
   "main": "index.js",
   "scripts": {
@@ -26,7 +26,5 @@
     "url": "https://github.com/maxs15/react-native-modalbox/issues"
   },
   "homepage": "https://github.com/maxs15/react-native-modalbox#readme",
-  "dependencies": {
-    "react-native-overlay": "^0.3.0"
-  }
+  "dependencies": {}
 }
