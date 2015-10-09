@@ -7,10 +7,10 @@ var {
   PanResponder,
   Animated,
   TouchableWithoutFeedback,
-  Dimensions
+  Dimensions,
+  Modal
 } = React;
 
-var Overlay         = require('react-native-overlay');
 var screen          = Dimensions.get('window');
 
 var styles = StyleSheet.create({
@@ -34,7 +34,7 @@ var styles = StyleSheet.create({
 
 });
 
-var Modal = React.createClass({
+var ModalBox = React.createClass({
 
   propTypes: {
     swipeToClose: React.PropTypes.bool,
@@ -285,7 +285,7 @@ var Modal = React.createClass({
     var backdrop  = this.renderBackdrop();
 
     return (
-      <Overlay isVisible={visible} aboveStatusBar={this.props.aboveStatusBar}>
+      <Modal visible={visible} transparent={true}>
         {backdrop}
         <Animated.View
          onLayout={this.onViewLayout}
@@ -293,7 +293,7 @@ var Modal = React.createClass({
          {...pan}>
           {this.props.children}
         </Animated.View>
-      </Overlay>
+      </Modal>
     );
   },
 
@@ -318,4 +318,4 @@ var Modal = React.createClass({
 
 });
 
-module.exports = Modal;
+module.exports = ModalBox;
