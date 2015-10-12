@@ -12,7 +12,7 @@ Using the new react native [Animated](http://facebook.github.io/react-native/doc
 `npm install react-native-modalbox@latest --save`
 
 ## Example
-Check [index.ios.js](https://github.com/maxs15/react-native-modalbox/blob/master/Example/index.ios.js) in the Example folder.
+Check [index.js](https://github.com/maxs15/react-native-modalbox/blob/master/Example/index.js) in the Example folder.
 
 ## Properties
 
