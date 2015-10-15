@@ -8,6 +8,6 @@
   "dependencies": {
     "react-native": "^0.12.0",
     "react-native-button": "^1.2.1",
-    "react-native-modalbox": "^1.2.0"
+    "react-native-modalbox": "^1.2.1"
   }
 }
