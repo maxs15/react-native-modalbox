@@ -12,6 +12,7 @@ var {
 } = React;
 
 var screen          = Dimensions.get('window');
+var Overlay         = require('react-native-overlay');
 
 var styles = StyleSheet.create({
 
@@ -285,7 +286,7 @@ var ModalBox = React.createClass({
     var backdrop  = this.renderBackdrop();
 
     return (
-      <Modal visible={visible} transparent={true}>
+      <Overlay isVisible={visible} aboveStatusBar={this.props.aboveStatusBar}>
         {backdrop}
         <Animated.View
          onLayout={this.onViewLayout}
@@ -293,7 +294,7 @@ var ModalBox = React.createClass({
          {...pan}>
           {this.props.children}
         </Animated.View>
-      </Modal>
+      </Overlay>
     );
   },
 
