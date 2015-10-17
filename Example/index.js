@@ -68,7 +68,8 @@ var Example = React.createClass({
 
   getInitialState: function() {
     return {
-      isOpen: false
+      isOpen: false,
+      isDisabled: false
     };
   },
 
@@ -96,6 +97,10 @@ var Example = React.createClass({
     this.setState({isOpen: false});
   },
 
+  toggleDisable: function() {
+    this.setState({isDisabled: !this.state.isDisabled});
+  },
+
   onClose: function() {
     console.log('Modal just closed');
   },
@@ -116,7 +121,7 @@ var Example = React.createClass({
       <View style={styles.wrapper}>
         <Button onPress={this.openModal1} style={styles.btn}>Basic modal</Button>
         <Button onPress={this.openModal2} style={styles.btn}>Position top</Button>
-        <Button onPress={this.openModal3} style={styles.btn}>Position centered + backdrop</Button>
+        <Button onPress={this.openModal3} style={styles.btn}>Position centered + backdrop + disable</Button>
         <Button onPress={this.openModal4} style={styles.btn}>Position bottom + backdrop</Button>
         <Button onPress={this.openModal5} style={styles.btn}>Backdrop + backdropContent</Button>
 
@@ -128,8 +133,9 @@ var Example = React.createClass({
           <Text style={[styles.text, {color: "white"}]}>Modal on top</Text>
         </Modal>
 
-        <Modal style={[styles.modal, styles.modal3]} position={"center"} ref={"modal3"}>
+        <Modal style={[styles.modal, styles.modal3]} position={"center"} ref={"modal3"} isDisabled={this.state.isDisabled}>
           <Text style={styles.text}>Modal centered</Text>
+          <Button onPress={this.toggleDisable} style={styles.btn}>Disable ({this.state.isDisabled ? "true" : "false"})</Button>
         </Modal>
 
         <Modal style={[styles.modal, styles.modal4]} position={"bottom"} ref={"modal4"}>
