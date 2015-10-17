@@ -19,6 +19,7 @@ Check [index.js](https://github.com/maxs15/react-native-modalbox/blob/master/Exa
 | Prop  | Default  | Type | Description |
 | :------------ |:---------------:| :---------------:| :-----|
 | isOpen | false | `bool` | Open/close the modal, optional, you can use the open/close methods instead  |
+| isDisabled | false | `bool` | Disable any action on the modal (open, close, swipe)  |
 | swipeToClose | true | `bool` | Set to `true` to enable the swipe down to close feature |
 | swipeThreshold | 50 | `number` | The threshold to reach in pixels to close the modal |
 | swipeArea | - | `number` | The height in pixels of the swipeable area, window height by default |

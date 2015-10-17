@@ -39,6 +39,7 @@ var ModalBox = React.createClass({
 
   propTypes: {
     isOpen: React.PropTypes.bool,
+    isDisabled: React.PropTypes.bool,
     swipeToClose: React.PropTypes.bool,
     swipeThreshold: React.PropTypes.number,
     swipeArea: React.PropTypes.number,
@@ -233,7 +234,7 @@ var ModalBox = React.createClass({
     };
 
     var onPanStart = (evt, state) => {
-      if (this.props.swipeArea && (evt.nativeEvent.pageY - this.state.positionDest) > this.props.swipeArea) {
+      if (this.props.isDisabled || (this.props.swipeArea && (evt.nativeEvent.pageY - this.state.positionDest) > this.props.swipeArea)) {
         inSwipeArea = false;
         return false;
       }
@@ -267,7 +268,7 @@ var ModalBox = React.createClass({
 
     if (this.props.backdrop) {
       backdrop = (
-        <TouchableWithoutFeedback onPress={this.animateClose}>
+        <TouchableWithoutFeedback onPress={this.close}>
           <Animated.View style={[styles.backdrop, {opacity: this.state.backdropOpacity}]}>
             <View style={[styles.backdrop, {backgroundColor:this.props.backdropColor, opacity: this.props.backdropOpacity}]}/>
             {this.props.backdropContent || []}
@@ -304,6 +305,7 @@ var ModalBox = React.createClass({
   /****************** PUBLIC METHODS **********************/
 
   open: function() {
+    if (this.props.isDisabled) return;
     if (!this.state.isAnimateOpen && (!this.state.isOpen || this.state.isAnimateClose)) {
       this.onViewLayoutCalculated = () => {
         this.setState({});
@@ -314,6 +316,7 @@ var ModalBox = React.createClass({
   },
 
   close: function() {
+    if (this.props.isDisabled) return;
     if (!this.state.isAnimateClose && (this.state.isOpen || this.state.isAnimateOpen)) {
       this.animateClose();
     }
