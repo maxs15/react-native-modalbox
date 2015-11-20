@@ -242,9 +242,16 @@ var ModalBox = React.createClass({
       return true;
     };
 
+    var onPanShouldMove = (evt, state) => {
+      if (state.dx === 0 || state.dy === 0) {
+        return false;
+      }
+      return true;
+    };
+
     this.state.pan = PanResponder.create({
       onStartShouldSetPanResponder: onPanStart,
-      onMoveShouldSetPanResponder: () => inSwipeArea,
+      onMoveShouldSetPanResponder: onPanShouldMove,
       onPanResponderMove: onPanMove,
       onPanResponderRelease: onPanRelease,
       onPanResponderTerminate: onPanRelease,
