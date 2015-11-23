@@ -242,7 +242,7 @@ var ModalBox = React.createClass({
       return true;
     };
     
-    /* Fix 3d touch bug */
+    /* Fix 3d touch bug related issue https://github.com/facebook/react-native/issues/3082*/
     var onPanShouldMove = (evt, state) => {
       if (state.dx === 0 || state.dy === 0) {
         return false;
