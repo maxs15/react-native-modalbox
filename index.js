@@ -241,12 +241,13 @@ var ModalBox = React.createClass({
       inSwipeArea = true;
       return true;
     };
-
+    
+    /* Fix 3d touch bug */
     var onPanShouldMove = (evt, state) => {
       if (state.dx === 0 || state.dy === 0) {
         return false;
       }
-      return true;
+      return inSwipeArea;
     };
 
     this.state.pan = PanResponder.create({
