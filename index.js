@@ -241,10 +241,18 @@ var ModalBox = React.createClass({
       inSwipeArea = true;
       return true;
     };
+    
+    /* Fix 3d touch bug related issue https://github.com/facebook/react-native/issues/3082*/
+    var onPanShouldMove = (evt, state) => {
+      if (state.dx === 0 || state.dy === 0) {
+        return false;
+      }
+      return inSwipeArea;
+    };
 
     this.state.pan = PanResponder.create({
       onStartShouldSetPanResponder: onPanStart,
-      onMoveShouldSetPanResponder: () => inSwipeArea,
+      onMoveShouldSetPanResponder: onPanShouldMove,
       onPanResponderMove: onPanMove,
       onPanResponderRelease: onPanRelease,
       onPanResponderTerminate: onPanRelease,
