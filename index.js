@@ -49,6 +49,7 @@ var ModalBox = React.createClass({
     backdropOpacity: React.PropTypes.number,
     backdropColor: React.PropTypes.string,
     backdropContent: React.PropTypes.element,
+    backdropCloseOnPress: React.PropTypes.bool,
 
     onClosed: React.PropTypes.func,
     onOpened: React.PropTypes.func,
@@ -64,7 +65,8 @@ var ModalBox = React.createClass({
       backdrop: true,
       backdropOpacity: 0.5,
       backdropColor: "black",
-      backdropContent: null
+      backdropContent: null,
+      backdropCloseOnPress: true
     };
   },
 
@@ -176,7 +178,7 @@ var ModalBox = React.createClass({
   },
 
   /*
-   * Close animation for the modal, will move down 
+   * Close animation for the modal, will move down
    */
   animateClose: function() {
     if (this.state.isAnimateOpen) {
@@ -241,7 +243,7 @@ var ModalBox = React.createClass({
       inSwipeArea = true;
       return true;
     };
-    
+
     /* Fix 3d touch bug related issue https://github.com/facebook/react-native/issues/3082*/
     var onPanShouldMove = (evt, state) => {
       if (state.dx === 0 || state.dy === 0) {
@@ -269,14 +271,15 @@ var ModalBox = React.createClass({
   },
 
   /*
-   * Render the backdrop element 
+   * Render the backdrop element
    */
   renderBackdrop: function() {
     var backdrop  = [];
 
     if (this.props.backdrop) {
+      var backdropOnPress = this.props.backdropCloseOnPress ? this.close : false;
       backdrop = (
-        <TouchableWithoutFeedback onPress={this.close}>
+        <TouchableWithoutFeedback onPress={backdropOnPress}>
           <Animated.View style={[styles.backdrop, {opacity: this.state.backdropOpacity}]}>
             <View style={[styles.backdrop, {backgroundColor:this.props.backdropColor, opacity: this.props.backdropOpacity}]}/>
             {this.props.backdropContent || []}

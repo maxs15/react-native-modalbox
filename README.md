@@ -29,6 +29,7 @@ Check [index.js](https://github.com/maxs15/react-native-modalbox/blob/master/Exa
 | backdropOpacity | 0.5| `bool` | Opacity of the backdrop
 | backdropColor | black| `bool` | backgroundColor of the backdrop
 | backdropContent | null| `ReactElement` | Add an element in the backdrop (a close button for example)
+| backdropCloseOnPress | true| `bool` | Enable/Disable closing modal when backdrop is pressed.
 
 ## Events
 
