@@ -1,7 +1,6 @@
 # react-native-modalbox
 
 A react native <Modal> component, easy, fully customizable, implementing the 'swipe down to close' feature.
-Using the new react native [Animated](http://facebook.github.io/react-native/docs/animations.html#content) library.
 
 ## Preview
 ![](https://i.imgur.com/QTAYh81.gif)
@@ -23,7 +22,6 @@ Check [index.js](https://github.com/maxs15/react-native-modalbox/blob/master/Exa
 | swipeToClose | true | `bool` | Set to `true` to enable the swipe down to close feature |
 | swipeThreshold | 50 | `number` | The threshold to reach in pixels to close the modal |
 | swipeArea | - | `number` | The height in pixels of the swipeable area, window height by default |
-| aboveStatusBar | true | `bool` | If true the modal will appear above the status bar (you must include RNModalbox.xcodeproj) |
 | position | center | `string` | Control the modal position using `top` or `center` or `bottom`
 | backdrop | true | `bool` | Display a backdrop behind the modal
 | backdropOpacity | 0.5| `bool` | Opacity of the backdrop

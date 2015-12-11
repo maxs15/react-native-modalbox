@@ -7,30 +7,27 @@ var {
   PanResponder,
   Animated,
   TouchableWithoutFeedback,
-  Dimensions,
-  Modal
+  Dimensions
 } = React;
 
-var screen          = Dimensions.get('window');
-var Overlay         = require('react-native-overlay');
+var screen = Dimensions.get('window');
 
 var styles = StyleSheet.create({
 
   wrapper: {
-    backgroundColor: "white",
-    position: "absolute",
-    height: screen.height,
-    width: screen.width
+    backgroundColor: "white"
   },
 
-  backdrop: {
+  transparent: {
+    backgroundColor: 'rgba(0,0,0,0)'
+  },
+
+  absolute: {
     position: "absolute",
     top: 0,
     bottom: 0,
     left: 0,
-    right: 0,
-    height: screen.height,
-    width: screen.width
+    right: 0
   }
 
 });
@@ -43,7 +40,6 @@ var ModalBox = React.createClass({
     swipeToClose: React.PropTypes.bool,
     swipeThreshold: React.PropTypes.number,
     swipeArea: React.PropTypes.number,
-    aboveStatusBar: React.PropTypes.bool,
     position: React.PropTypes.string,
     backdrop: React.PropTypes.bool,
     backdropOpacity: React.PropTypes.number,
@@ -59,7 +55,6 @@ var ModalBox = React.createClass({
     return {
       swipeToClose: true,
       swipeThreshold: 50,
-      aboveStatusBar: true,
       position: "center",
       backdrop: true,
       backdropOpacity: 0.5,
@@ -265,6 +260,7 @@ var ModalBox = React.createClass({
   onViewLayout: function(evt) {
     this.state.height = evt.nativeEvent.layout.height;
     this.state.width = evt.nativeEvent.layout.width;
+
     if (this.onViewLayoutCalculated) this.onViewLayoutCalculated();
   },
 
@@ -273,12 +269,13 @@ var ModalBox = React.createClass({
    */
   renderBackdrop: function() {
     var backdrop  = [];
+    var size      = {height: screen.height, width: screen.width};
 
     if (this.props.backdrop) {
       backdrop = (
         <TouchableWithoutFeedback onPress={this.close}>
-          <Animated.View style={[styles.backdrop, {opacity: this.state.backdropOpacity}]}>
-            <View style={[styles.backdrop, {backgroundColor:this.props.backdropColor, opacity: this.props.backdropOpacity}]}/>
+          <Animated.View style={[styles.absolute, size, {opacity: this.state.backdropOpacity}]}>
+            <View style={[styles.absolute, {backgroundColor:this.props.backdropColor, opacity: this.props.backdropOpacity}]}/>
             {this.props.backdropContent || []}
           </Animated.View>
         </TouchableWithoutFeedback>
@@ -292,21 +289,23 @@ var ModalBox = React.createClass({
    * Render the component
    */
   render: function() {
-    var visible   = this.state.isOpen || this.state.isAnimateOpen || this.state.isAnimateClose;
-    var pan       = this.state.pan ? this.state.pan.panHandlers : {};
-    var offsetX   = (screen.width - this.state.width) / 2;
-    var backdrop  = this.renderBackdrop();
+    var visible     = this.state.isOpen || this.state.isAnimateOpen || this.state.isAnimateClose;
+    var pan         = this.state.pan ? this.state.pan.panHandlers : {};
+    var offsetX     = (screen.width - this.state.width) / 2;
+    var backdrop    = this.renderBackdrop();
+
+    if (!visible) return <View/>
 
     return (
-      <Overlay isVisible={visible} aboveStatusBar={this.props.aboveStatusBar}>
+      <View style={[styles.transparent, styles.absolute]} pointerEvents={'box-none'}>
         {backdrop}
         <Animated.View
          onLayout={this.onViewLayout}
-         style={[styles.wrapper, this.props.style, {transform: [{translateY: this.state.position}, {translateX: offsetX}]} ]}
+         style={[styles.wrapper, {height: screen.height, width: screen.width}, this.props.style, {transform: [{translateY: this.state.position}, {translateX: offsetX}]} ]}
          {...pan}>
           {this.props.children}
         </Animated.View>
-      </Overlay>
+      </View>
     );
   },
 
