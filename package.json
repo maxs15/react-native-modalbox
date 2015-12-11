@@ -26,8 +26,5 @@
   "bugs": {
     "url": "https://github.com/maxs15/react-native-modalbox/issues"
   },
-  "homepage": "https://github.com/maxs15/react-native-modalbox#readme",
-  "dependencies": {
-    "react-native-overlay": "^0.3.0"
-  }
+  "homepage": "https://github.com/maxs15/react-native-modalbox#readme"
 }
