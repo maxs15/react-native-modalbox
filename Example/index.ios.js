@@ -23,10 +23,6 @@ var styles = StyleSheet.create({
     alignItems: 'center'
   },
 
-  modal1: {
-    flex: 1
-  },
-
   modal2: {
     height: 230,
     backgroundColor: "#3B5998"
