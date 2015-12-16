@@ -45,6 +45,7 @@ var ModalBox = React.createClass({
     backdropOpacity: React.PropTypes.number,
     backdropColor: React.PropTypes.string,
     backdropContent: React.PropTypes.element,
+    backdropCloseOnPress: React.PropTypes.bool,
 
     onClosed: React.PropTypes.func,
     onOpened: React.PropTypes.func,
@@ -59,7 +60,8 @@ var ModalBox = React.createClass({
       backdrop: true,
       backdropOpacity: 0.5,
       backdropColor: "black",
-      backdropContent: null
+      backdropContent: null,
+      backdropCloseOnPress: true,
     };
   },
 
@@ -272,8 +274,9 @@ var ModalBox = React.createClass({
     var size      = {height: screen.height, width: screen.width};
 
     if (this.props.backdrop) {
+      var backdropOnPress = this.props.backdropCloseOnPress ? this.close : false;
       backdrop = (
-        <TouchableWithoutFeedback onPress={this.close}>
+        <TouchableWithoutFeedback onPress={backdropOnPress}>
           <Animated.View style={[styles.absolute, size, {opacity: this.state.backdropOpacity}]}>
             <View style={[styles.absolute, {backgroundColor:this.props.backdropColor, opacity: this.props.backdropOpacity}]}/>
             {this.props.backdropContent || []}
