@@ -7,7 +7,8 @@ var {
   PanResponder,
   Animated,
   TouchableWithoutFeedback,
-  Dimensions
+  Dimensions,
+  Easing
 } = React;
 
 var screen = Dimensions.get('window');
@@ -45,6 +46,7 @@ var ModalBox = React.createClass({
     backdropOpacity: React.PropTypes.number,
     backdropColor: React.PropTypes.string,
     backdropContent: React.PropTypes.element,
+    animationDuration: React.PropTypes.number,
 
     onClosed: React.PropTypes.func,
     onOpened: React.PropTypes.func,
@@ -59,7 +61,8 @@ var ModalBox = React.createClass({
       backdrop: true,
       backdropOpacity: 0.5,
       backdropColor: "black",
-      backdropContent: null
+      backdropContent: null,
+      animationDuration: 400
     };
   },
 
@@ -104,7 +107,8 @@ var ModalBox = React.createClass({
     this.state.animBackdrop = Animated.timing(
       this.state.backdropOpacity,
       {
-        toValue: 1
+        toValue: 1,
+        duration: this.props.animationDuration
       }
     );
     this.state.animBackdrop.start(() => {
@@ -125,7 +129,8 @@ var ModalBox = React.createClass({
     this.state.animBackdrop = Animated.timing(
       this.state.backdropOpacity,
       {
-        toValue: 0
+        toValue: 0,
+        duration: this.props.animationDuration
       }
     );
     this.state.animBackdrop.start(() => {
@@ -156,11 +161,12 @@ var ModalBox = React.createClass({
     }
 
     this.state.isAnimateOpen = true;
-    this.state.animOpen = Animated.spring(
+    this.state.animOpen = Animated.timing(
       this.state.position,
       {
         toValue: this.state.positionDest,
-        friction: 8
+        duration: this.props.animationDuration,
+        easing: Easing.elastic(0.8)
       }
     );
     this.state.animOpen.start(() => {
@@ -171,7 +177,7 @@ var ModalBox = React.createClass({
   },
 
   /*
-   * Close animation for the modal, will move down 
+   * Close animation for the modal, will move down
    */
   animateClose: function() {
     if (this.state.isAnimateOpen) {
@@ -188,7 +194,7 @@ var ModalBox = React.createClass({
       this.state.position,
       {
         toValue: screen.height,
-        duration: 400
+        duration: this.props.animationDuration
       }
     );
     this.state.animClose.start(() => {
@@ -236,7 +242,7 @@ var ModalBox = React.createClass({
       inSwipeArea = true;
       return true;
     };
-    
+
     /* Fix 3d touch bug related issue https://github.com/facebook/react-native/issues/3082*/
     var onPanShouldMove = (evt, state) => {
       if (state.dx === 0 || state.dy === 0) {
@@ -265,7 +271,7 @@ var ModalBox = React.createClass({
   },
 
   /*
-   * Render the backdrop element 
+   * Render the backdrop element
    */
   renderBackdrop: function() {
     var backdrop  = [];
