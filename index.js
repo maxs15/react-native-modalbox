@@ -75,7 +75,9 @@ var ModalBox = React.createClass({
       isAnimateOpen: false,
       swipeToClose: false,
       height: screen.height,
-      width: screen.width
+      width: screen.width,
+      containerHeight: screen.height,
+      containerWidth: screen.width
     };
   },
 
@@ -139,26 +141,27 @@ var ModalBox = React.createClass({
   },
 
   /*
+   * Stop opening animation
+   */
+  stopAnimateOpen: function() {
+    if (this.state.isAnimateOpen) {
+      if (this.state.animOpen) this.state.animOpen.stop();
+      this.state.isAnimateOpen = false;
+    }
+  },
+
+  /*
    * Open animation for the modal, will move up
    */
   animateOpen: function() {
-    if (this.state.isAnimateClose) {
-      this.state.animClose.stop();
-      this.state.isAnimateClose = false;
-    }
+    this.stopAnimateClose();
 
     // Backdrop fadeIn
     if (this.props.backdrop)
       this.animateBackdropOpen();
 
     // Detecting modal position
-    this.state.positionDest = 0;
-    if (this.props.position == "bottom") {
-      this.state.positionDest = screen.height - this.state.height;
-    }
-    else if (this.props.position == "center") {
-      this.state.positionDest = screen.height / 2 - this.state.height / 2;
-    }
+    this.state.positionDest = this.calculateModalPosition(this.state.containerHeight, this.state.containerWidth);
 
     this.state.isAnimateOpen = true;
     this.state.animOpen = Animated.timing(
@@ -177,23 +180,32 @@ var ModalBox = React.createClass({
   },
 
   /*
+   * Stop closing animation
+   */
+  stopAnimateClose: function() {
+    if (this.state.isAnimateClose) {
+      if (this.state.animClose) this.state.animClose.stop();
+      this.state.isAnimateClose = false;
+    }
+  },
+
+  /*
    * Close animation for the modal, will move down
    */
   animateClose: function() {
-    if (this.state.isAnimateOpen) {
-      this.state.animOpen.stop();
-      this.state.isAnimateOpen = false;
-    }
+    this.stopAnimateOpen();
 
     // Backdrop fadeout
     if (this.props.backdrop)
       this.animateBackdropClose();
 
+    console.log('-> position = ', this.state.position);
+    console.log('-> containerHeight = ', this.state.containerHeight);
     this.state.isAnimateClose = true;
     this.state.animClose = Animated.timing(
       this.state.position,
       {
-        toValue: screen.height,
+        toValue: this.state.containerHeight,
         duration: this.props.animationDuration
       }
     );
@@ -203,6 +215,23 @@ var ModalBox = React.createClass({
       this.setState({});
       if (this.props.onClosed) this.props.onClosed();
     });
+  },
+
+  /*
+   * Calculate when should be placed the modal
+   */
+  calculateModalPosition: function(containerHeight, containerWidth) {
+    var position = 0;
+
+    if (this.props.position == "bottom") {
+      position = containerHeight - this.state.height;
+    }
+    else if (this.props.position == "center") {
+      position = containerHeight / 2 - this.state.height / 2;
+    }
+    // Checking if the position >= 0
+    if (position < 0) position = 0;
+    return position;
   },
 
   /*
@@ -271,11 +300,46 @@ var ModalBox = React.createClass({
   },
 
   /*
+   * Event called when the container view layout is calculated
+   */
+  onContainerLayout: function(evt) {
+    var height = evt.nativeEvent.layout.height;
+    var width = evt.nativeEvent.layout.width;
+
+    // If the container size is still the same we're done
+    if (height == this.state.containerHeight && width == this.state.containerWidth) return;
+
+    var modalPosition = this.calculateModalPosition(height, width);
+    var coords = {};
+
+    // Fixing the position if the modal was already open or an animation was in progress
+    if (this.state.isOpen || this.state.isAnimateOpen || this.state.isAnimateClose) {
+      var position = this.state.isOpen ? modalPosition : this.state.containerHeight;
+
+      // Checking if a animation was in progress
+      if (this.state.isAnimateOpen) {
+        position = modalPosition;
+        this.stopAnimateOpen();
+      } else if (this.state.isAnimateClose) {
+        position = this.state.containerHeight;
+        this.stopAnimateClose();
+      }
+      this.state.position.setValue(position);
+      coords = {positionDest: position};
+    }
+
+    this.setState({
+      containerHeight: height,
+      containerWidth: width,
+      ...coords
+    });
+  },
+
+  /*
    * Render the backdrop element
    */
-  renderBackdrop: function() {
+  renderBackdrop: function(size) {
     var backdrop  = [];
-    var size      = {height: screen.height, width: screen.width};
 
     if (this.props.backdrop) {
       backdrop = (
@@ -297,17 +361,18 @@ var ModalBox = React.createClass({
   render: function() {
     var visible     = this.state.isOpen || this.state.isAnimateOpen || this.state.isAnimateClose;
     var pan         = this.state.pan ? this.state.pan.panHandlers : {};
-    var offsetX     = (screen.width - this.state.width) / 2;
-    var backdrop    = this.renderBackdrop();
+    var size        = {height: this.state.containerHeight, width: this.state.containerWidth};
+    var offsetX     = (this.state.containerWidth - this.state.width) / 2;
+    var backdrop    = this.renderBackdrop(size);
 
     if (!visible) return <View/>
 
     return (
-      <View style={[styles.transparent, styles.absolute]} pointerEvents={'box-none'}>
+      <View style={[styles.transparent, styles.absolute]} pointerEvents={'box-none'} onLayout={this.onContainerLayout}>
         {backdrop}
         <Animated.View
          onLayout={this.onViewLayout}
-         style={[styles.wrapper, {height: screen.height, width: screen.width}, this.props.style, {transform: [{translateY: this.state.position}, {translateX: offsetX}]} ]}
+         style={[styles.wrapper, size, this.props.style, {transform: [{translateY: this.state.position}, {translateX: offsetX}]} ]}
          {...pan}>
           {this.props.children}
         </Animated.View>
