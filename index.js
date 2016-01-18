@@ -81,9 +81,8 @@ var ModalBox = React.createClass({
     };
   },
 
-  componentDidMount: function() {
-    if (this.props.swipeToClose)
-      this.createPanResponder();
+  componentWillMount: function() {
+    this.createPanResponder();
   },
 
   componentWillReceiveProps: function(props) {
@@ -262,7 +261,7 @@ var ModalBox = React.createClass({
     };
 
     var onPanStart = (evt, state) => {
-      if (this.props.isDisabled || (this.props.swipeArea && (evt.nativeEvent.pageY - this.state.positionDest) > this.props.swipeArea)) {
+      if (!this.props.swipeToClose || this.props.isDisabled || (this.props.swipeArea && (evt.nativeEvent.pageY - this.state.positionDest) > this.props.swipeArea)) {
         inSwipeArea = false;
         return false;
       }
@@ -358,7 +357,6 @@ var ModalBox = React.createClass({
    */
   render: function() {
     var visible     = this.state.isOpen || this.state.isAnimateOpen || this.state.isAnimateClose;
-    var pan         = this.state.pan ? this.state.pan.panHandlers : {};
     var size        = {height: this.state.containerHeight, width: this.state.containerWidth};
     var offsetX     = (this.state.containerWidth - this.state.width) / 2;
     var backdrop    = this.renderBackdrop(size);
@@ -371,7 +369,7 @@ var ModalBox = React.createClass({
         <Animated.View
          onLayout={this.onViewLayout}
          style={[styles.wrapper, size, this.props.style, {transform: [{translateY: this.state.position}, {translateX: offsetX}]} ]}
-         {...pan}>
+         {...this.state.pan.panHandlers}>
           {this.props.children}
         </Animated.View>
       </View>
