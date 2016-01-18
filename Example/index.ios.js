@@ -65,7 +65,8 @@ var Example = React.createClass({
   getInitialState: function() {
     return {
       isOpen: false,
-      isDisabled: false
+      isDisabled: false,
+      swipeToClose: true
     };
   },
 
@@ -97,6 +98,10 @@ var Example = React.createClass({
     this.setState({isDisabled: !this.state.isDisabled});
   },
 
+  toggleSwipeToClose: function() {
+    this.setState({swipeToClose: !this.state.swipeToClose});
+  },
+
   onClose: function() {
     console.log('Modal just closed');
   },
@@ -121,8 +126,9 @@ var Example = React.createClass({
         <Button onPress={this.openModal4} style={styles.btn}>Position bottom + backdrop</Button>
         <Button onPress={this.openModal5} style={styles.btn}>Backdrop + backdropContent</Button>
 
-        <Modal style={[styles.modal, styles.modal1]} ref={"modal1"} onClosed={this.onClose} onOpened={this.onOpen} onClosingState={this.onClosingState}>
+        <Modal style={[styles.modal, styles.modal1]} ref={"modal1"} swipeToClose={this.state.swipeToClose} onClosed={this.onClose} onOpened={this.onOpen} onClosingState={this.onClosingState}>
           <Text style={styles.text}>Basic modal</Text>
+          <Button onPress={this.toggleSwipeToClose} style={styles.btn}>Disable swipeToClose({this.state.swipeToClose ? "true" : "false"})</Button>
         </Modal>
 
         <Modal style={[styles.modal, styles.modal2]} backdrop={false}  position={"top"} ref={"modal2"}>
