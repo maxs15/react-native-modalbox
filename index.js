@@ -199,8 +199,6 @@ var ModalBox = React.createClass({
     if (this.props.backdrop)
       this.animateBackdropClose();
 
-    console.log('-> position = ', this.state.position);
-    console.log('-> containerHeight = ', this.state.containerHeight);
     this.state.isAnimateClose = true;
     this.state.animClose = Animated.timing(
       this.state.position,
