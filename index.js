@@ -77,7 +77,8 @@ var ModalBox = React.createClass({
       height: screen.height,
       width: screen.width,
       containerHeight: screen.height,
-      containerWidth: screen.width
+      containerWidth: screen.width,
+      isInitialized: false
     };
   },
 
@@ -309,13 +310,16 @@ var ModalBox = React.createClass({
     var width = evt.nativeEvent.layout.width;
 
     // If the container size is still the same we're done
-    if (height == this.state.containerHeight && width == this.state.containerWidth) return;
+    if (height == this.state.containerHeight && width == this.state.containerWidth) {
+      this.state.isInitialized = true;
+      return;
+    }
 
     var modalPosition = this.calculateModalPosition(height, width);
     var coords = {};
 
     // Fixing the position if the modal was already open or an animation was in progress
-    if (this.state.isOpen || this.state.isAnimateOpen || this.state.isAnimateClose) {
+    if (this.state.isInitialized && (this.state.isOpen || this.state.isAnimateOpen || this.state.isAnimateClose)) {
       var position = this.state.isOpen ? modalPosition : this.state.containerHeight;
 
       // Checking if a animation was in progress
@@ -331,6 +335,7 @@ var ModalBox = React.createClass({
     }
 
     this.setState({
+      isInitialized: true,
       containerHeight: height,
       containerWidth: width,
       ...coords
