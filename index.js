@@ -315,7 +315,7 @@ var ModalBox = React.createClass({
     var coords = {};
 
     // Fixing the position if the modal was already open or an animation was in progress
-    if (this.state.isOpen || this.state.isAnimateOpen || this.state.isAnimateClose) {
+    if (this.state.isOpen && (this.state.isAnimateOpen || this.state.isAnimateClose)) {
       var position = this.state.isOpen ? modalPosition : this.state.containerHeight;
 
       // Checking if a animation was in progress
