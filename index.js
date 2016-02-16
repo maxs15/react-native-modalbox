@@ -38,6 +38,7 @@ var ModalBox = React.createClass({
   propTypes: {
     isOpen: React.PropTypes.bool,
     isDisabled: React.PropTypes.bool,
+    backdropPressToClose: React.PropTypes.bool,
     swipeToClose: React.PropTypes.bool,
     swipeThreshold: React.PropTypes.number,
     swipeArea: React.PropTypes.number,
@@ -55,6 +56,7 @@ var ModalBox = React.createClass({
 
   getDefaultProps: function () {
     return {
+      backdropPressToClose: true,
       swipeToClose: true,
       swipeThreshold: 50,
       position: "center",
@@ -350,7 +352,7 @@ var ModalBox = React.createClass({
 
     if (this.props.backdrop) {
       backdrop = (
-        <TouchableWithoutFeedback onPress={this.close}>
+        <TouchableWithoutFeedback onPress={this.props.backdropPressToClose ? this.close : null}>
           <Animated.View style={[styles.absolute, size, {opacity: this.state.backdropOpacity}]}>
             <View style={[styles.absolute, {backgroundColor:this.props.backdropColor, opacity: this.props.backdropOpacity}]}/>
             {this.props.backdropContent || []}
