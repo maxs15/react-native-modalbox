@@ -3,12 +3,13 @@
 var React   = require('react-native');
 var Button  = require('react-native-button');
 var Modal   = require('react-native-modalbox');
+var Slider  = require('react-native-slider');
 
 var {
   AppRegistry,
   StyleSheet,
   Text,
-  View,
+  View
 } = React;
 
 var styles = StyleSheet.create({
@@ -66,7 +67,8 @@ var Example = React.createClass({
     return {
       isOpen: false,
       isDisabled: false,
-      swipeToClose: true
+      swipeToClose: true,
+      sliderValue: 0.3
     };
   },
 
@@ -123,7 +125,7 @@ var Example = React.createClass({
         <Button onPress={this.openModal1} style={styles.btn}>Basic modal</Button>
         <Button onPress={this.openModal2} style={styles.btn}>Position top</Button>
         <Button onPress={this.openModal3} style={styles.btn}>Position centered + backdrop + disable</Button>
-        <Button onPress={this.openModal4} style={styles.btn}>Position bottom + backdrop</Button>
+        <Button onPress={this.openModal4} style={styles.btn}>Position bottom + backdrop + slider</Button>
         <Button onPress={this.openModal5} style={styles.btn}>Backdrop + backdropContent</Button>
 
         <Modal style={[styles.modal, styles.modal1]} ref={"modal1"} swipeToClose={this.state.swipeToClose} onClosed={this.onClose} onOpened={this.onOpen} onClosingState={this.onClosingState}>
@@ -142,6 +144,7 @@ var Example = React.createClass({
 
         <Modal style={[styles.modal, styles.modal4]} position={"bottom"} ref={"modal4"}>
           <Text style={styles.text}>Modal on bottom with backdrop</Text>
+          <Slider style={{width: 200}} value={this.state.sliderValue} onValueChange={(value) => this.setState({sliderValue: value})} />
         </Modal>
 
         <Modal isOpen={this.state.isOpen} onClosed={this.closeModal5} style={[styles.modal, styles.modal4]} position={"center"} backdropContent={BContent}>
