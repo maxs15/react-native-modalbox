@@ -52,6 +52,7 @@ var ModalBox = React.createClass({
     onClosed: React.PropTypes.func,
     onOpened: React.PropTypes.func,
     onClosingState: React.PropTypes.func,
+    onBackdropPress: React.PropTypes.func,
   },
 
   getDefaultProps: function () {
@@ -247,7 +248,7 @@ var ModalBox = React.createClass({
     var closingState = false;
     var inSwipeArea  = false;
 
-    var onPanRelease = (evt, state) => {
+    var onPanRelease = (evt, state) => {
       if (!inSwipeArea) return;
       inSwipeArea = false;
       if (state.dy > this.props.swipeThreshold)
@@ -340,11 +341,12 @@ var ModalBox = React.createClass({
    * Render the backdrop element
    */
   renderBackdrop: function(size) {
-    var backdrop  = [];
+    var backdrop  = [], backdropHandler;
 
     if (this.props.backdrop) {
+      backdropHandler = this.props.backdropPressToClose ? this.close : this.props.onBackdropPress;
       backdrop = (
-        <TouchableWithoutFeedback onPress={this.props.backdropPressToClose ? this.close : null}>
+        <TouchableWithoutFeedback onPress={backdropHandler}>
           <Animated.View style={[styles.absolute, size, {opacity: this.state.backdropOpacity}]}>
             <View style={[styles.absolute, {backgroundColor:this.props.backdropColor, opacity: this.props.backdropOpacity}]}/>
             {this.props.backdropContent || []}
