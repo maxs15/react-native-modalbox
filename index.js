@@ -396,6 +396,7 @@ var ModalBox = React.createClass({
   close: function() {
     if (this.props.isDisabled) return;
     if (!this.state.isAnimateClose && (this.state.isOpen || this.state.isAnimateOpen)) {
+      delete this.onViewLayoutCalculated;
       this.animateClose();
     }
   }
