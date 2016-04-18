@@ -4,12 +4,14 @@ var React   = require('react-native');
 var Button  = require('react-native-button');
 var Modal   = require('react-native-modalbox');
 var Slider  = require('react-native-slider');
+var window  = require('Dimensions').get('window');
 
 var {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  View,
+  ScrollView
 } = React;
 
 var styles = StyleSheet.create({
@@ -96,6 +98,15 @@ var Example = React.createClass({
     this.setState({isOpen: false});
   },
 
+  openModal6: function(id) {
+    this.refs.modal6.open();
+  },
+
+  openModal6: function(id) {
+    this.refs.modal6.open();
+  },
+
+
   toggleDisable: function() {
     this.setState({isDisabled: !this.state.isDisabled});
   },
@@ -116,6 +127,16 @@ var Example = React.createClass({
     console.log('the open/close of the swipeToClose just changed');
   },
 
+  renderList() {
+    var list = [];
+
+    for (var i=0;i<50;i++) {
+      list.push(<Text style={styles.text} key={i}>Elem {i}</Text>);
+    }
+
+    return list;
+  },
+
   render: function() {
 
     var BContent = <Button onPress={this.closeModal5} style={[styles.btn, styles.btnModal]}>X</Button>;
@@ -127,6 +148,7 @@ var Example = React.createClass({
         <Button onPress={this.openModal3} style={styles.btn}>Position centered + backdrop + disable</Button>
         <Button onPress={this.openModal4} style={styles.btn}>Position bottom + backdrop + slider</Button>
         <Button onPress={this.openModal5} style={styles.btn}>Backdrop + backdropContent</Button>
+        <Button onPress={this.openModal6} style={styles.btn}>Position bottom + ScrollView</Button>
 
         <Modal style={[styles.modal, styles.modal1]} ref={"modal1"} swipeToClose={this.state.swipeToClose} onClosed={this.onClose} onOpened={this.onOpen} onClosingState={this.onClosingState}>
           <Text style={styles.text}>Basic modal</Text>
@@ -149,6 +171,14 @@ var Example = React.createClass({
 
         <Modal isOpen={this.state.isOpen} onClosed={this.closeModal5} style={[styles.modal, styles.modal4]} position={"center"} backdropContent={BContent}>
           <Text style={styles.text}>Modal with backdrop content</Text>
+        </Modal>
+
+        <Modal style={[styles.modal, styles.modal4]} position={"bottom"} ref={"modal6"} swipeArea={20}>
+          <ScrollView>
+            <View style={{width: window.width, paddingLeft: 10}}>
+              {this.renderList()}
+            </View>
+          </ScrollView>
         </Modal>
       </View>
     );
