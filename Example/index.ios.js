@@ -102,11 +102,6 @@ var Example = React.createClass({
     this.refs.modal6.open();
   },
 
-  openModal6: function(id) {
-    this.refs.modal6.open();
-  },
-
-
   toggleDisable: function() {
     this.setState({isDisabled: !this.state.isDisabled});
   },
