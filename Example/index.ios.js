@@ -1,6 +1,6 @@
 'use strict';
 
-var React   = require('react-native');
+var React   = require('react');
 var Button  = require('react-native-button');
 var Modal   = require('react-native-modalbox');
 var Slider  = require('react-native-slider');
@@ -12,7 +12,7 @@ var {
   Text,
   View,
   ScrollView
-} = React;
+} = require('react-native');
 
 var styles = StyleSheet.create({
 
