@@ -1,5 +1,8 @@
 # react-native-modalbox
 
+[![npm](https://img.shields.io/npm/dm/react-native-modalbox.svg?maxAge=2592000)]()
+[![npm](https://img.shields.io/npm/dt/react-native-modalbox.svg?maxAge=2592000)]()   
+
 A react native <Modal> component, easy, fully customizable, implementing the 'swipe down to close' feature.
 
 ## Preview
