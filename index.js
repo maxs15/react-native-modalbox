@@ -43,6 +43,7 @@ var ModalBox = React.createClass({
     swipeThreshold: React.PropTypes.number,
     swipeArea: React.PropTypes.number,
     position: React.PropTypes.string,
+    entry: React.PropTypes.string,
     backdrop: React.PropTypes.bool,
     backdropOpacity: React.PropTypes.number,
     backdropColor: React.PropTypes.string,
@@ -69,8 +70,9 @@ var ModalBox = React.createClass({
   },
 
   getInitialState: function () {
+    var position = this.props.entry === 'top' ? -screen.height : screen.height;
     return {
-      position: new Animated.Value(screen.height),
+      position: new Animated.Value(position),
       backdropOpacity: new Animated.Value(0),
       isOpen: false,
       isAnimateClose: false,
@@ -210,7 +212,7 @@ var ModalBox = React.createClass({
     this.state.animClose = Animated.timing(
       this.state.position,
       {
-        toValue: this.state.containerHeight,
+        toValue: this.props.entry === 'top' ? -this.state.containerHeight : this.state.containerHeight,
         duration: this.props.animationDuration
       }
     );
@@ -250,7 +252,7 @@ var ModalBox = React.createClass({
     var onPanRelease = (evt, state) => {
       if (!inSwipeArea) return;
       inSwipeArea = false;
-      if (state.dy > this.props.swipeThreshold)
+      if (this.props.entry === 'top' ? -state.dy > this.props.swipeThreshold : state.dy > this.props.swipeThreshold)
         this.animateClose();
       else
         this.animateOpen();
@@ -259,8 +261,8 @@ var ModalBox = React.createClass({
     var animEvt = Animated.event([null, {customY: this.state.position}]);
 
     var onPanMove = (evt, state) => {
-      var newClosingState = (state.dy > this.props.swipeThreshold) ? true : false;
-      if (state.dy < 0) return;
+      var newClosingState = this.props.entry === 'top' ? -state.dy > this.props.swipeThreshold : state.dy > this.props.swipeThreshold;
+      if (this.props.entry === 'top' ? state.dy > 0 : state.dy < 0) return;
       if (newClosingState != closingState && this.props.onClosingState)
         this.props.onClosingState(newClosingState);
       closingState = newClosingState;
