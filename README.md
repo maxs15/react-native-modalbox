@@ -29,7 +29,7 @@ Check [index.js](https://github.com/maxs15/react-native-modalbox/blob/master/Exa
 | position | center | `string` | Control the modal position using `top` or `center` or `bottom`
 | backdrop | true | `bool` | Display a backdrop behind the modal
 | backdropOpacity | 0.5| `number` | Opacity of the backdrop
-| backdropColor | black| `bool` | backgroundColor of the backdrop
+| backdropColor | black| `string` | backgroundColor of the backdrop
 | backdropContent | null| `ReactElement` | Add an element in the backdrop (a close button for example)
 | animationDuration | 400| `number` | Duration of the animation
 
