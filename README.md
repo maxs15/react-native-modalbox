@@ -1,5 +1,8 @@
 # react-native-modalbox
 
+[![npm](https://img.shields.io/npm/dm/react-native-modalbox.svg?maxAge=2592000)]()
+[![npm](https://img.shields.io/npm/dt/react-native-modalbox.svg?maxAge=2592000)]()   
+
 A react native <Modal> component, easy, fully customizable, implementing the 'swipe down to close' feature.
 
 ## Preview
@@ -24,9 +27,10 @@ Check [index.js](https://github.com/maxs15/react-native-modalbox/blob/master/Exa
 | swipeThreshold | 50 | `number` | The threshold to reach in pixels to close the modal |
 | swipeArea | - | `number` | The height in pixels of the swipeable area, window height by default |
 | position | center | `string` | Control the modal position using `top` or `center` or `bottom`
+| entry | bottom | `string` | Control the modal entry position `top` or `bottom`
 | backdrop | true | `bool` | Display a backdrop behind the modal
 | backdropOpacity | 0.5| `number` | Opacity of the backdrop
-| backdropColor | black| `bool` | backgroundColor of the backdrop
+| backdropColor | black| `string` | backgroundColor of the backdrop
 | backdropContent | null| `ReactElement` | Add an element in the backdrop (a close button for example)
 | animationDuration | 400| `number` | Duration of the animation
 
