@@ -169,23 +169,26 @@ var ModalBox = React.createClass({
     if (this.props.backdrop)
       this.animateBackdropOpen();
 
-    // Detecting modal position
-    this.state.positionDest = this.calculateModalPosition(this.state.containerHeight, this.state.containerWidth);
+    requestAnimationFrame(() => {
+      // Detecting modal position
+      this.state.positionDest = this.calculateModalPosition(this.state.containerHeight, this.state.containerWidth);
 
-    this.state.isAnimateOpen = true;
-    this.state.animOpen = Animated.timing(
-      this.state.position,
-      {
-        toValue: this.state.positionDest,
-        duration: this.props.animationDuration,
-        easing: Easing.elastic(0.8)
-      }
-    );
-    this.state.animOpen.start(() => {
-      this.state.isAnimateOpen = false;
-      this.state.isOpen = true;
-      if (this.props.onOpened) this.props.onOpened();
-    });
+      this.state.isAnimateOpen = true;
+      this.state.animOpen = Animated.timing(
+        this.state.position,
+        {
+          toValue: this.state.positionDest,
+          duration: this.props.animationDuration,
+          easing: Easing.elastic(0.8)
+        }
+      );
+      this.state.animOpen.start(() => {
+        this.state.isAnimateOpen = false;
+        this.state.isOpen = true;
+        if (this.props.onOpened) this.props.onOpened();
+      });
+    })
+
   },
 
   /*
