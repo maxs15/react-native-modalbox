@@ -8,7 +8,9 @@ var {
   Animated,
   TouchableWithoutFeedback,
   Dimensions,
-  Easing
+  Easing,
+  BackAndroid,
+  Platform,
 } = require('react-native');
 
 var screen = Dimensions.get('window');
@@ -49,6 +51,7 @@ var ModalBox = React.createClass({
     backdropColor: React.PropTypes.string,
     backdropContent: React.PropTypes.element,
     animationDuration: React.PropTypes.number,
+    backButtonClose: React.PropTypes.bool,
 
     onClosed: React.PropTypes.func,
     onOpened: React.PropTypes.func,
@@ -65,7 +68,8 @@ var ModalBox = React.createClass({
       backdropOpacity: 0.5,
       backdropColor: "black",
       backdropContent: null,
-      animationDuration: 400
+      animationDuration: 400,
+      backButtonClose: false
     };
   },
 
@@ -86,9 +90,15 @@ var ModalBox = React.createClass({
     };
   },
 
+  onBackPress () {
+      this.close()
+      return true
+  },
+
   componentWillMount: function() {
     this.createPanResponder();
     this.handleOpenning(this.props);
+    
   },
 
   componentWillReceiveProps: function(props) {
@@ -394,6 +404,7 @@ var ModalBox = React.createClass({
       this.onViewLayoutCalculated = () => {
         this.setState({});
         this.animateOpen();
+        if(this.props.backButtonClose && Platform.OS === 'android') BackAndroid.addEventListener('hardwareBackPress', this.onBackPress)
       };
       this.setState({isAnimateOpen : true});
     }
@@ -404,6 +415,7 @@ var ModalBox = React.createClass({
     if (!this.state.isAnimateClose && (this.state.isOpen || this.state.isAnimateOpen)) {
       delete this.onViewLayoutCalculated;
       this.animateClose();
+      if(this.props.backButtonClose && Platform.OS === 'android') BackAndroid.removeEventListener('hardwareBackPress', this.onBackPress)
     }
   }
 
