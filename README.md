@@ -33,6 +33,7 @@ Check [index.js](https://github.com/maxs15/react-native-modalbox/blob/master/Exa
 | backdropColor | black| `string` | backgroundColor of the backdrop
 | backdropContent | null| `ReactElement` | Add an element in the backdrop (a close button for example)
 | animationDuration | 400| `number` | Duration of the animation
+| backButtonClose | false | `bool` | (Android only) Close modal when receiving back button event
 
 ## Events
 
