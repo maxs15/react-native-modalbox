@@ -2,16 +2,16 @@
 
 var React = require('react');
 var {
-  View,
-  StyleSheet,
-  PanResponder,
-  Animated,
-  TouchableWithoutFeedback,
-  Dimensions,
-  Easing,
-  BackAndroid,
-  Platform,
-} = require('react-native');
+    View,
+    StyleSheet,
+    PanResponder,
+    Animated,
+    TouchableWithoutFeedback,
+    Dimensions,
+    Easing,
+    BackAndroid,
+    Platform,
+    } = require('react-native');
 
 var screen = Dimensions.get('window');
 
@@ -36,7 +36,8 @@ var styles = StyleSheet.create({
 });
 
 var ModalBox = React.createClass({
-
+  ANIMATION_MODAL_DEFAULT: "DEFAULT",
+  ANIMATION_MODAL_FADE: "FADE",
   propTypes: {
     isOpen: React.PropTypes.bool,
     isDisabled: React.PropTypes.bool,
@@ -56,6 +57,8 @@ var ModalBox = React.createClass({
     onClosed: React.PropTypes.func,
     onOpened: React.PropTypes.func,
     onClosingState: React.PropTypes.func,
+
+    modalAnimationType: React.PropTypes.string,
   },
 
   getDefaultProps: function () {
@@ -69,7 +72,9 @@ var ModalBox = React.createClass({
       backdropColor: "black",
       backdropContent: null,
       animationDuration: 400,
-      backButtonClose: false
+      backButtonClose: false,
+      modalOpacity: 0,
+      modalAnimationType: "DEFAULT",
     };
   },
 
@@ -78,6 +83,7 @@ var ModalBox = React.createClass({
     return {
       position: new Animated.Value(position),
       backdropOpacity: new Animated.Value(0),
+      modalOpacity: new Animated.Value(0),
       isOpen: false,
       isAnimateClose: false,
       isAnimateOpen: false,
@@ -91,14 +97,14 @@ var ModalBox = React.createClass({
   },
 
   onBackPress () {
-      this.close()
-      return true
+    this.close()
+    return true
   },
 
   componentWillMount: function() {
     this.createPanResponder();
     this.handleOpenning(this.props);
-    
+
   },
 
   componentWillReceiveProps: function(props) {
@@ -126,11 +132,11 @@ var ModalBox = React.createClass({
 
     this.state.isAnimateBackdrop = true;
     this.state.animBackdrop = Animated.timing(
-      this.state.backdropOpacity,
-      {
-        toValue: 1,
-        duration: this.props.animationDuration
-      }
+        this.state.backdropOpacity,
+        {
+          toValue: 1,
+          duration: this.props.animationDuration
+        }
     );
     this.state.animBackdrop.start(() => {
       this.state.isAnimateBackdrop = false;
@@ -148,11 +154,11 @@ var ModalBox = React.createClass({
 
     this.state.isAnimateBackdrop = true;
     this.state.animBackdrop = Animated.timing(
-      this.state.backdropOpacity,
-      {
-        toValue: 0,
-        duration: this.props.animationDuration
-      }
+        this.state.backdropOpacity,
+        {
+          toValue: 0,
+          duration: this.props.animationDuration
+        }
     );
     this.state.animBackdrop.start(() => {
       this.state.isAnimateBackdrop = false;
@@ -169,6 +175,52 @@ var ModalBox = React.createClass({
     }
   },
 
+  getModalAnimate({isOpen}){
+    var animate = null;
+    switch(this.props.modalAnimationType) {
+      case this.ANIMATION_MODAL_DEFAULT:
+        if(isOpen){
+          animate = Animated.timing(
+              this.state.position,
+              {
+                toValue: this.state.positionDest,
+                duration: this.props.animationDuration,
+                easing: Easing.elastic(0.8)
+              }
+          );
+        } else {
+          animate = Animated.timing(
+              this.state.position,
+              {
+                toValue: this.state.containerHeight,
+                duration: this.props.animationDuration
+              }
+          );
+        }
+        break;
+      case this.ANIMATION_MODAL_FADE:
+        if(isOpen) {
+          animate = Animated.timing(
+              this.state.modalOpacity,
+              {
+                toValue: 1,
+                duration: this.props.animationDuration
+              }
+          );
+        } else {
+          animate = Animated.timing(
+              this.state.modalOpacity,
+              {
+                toValue: 0,
+                duration: this.props.animationDuration
+              }
+          );
+        }
+        break;
+    }
+    return animate;
+  },
+
   /*
    * Open animation for the modal, will move up
    */
@@ -180,26 +232,16 @@ var ModalBox = React.createClass({
       this.animateBackdropOpen();
 
     this.state.isAnimateOpen = true;
-  
-    requestAnimationFrame(() => {
-      // Detecting modal position
-      this.state.positionDest = this.calculateModalPosition(this.state.containerHeight, this.state.containerWidth);
-  
-      this.state.animOpen = Animated.timing(
-        this.state.position,
-        {
-          toValue: this.state.positionDest,
-          duration: this.props.animationDuration,
-          easing: Easing.elastic(0.8)
-        }
-      );
-      this.state.animOpen.start(() => {
-        this.state.isAnimateOpen = false;
-        this.state.isOpen = true;
-        if (this.props.onOpened) this.props.onOpened();
-      });
-    })
 
+    // Detecting modal position
+    this.state.positionDest = this.calculateModalPosition(this.state.containerHeight, this.state.containerWidth);
+
+    this.state.animOpen = this.getModalAnimate({isOpen:true});
+    this.state.animOpen.start(() => {
+      this.state.isAnimateOpen = false;
+      this.state.isOpen = true;
+      if (this.props.onOpened) this.props.onOpened();
+    });
   },
 
   /*
@@ -223,13 +265,7 @@ var ModalBox = React.createClass({
       this.animateBackdropClose();
 
     this.state.isAnimateClose = true;
-    this.state.animClose = Animated.timing(
-      this.state.position,
-      {
-        toValue: this.props.entry === 'top' ? -this.state.containerHeight : this.state.containerHeight,
-        duration: this.props.animationDuration
-      }
-    );
+    this.state.animClose = this.getModalAnimate({isOpen:false});
     this.state.animClose.start(() => {
       this.state.isAnimateClose = false;
       this.state.isOpen = false;
@@ -360,12 +396,12 @@ var ModalBox = React.createClass({
 
     if (this.props.backdrop) {
       backdrop = (
-        <TouchableWithoutFeedback onPress={this.props.backdropPressToClose ? this.close : null}>
-          <Animated.View style={[styles.absolute, size, {opacity: this.state.backdropOpacity}]}>
-            <View style={[styles.absolute, {backgroundColor:this.props.backdropColor, opacity: this.props.backdropOpacity}]}/>
-            {this.props.backdropContent || []}
-          </Animated.View>
-        </TouchableWithoutFeedback>
+          <TouchableWithoutFeedback onPress={this.props.backdropPressToClose ? this.close : null}>
+            <Animated.View style={[styles.absolute, size, {opacity: this.state.backdropOpacity}]}>
+              <View style={[styles.absolute, {backgroundColor:this.props.backdropColor, opacity: this.props.backdropOpacity}]}/>
+              {this.props.backdropContent || []}
+            </Animated.View>
+          </TouchableWithoutFeedback>
       );
     }
 
@@ -380,19 +416,22 @@ var ModalBox = React.createClass({
     var size        = {height: this.state.containerHeight, width: this.state.containerWidth};
     var offsetX     = (this.state.containerWidth - this.state.width) / 2;
     var backdrop    = this.renderBackdrop(size);
+    var modalAnimationStyle = this.props.modalAnimationType  === this.ANIMATION_MODAL_FADE ?
+    {opacity: this.state.modalOpacity,left: offsetX, top: this.state.positionDest} :
+    {transform: [{translateY: this.state.position}, {translateX: offsetX}]};
 
     if (!visible) return <View/>
 
     return (
-      <View style={[styles.transparent, styles.absolute]} pointerEvents={'box-none'} onLayout={this.onContainerLayout}>
-        {backdrop}
-        <Animated.View
-         onLayout={this.onViewLayout}
-         style={[styles.wrapper, size, this.props.style, {transform: [{translateY: this.state.position}, {translateX: offsetX}]} ]}
-         {...this.state.pan.panHandlers}>
-          {this.props.children}
-        </Animated.View>
-      </View>
+        <View style={[styles.transparent, styles.absolute]} pointerEvents={'box-none'} onLayout={this.onContainerLayout}>
+          {backdrop}
+          <Animated.View
+              onLayout={this.onViewLayout}
+              style={[styles.wrapper, size, this.props.style, modalAnimationStyle ]}
+              {...this.state.pan.panHandlers}>
+            {this.props.children}
+          </Animated.View>
+        </View>
     );
   },
 
