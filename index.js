@@ -8,7 +8,9 @@ var {
   Animated,
   TouchableWithoutFeedback,
   Dimensions,
-  Easing
+  Easing,
+  BackAndroid,
+  Platform,
 } = require('react-native');
 
 var screen = Dimensions.get('window');
@@ -50,6 +52,7 @@ var ModalBox = React.createClass({
     backdropColor: React.PropTypes.string,
     backdropContent: React.PropTypes.element,
     animationDuration: React.PropTypes.number,
+    backButtonClose: React.PropTypes.bool,
 
     onClosed: React.PropTypes.func,
     onOpened: React.PropTypes.func,
@@ -67,7 +70,8 @@ var ModalBox = React.createClass({
       backdropOpacity: 0.5,
       backdropColor: "black",
       backdropContent: null,
-      animationDuration: 400
+      animationDuration: 400,
+      backButtonClose: false
     };
   },
 
@@ -88,9 +92,15 @@ var ModalBox = React.createClass({
     };
   },
 
+  onBackPress () {
+      this.close()
+      return true
+  },
+
   componentWillMount: function() {
     this.createPanResponder();
     this.handleOpenning(this.props);
+    
   },
 
   componentWillReceiveProps: function(props) {
@@ -171,23 +181,27 @@ var ModalBox = React.createClass({
     if (this.props.backdrop)
       this.animateBackdropOpen();
 
-    // Detecting modal position
-    this.state.positionDest = this.calculateModalPosition(this.state.containerHeight, this.state.containerWidth);
-
     this.state.isAnimateOpen = true;
-    this.state.animOpen = Animated.timing(
-      this.state.position,
-      {
-        toValue: this.state.positionDest,
-        duration: this.props.animationDuration,
-        easing: Easing.elastic(0.8)
-      }
-    );
-    this.state.animOpen.start(() => {
-      this.state.isAnimateOpen = false;
-      this.state.isOpen = true;
-      if (this.props.onOpened) this.props.onOpened();
-    });
+  
+    requestAnimationFrame(() => {
+      // Detecting modal position
+      this.state.positionDest = this.calculateModalPosition(this.state.containerHeight, this.state.containerWidth);
+  
+      this.state.animOpen = Animated.timing(
+        this.state.position,
+        {
+          toValue: this.state.positionDest,
+          duration: this.props.animationDuration,
+          easing: Easing.elastic(0.8)
+        }
+      );
+      this.state.animOpen.start(() => {
+        this.state.isAnimateOpen = false;
+        this.state.isOpen = true;
+        if (this.props.onOpened) this.props.onOpened();
+      });
+    })
+
   },
 
   /*
@@ -392,6 +406,7 @@ var ModalBox = React.createClass({
       this.onViewLayoutCalculated = () => {
         this.setState({});
         this.animateOpen();
+        if(this.props.backButtonClose && Platform.OS === 'android') BackAndroid.addEventListener('hardwareBackPress', this.onBackPress)
       };
       this.setState({isAnimateOpen : true});
     }
@@ -402,6 +417,7 @@ var ModalBox = React.createClass({
     if (!this.state.isAnimateClose && (this.state.isOpen || this.state.isAnimateOpen)) {
       delete this.onViewLayoutCalculated;
       this.animateClose();
+      if(this.props.backButtonClose && Platform.OS === 'android') BackAndroid.removeEventListener('hardwareBackPress', this.onBackPress)
     }
   }
 
