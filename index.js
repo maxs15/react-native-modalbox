@@ -312,10 +312,8 @@ var ModalBox = React.createClass({
     var width = evt.nativeEvent.layout.width;
 
     // If the dimensions are still the same we're done
-    if (height == this.state.height && width == this.state.width) return;
-
-    this.state.height = height;
-    this.state.width = width;
+    if (height !== this.state.height) this.state.height = height;
+    if (width !== this.state.width) this.state.width = width;
 
     if (this.onViewLayoutCalculated) this.onViewLayoutCalculated();
   },
@@ -413,6 +411,7 @@ var ModalBox = React.createClass({
         this.setState({});
         this.animateOpen();
         if(this.props.backButtonClose && Platform.OS === 'android') BackAndroid.addEventListener('hardwareBackPress', this.onBackPress)
+        delete this.onViewLayoutCalculated;
       };
       this.setState({isAnimateOpen : true});
     }
@@ -421,7 +420,6 @@ var ModalBox = React.createClass({
   close: function() {
     if (this.props.isDisabled) return;
     if (!this.state.isAnimateClose && (this.state.isOpen || this.state.isAnimateOpen)) {
-      delete this.onViewLayoutCalculated;
       this.animateClose();
       if(this.props.backButtonClose && Platform.OS === 'android') BackAndroid.removeEventListener('hardwareBackPress', this.onBackPress)
     }
