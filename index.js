@@ -43,6 +43,7 @@ var ModalBox = React.createClass({
     startOpen: React.PropTypes.bool,
     backdropPressToClose: React.PropTypes.bool,
     swipeToClose: React.PropTypes.bool,
+    swipeTarget: React.PropTypes.number,
     swipeThreshold: React.PropTypes.number,
     swipeArea: React.PropTypes.number,
     position: React.PropTypes.string,
@@ -65,6 +66,7 @@ var ModalBox = React.createClass({
       backdropPressToClose: true,
       swipeToClose: true,
       swipeThreshold: 50,
+      swipeTarget: null,
       position: "center",
       backdrop: true,
       backdropOpacity: 0.5,
@@ -288,7 +290,8 @@ var ModalBox = React.createClass({
     };
 
     var onPanStart = (evt, state) => {
-      if (!this.props.swipeToClose || this.props.isDisabled || (this.props.swipeArea && (evt.nativeEvent.pageY - this.state.positionDest) > this.props.swipeArea)) {
+      if (!this.props.swipeToClose || this.props.isDisabled || (this.props.swipeTarget && this.props.swipeTarget !== evt.target) ||
+          (this.props.swipeArea && (evt.nativeEvent.pageY - this.state.positionDest) > this.props.swipeArea)) {
         inSwipeArea = false;
         return false;
       }

@@ -26,6 +26,7 @@ Check [index.js](https://github.com/maxs15/react-native-modalbox/blob/master/Exa
 | swipeToClose | true | `bool` | Set to `true` to enable the swipe down to close feature |
 | swipeThreshold | 50 | `number` | The threshold to reach in pixels to close the modal |
 | swipeArea | - | `number` | The height in pixels of the swipeable area, window height by default |
+| swipeTarget | - | `number` | The id of a component that should react to swipe gesture, superceding swipeArea |
 | position | center | `string` | Control the modal position using `top` or `center` or `bottom`
 | entry | bottom | `string` | Control the modal entry position `top` or `bottom`
 | backdrop | true | `bool` | Display a backdrop behind the modal
