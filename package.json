@@ -1,6 +1,6 @@
 {
   "name": "react-native-modalbox",
-  "version": "1.3.8",
+  "version": "1.3.9",
   "description": "A <Modal/> component for react-native",
   "main": "index.js",
   "scripts": {
