@@ -10,7 +10,7 @@
     "react": "15.4.2",
     "react-native": "0.41.2",
     "react-native-button": "^1.7.1",
-    "react-native-modalbox": "^1.3.8",
+    "react-native-modalbox": "^1.3.9",
     "react-native-slider": "^0.9.1"
   },
   "devDependencies": {
