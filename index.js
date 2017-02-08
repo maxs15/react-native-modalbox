@@ -100,7 +100,7 @@ var ModalBox = React.createClass({
   componentWillMount: function() {
     this.createPanResponder();
     this.handleOpenning(this.props);
-    
+
   },
 
   componentWillReceiveProps: function(props) {
@@ -182,11 +182,11 @@ var ModalBox = React.createClass({
       this.animateBackdropOpen();
 
     this.state.isAnimateOpen = true;
-  
+
     requestAnimationFrame(() => {
       // Detecting modal position
       this.state.positionDest = this.calculateModalPosition(this.state.containerHeight, this.state.containerWidth);
-  
+
       this.state.animOpen = Animated.timing(
         this.state.position,
         {
@@ -327,7 +327,7 @@ var ModalBox = React.createClass({
 
     // If the container size is still the same we're done
     if (height == this.state.containerHeight && width == this.state.containerWidth) {
-      this.state.isInitialized = true;
+      this.setState({ isInitialized: true });
       return;
     }
 
