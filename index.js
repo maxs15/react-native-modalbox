@@ -100,7 +100,7 @@ var ModalBox = React.createClass({
   componentWillMount: function() {
     this.createPanResponder();
     this.handleOpenning(this.props);
-    
+
   },
 
   componentWillReceiveProps: function(props) {
@@ -182,11 +182,11 @@ var ModalBox = React.createClass({
       this.animateBackdropOpen();
 
     this.state.isAnimateOpen = true;
-  
+
     requestAnimationFrame(() => {
       // Detecting modal position
       this.state.positionDest = this.calculateModalPosition(this.state.containerHeight, this.state.containerWidth);
-  
+
       this.state.animOpen = Animated.timing(
         this.state.position,
         {
@@ -308,8 +308,12 @@ var ModalBox = React.createClass({
    * Event called when the modal view layout is calculated
    */
   onViewLayout: function(evt) {
-    this.state.height = evt.nativeEvent.layout.height;
-    this.state.width = evt.nativeEvent.layout.width;
+    var height = evt.nativeEvent.layout.height;
+    var width = evt.nativeEvent.layout.width;
+
+    // If the dimensions are still the same we're done
+    if (height !== this.state.height) this.state.height = height;
+    if (width !== this.state.width) this.state.width = width;
 
     if (this.onViewLayoutCalculated) this.onViewLayoutCalculated();
   },
@@ -323,7 +327,7 @@ var ModalBox = React.createClass({
 
     // If the container size is still the same we're done
     if (height == this.state.containerHeight && width == this.state.containerWidth) {
-      this.state.isInitialized = true;
+      this.setState({ isInitialized: true });
       return;
     }
 
@@ -407,6 +411,7 @@ var ModalBox = React.createClass({
         this.setState({});
         this.animateOpen();
         if(this.props.backButtonClose && Platform.OS === 'android') BackAndroid.addEventListener('hardwareBackPress', this.onBackPress)
+        delete this.onViewLayoutCalculated;
       };
       this.setState({isAnimateOpen : true});
     }
@@ -415,7 +420,6 @@ var ModalBox = React.createClass({
   close: function() {
     if (this.props.isDisabled) return;
     if (!this.state.isAnimateClose && (this.state.isOpen || this.state.isAnimateOpen)) {
-      delete this.onViewLayoutCalculated;
       this.animateClose();
       if(this.props.backButtonClose && Platform.OS === 'android') BackAndroid.removeEventListener('hardwareBackPress', this.onBackPress)
     }
