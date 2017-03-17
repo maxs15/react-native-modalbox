@@ -49,5 +49,5 @@ These methods are optional, you can use the isOpen property instead
 
 | Prop  | Params  | Description |
 | :------------ |:---------------:| :---------------:|
-| open | - | Open the modal |
-| close | - | Close the modal |
+| open | cb `func` | Open the modal. You may supply an optional callback function as an alternative (or in addition) to using the `onOpened` parameter. |
+| close | cb `func` | Close the modal. You may supply an optional callback function as an alternative (or in addition) to using the `onClosed` parameter. |

@@ -174,7 +174,7 @@ var ModalBox = React.createClass({
   /*
    * Open animation for the modal, will move up
    */
-  animateOpen: function() {
+  animateOpen: function(cb) {
     this.stopAnimateClose();
 
     // Backdrop fadeIn
@@ -199,6 +199,7 @@ var ModalBox = React.createClass({
         this.state.isAnimateOpen = false;
         this.state.isOpen = true;
         if (this.props.onOpened) this.props.onOpened();
+        if (cb && typeof(cb) === 'function') cb();
       });
     })
 
@@ -217,7 +218,7 @@ var ModalBox = React.createClass({
   /*
    * Close animation for the modal, will move down
    */
-  animateClose: function() {
+  animateClose: function(cb) {
     this.stopAnimateOpen();
 
     // Backdrop fadeout
@@ -237,6 +238,7 @@ var ModalBox = React.createClass({
       this.state.isOpen = false;
       this.setState({});
       if (this.props.onClosed) this.props.onClosed();
+      if (cb && typeof(cb) === 'function') cb();
     });
   },
 
@@ -404,12 +406,12 @@ var ModalBox = React.createClass({
 
   /****************** PUBLIC METHODS **********************/
 
-  open: function() {
+  open: function(cb) {
     if (this.props.isDisabled) return;
     if (!this.state.isAnimateOpen && (!this.state.isOpen || this.state.isAnimateClose)) {
       this.onViewLayoutCalculated = () => {
         this.setState({});
-        this.animateOpen();
+        this.animateOpen(cb);
         if(this.props.backButtonClose && Platform.OS === 'android') BackAndroid.addEventListener('hardwareBackPress', this.onBackPress)
         delete this.onViewLayoutCalculated;
       };
@@ -417,10 +419,10 @@ var ModalBox = React.createClass({
     }
   },
 
-  close: function() {
+  close: function(cb) {
     if (this.props.isDisabled) return;
     if (!this.state.isAnimateClose && (this.state.isOpen || this.state.isAnimateOpen)) {
-      this.animateClose();
+      this.animateClose(cb);
       if(this.props.backButtonClose && Platform.OS === 'android') BackAndroid.removeEventListener('hardwareBackPress', this.onBackPress)
     }
   }
