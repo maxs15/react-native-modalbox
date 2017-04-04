@@ -53,6 +53,7 @@ var ModalBox = React.createClass({
     backdropContent: React.PropTypes.element,
     animationDuration: React.PropTypes.number,
     backButtonClose: React.PropTypes.bool,
+    easing: React.PropTypes.func,
 
     onClosed: React.PropTypes.func,
     onOpened: React.PropTypes.func,
@@ -71,7 +72,8 @@ var ModalBox = React.createClass({
       backdropColor: "black",
       backdropContent: null,
       animationDuration: 400,
-      backButtonClose: false
+      backButtonClose: false,
+      easing: Easing.elastic(0.8),
     };
   },
 
@@ -192,7 +194,7 @@ var ModalBox = React.createClass({
         {
           toValue: this.state.positionDest,
           duration: this.props.animationDuration,
-          easing: Easing.elastic(0.8)
+          easing: this.props.easing,
         }
       );
       this.state.animOpen.start(() => {
