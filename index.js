@@ -38,6 +38,7 @@ var styles = StyleSheet.create({
 var ModalBox = React.createClass({
 
   propTypes: {
+    bounciness: React.PropTypes.number,
     isOpen: React.PropTypes.bool,
     isDisabled: React.PropTypes.bool,
     startOpen: React.PropTypes.bool,
@@ -61,6 +62,7 @@ var ModalBox = React.createClass({
 
   getDefaultProps: function () {
     return {
+      bounciness: 0.8,
       startOpen: false,
       backdropPressToClose: true,
       swipeToClose: true,
@@ -192,7 +194,7 @@ var ModalBox = React.createClass({
         {
           toValue: this.state.positionDest,
           duration: this.props.animationDuration,
-          easing: Easing.elastic(0.8)
+          easing: Easing.elastic(this.props.bounciness)
         }
       );
       this.state.animOpen.start(() => {

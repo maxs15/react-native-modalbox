@@ -33,6 +33,7 @@ Check [index.js](https://github.com/maxs15/react-native-modalbox/blob/master/Exa
 | backdropColor | black| `string` | backgroundColor of the backdrop
 | backdropContent | null| `ReactElement` | Add an element in the backdrop (a close button for example)
 | animationDuration | 400| `number` | Duration of the animation
+| bounciness | 0.8 | `number` | Elastic bounciness setting - Check out the [docs](https://facebook.github.io/react-native/docs/easing.html#elastic) for details |
 | backButtonClose | false | `bool` | (Android only) Close modal when receiving back button event
 | startOpen | false | `bool` | Allow modal to appear open without animation upon first mount
 
