@@ -3,6 +3,7 @@
   "version": "1.3.9",
   "description": "A <Modal/> component for react-native",
   "main": "index.js",
+  "types": "index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
