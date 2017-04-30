@@ -4,8 +4,9 @@
 // TypeScript Version: 2.3.2
 
 import React from 'react'
+import { ViewProperties } from 'react-native'
 
-interface ModalProps {
+interface ModalProps extends ViewProperties {
   /**
    * Checks if the modal is open
    * 
@@ -54,7 +55,7 @@ interface ModalProps {
    * @type {number}
    * @memberof ModalProps
    */
-  swipeThreshold: number
+  swipeThreshold?: number
   
   /**
    * The height in pixels of the swipeable area
@@ -162,7 +163,7 @@ interface ModalProps {
    * 
    * @memberof ModalProps
    */
-  onClose?(): void
+  onClosed?(): void
   
   /**
    * Event fired when the modal is opened and the animation is complete
