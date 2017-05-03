@@ -10,6 +10,11 @@ A react native <Modal> component, easy, fully customizable, implementing the 'sw
 ![](http://i.imgur.com/3XULLt8.gif)
 
 ## Install
+For react-native < v0.44
+
+`npm install react-native-modalbox@1.3.9`
+
+For react-native >= v0.44
 
 `npm install react-native-modalbox@latest --save`
 
