@@ -3,7 +3,6 @@
 var React = require('react');
 var {
   View,
-  StyleSheet,
   PanResponder,
   Animated,
   TouchableWithoutFeedback,
@@ -15,7 +14,7 @@ var {
 
 var screen = Dimensions.get('window');
 
-var styles = StyleSheet.create({
+var styles = {
 
   wrapper: {
     backgroundColor: "white"
@@ -33,7 +32,7 @@ var styles = StyleSheet.create({
     right: 0
   }
 
-});
+};
 
 var ModalBox = React.createClass({
 
