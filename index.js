@@ -9,6 +9,7 @@ var {
   TouchableWithoutFeedback,
   Dimensions,
   Easing,
+  Modal,
   BackHandler,
   Platform,
 } = require('react-native');
@@ -390,15 +391,21 @@ var ModalBox = React.createClass({
     if (!visible) return <View/>
 
     return (
-      <View style={[styles.transparent, styles.absolute]} pointerEvents={'box-none'} onLayout={this.onContainerLayout}>
-        {backdrop}
-        <Animated.View
-         onLayout={this.onViewLayout}
-         style={[styles.wrapper, size, this.props.style, {transform: [{translateY: this.state.position}, {translateX: offsetX}]} ]}
-         {...this.state.pan.panHandlers}>
-          {this.props.children}
-        </Animated.View>
-      </View>
+      <Modal
+        onRequestClose={() => this.close()}
+        supportedOrientations={['landscape', 'portrait']}
+        transparent
+        visible={true}>
+        <View style={[styles.transparent, styles.absolute]} pointerEvents={'box-none'} onLayout={this.onContainerLayout}>
+          {backdrop}
+          <Animated.View
+          onLayout={this.onViewLayout}
+          style={[styles.wrapper, size, this.props.style, {transform: [{translateY: this.state.position}, {translateX: offsetX}]} ]}
+          {...this.state.pan.panHandlers}>
+            {this.props.children}
+          </Animated.View>
+        </View>
+      </Modal>
     );
   },
 
