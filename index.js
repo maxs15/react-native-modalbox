@@ -9,7 +9,8 @@ var {
   TouchableWithoutFeedback,
   Dimensions,
   Easing,
-  BackAndroid,
+  Modal,
+  BackHandler,
   Platform,
 } = require('react-native');
 
@@ -394,15 +395,21 @@ var ModalBox = React.createClass({
     if (!visible) return <View/>
 
     return (
-      <View style={[styles.transparent, styles.absolute]} pointerEvents={'box-none'} onLayout={this.onContainerLayout}>
-        {backdrop}
-        <Animated.View
-         onLayout={this.onViewLayout}
-         style={[styles.wrapper, size, this.props.style, {transform: [{translateY: this.state.position}, {translateX: offsetX}]} ]}
-         {...this.state.pan.panHandlers}>
-          {this.props.children}
-        </Animated.View>
-      </View>
+      <Modal
+        onRequestClose={() => this.close()}
+        supportedOrientations={['landscape', 'portrait']}
+        transparent
+        visible={true}>
+        <View style={[styles.transparent, styles.absolute]} pointerEvents={'box-none'} onLayout={this.onContainerLayout}>
+          {backdrop}
+          <Animated.View
+          onLayout={this.onViewLayout}
+          style={[styles.wrapper, size, this.props.style, {transform: [{translateY: this.state.position}, {translateX: offsetX}]} ]}
+          {...this.state.pan.panHandlers}>
+            {this.props.children}
+          </Animated.View>
+        </View>
+      </Modal>
     );
   },
 
@@ -414,7 +421,7 @@ var ModalBox = React.createClass({
       this.onViewLayoutCalculated = () => {
         this.setState({});
         this.animateOpen();
-        if(this.props.backButtonClose && Platform.OS === 'android') BackAndroid.addEventListener('hardwareBackPress', this.onBackPress)
+        if(this.props.backButtonClose && Platform.OS === 'android') BackHandler.addEventListener('hardwareBackPress', this.onBackPress)
         delete this.onViewLayoutCalculated;
       };
       this.setState({isAnimateOpen : true});
@@ -425,7 +432,7 @@ var ModalBox = React.createClass({
     if (this.props.isDisabled) return;
     if (!this.state.isAnimateClose && (this.state.isOpen || this.state.isAnimateOpen)) {
       this.animateClose();
-      if(this.props.backButtonClose && Platform.OS === 'android') BackAndroid.removeEventListener('hardwareBackPress', this.onBackPress)
+      if(this.props.backButtonClose && Platform.OS === 'android') BackHandler.removeEventListener('hardwareBackPress', this.onBackPress)
     }
   }
 
