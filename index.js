@@ -110,7 +110,9 @@ var ModalBox = React.createClass({
   },
 
   componentWillReceiveProps: function(props) {
-    this.handleOpenning(props);
+     if(this.props.isOpen != props.isOpen){
+        this.handleOpenning(props);
+     }
   },
 
   handleOpenning: function(props) {
