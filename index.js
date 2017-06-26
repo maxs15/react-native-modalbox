@@ -314,8 +314,10 @@ var ModalBox = React.createClass({
     var width = evt.nativeEvent.layout.width;
 
     // If the dimensions are still the same we're done
-    if (height !== this.state.height) this.state.height = height;
-    if (width !== this.state.width) this.state.width = width;
+    let newState = {};
+    if (height !== this.state.height) newState.height = height;
+    if (width !== this.state.width) newState.width = width;
+    this.setState(newState);
 
     if (this.onViewLayoutCalculated) this.onViewLayoutCalculated();
   },
