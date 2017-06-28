@@ -9,7 +9,8 @@ import {
   StyleSheet,
   ScrollView,
   View,
-  Dimensions
+  Dimensions,
+  TextInput
 } from 'react-native';
 
 var screen = Dimensions.get('window');
@@ -59,6 +60,7 @@ class Example extends React.Component {
         <Button onPress={() => this.refs.modal4.open()} style={styles.btn}>Position bottom + backdrop + slider</Button>
         <Button onPress={() => this.setState({isOpen: true})} style={styles.btn}>Backdrop + backdropContent</Button>
         <Button onPress={() => this.refs.modal6.open()} style={styles.btn}>Position bottom + ScrollView</Button>
+        <Button onPress={() => this.refs.modal7.open()} style={styles.btn}>Modal with keyboard support</Button>
 
         <Modal
           style={[styles.modal, styles.modal1]}
@@ -95,6 +97,12 @@ class Example extends React.Component {
               {this.renderList()}
             </View>
           </ScrollView>
+        </Modal>
+
+        <Modal ref={"modal7"} style={[styles.modal, styles.modal4]} position={"center"}>
+          <View>
+            <TextInput style={{height: 50, width: 200, backgroundColor: '#DDDDDD'}}/>
+          </View>
         </Modal>
       </View>
     );
