@@ -12,6 +12,7 @@ var {
   BackAndroid,
   BackHandler,
   Platform,
+  Modal
 } = require('react-native');
 
 var BackButton = BackHandler || BackAndroid;
@@ -58,6 +59,7 @@ var ModalBox = React.createClass({
     animationDuration: React.PropTypes.number,
     backButtonClose: React.PropTypes.bool,
     easing: React.PropTypes.func,
+    coverScreen: React.PropTypes.bool,
 
     onClosed: React.PropTypes.func,
     onOpened: React.PropTypes.func,
@@ -78,6 +80,7 @@ var ModalBox = React.createClass({
       animationDuration: 400,
       backButtonClose: false,
       easing: Easing.elastic(0.8),
+      coverScreen: false,
     };
   },
 
@@ -396,11 +399,11 @@ var ModalBox = React.createClass({
     var size        = {height: this.state.containerHeight, width: this.state.containerWidth};
     var offsetX     = (this.state.containerWidth - this.state.width) / 2;
     var backdrop    = this.renderBackdrop(size);
-
-    if (!visible) return <View/>
-
-    return (
-      <View style={[styles.transparent, styles.absolute]} pointerEvents={'box-none'} onLayout={this.onContainerLayout}>
+    var coverScreen = this.props.coverScreen;
+    var modalContainer = [];
+    
+    modalContainer = (
+      <View style={{ flex: 1 }} pointerEvents={'box-none'} onLayout={this.onContainerLayout}>
         {backdrop}
         <Animated.View
          onLayout={this.onViewLayout}
@@ -408,6 +411,24 @@ var ModalBox = React.createClass({
          {...this.state.pan.panHandlers}>
           {this.props.children}
         </Animated.View>
+      </View>
+    );
+    
+    if (!visible) return <View/>
+      
+    if (coverScreen) { 
+      return (
+        <Modal onRequestClose={() => this.close()} supportedOrientations={['landscape', 'portrait']} transparent visible={visible}>
+          <View style={[styles.transparent, styles.absolute]}>
+            {modalContainer}
+          </View>
+        </Modal>
+      );
+    }
+    
+    return (
+      <View style={[styles.transparent, styles.absolute]}>
+        {modalContainer}
       </View>
     );
   },
