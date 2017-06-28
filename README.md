@@ -37,6 +37,7 @@ Check [index.js](https://github.com/maxs15/react-native-modalbox/blob/master/Exa
 | backButtonClose | false | `bool` | (Android only) Close modal when receiving back button event
 | startOpen | false | `bool` | Allow modal to appear open without animation upon first mount
 | coverScreen | false | `bool` | Will use RN `Modal` component to cover the entire screen wherever the modal is mounted in the component hierarchy
+| keyboardTopOffset | ios:22, android:0 | `number` | This property prevent the modal to cover the ios status bar when the modal is scrolling up because the keyboard is opening
 
 ## Events
 
