@@ -33,8 +33,11 @@ Check [index.js](https://github.com/maxs15/react-native-modalbox/blob/master/Exa
 | backdropColor | black| `string` | backgroundColor of the backdrop
 | backdropContent | null| `ReactElement` | Add an element in the backdrop (a close button for example)
 | animationDuration | 400| `number` | Duration of the animation
+| easing | Easing.elastic(0.8) | `function` | Easing function applied to opening modal animation
 | backButtonClose | false | `bool` | (Android only) Close modal when receiving back button event
 | startOpen | false | `bool` | Allow modal to appear open without animation upon first mount
+| coverScreen | false | `bool` | Will use RN `Modal` component to cover the entire screen wherever the modal is mounted in the component hierarchy
+| keyboardTopOffset | ios:22, android:0 | `number` | This property prevent the modal to cover the ios status bar when the modal is scrolling up because the keyboard is opening
 
 ## Events
 
