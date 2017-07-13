@@ -16,6 +16,8 @@ var {
   Keyboard
 } = require('react-native');
 
+var createReactClass = require('create-react-class');
+
 var BackButton = BackHandler || BackAndroid;
 
 var screen = Dimensions.get('window');
@@ -41,7 +43,7 @@ var styles = StyleSheet.create({
 
 });
 
-var ModalBox = React.createClass({
+var ModalBox = createReactClass({
 
   propTypes: {
     isOpen: React.PropTypes.bool,
