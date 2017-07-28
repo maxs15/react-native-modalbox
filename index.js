@@ -86,7 +86,7 @@ var ModalBox = createReactClass({
       backButtonClose: false,
       easing: Easing.elastic(0.8),
       coverScreen: false,
-      keyboardTopOffset: Platform.OS == 'ios' ? 22 : 0
+      keyboardTopOffset: 22
     };
   },
 
@@ -116,13 +116,10 @@ var ModalBox = createReactClass({
   componentWillMount: function() {
     this.createPanResponder();
     this.handleOpenning(this.props);
-    // Needed for IOS because the keyboard covers the screen
-    if (Platform.OS === 'ios') {
-      this.subscriptions = [
-        Keyboard.addListener('keyboardWillChangeFrame', this.onKeyboardChange),
+    this.subscriptions = [
+        Keyboard.addListener('keyboardDidShow', this.onKeyboardChange),
         Keyboard.addListener('keyboardDidHide', this.onKeyboardHide)
       ];
-    }
   },
 
   componentWillUnmount: function() {
@@ -145,16 +142,10 @@ var ModalBox = createReactClass({
 
   /****************** ANIMATIONS **********************/
 
-  /*
-   * The keyboard is hidden (IOS only)
-   */
   onKeyboardHide: function(evt) {
     this.state.keyboardOffset = 0;
   },
 
-  /*
-   * The keyboard frame changed, used to detect when the keyboard open, faster than keyboardDidShow (IOS only)
-   */
   onKeyboardChange: function(evt) {
     if (!evt) return;
     if (!this.state.isOpen) return;
