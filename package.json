@@ -28,6 +28,7 @@
   },
   "homepage": "https://github.com/maxs15/react-native-modalbox#readme",
   "dependencies": {
-    "create-react-class": "^15.6.0"
+    "create-react-class": "^15.6.0",
+    "prop-types": "^15.5.10"
   }
 }
