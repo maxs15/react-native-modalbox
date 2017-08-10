@@ -65,6 +65,7 @@ var ModalBox = createReactClass({
     easing: PropTypes.func,
     coverScreen: PropTypes.bool,
     keyboardTopOffset: PropTypes.number,
+    moveAboveKeyboard: PropTypes.bool,
 
     onClosed: PropTypes.func,
     onOpened: PropTypes.func,
@@ -86,7 +87,8 @@ var ModalBox = createReactClass({
       backButtonClose: false,
       easing: Easing.elastic(0.8),
       coverScreen: false,
-      keyboardTopOffset: Platform.OS == 'ios' ? 22 : 0
+      keyboardTopOffset: Platform.OS == 'ios' ? 22 : 0,
+      moveAboveKeyboard: true
     };
   },
 
@@ -117,7 +119,7 @@ var ModalBox = createReactClass({
     this.createPanResponder();
     this.handleOpenning(this.props);
     // Needed for IOS because the keyboard covers the screen
-    if (Platform.OS === 'ios') {
+    if (Platform.OS === 'ios' && this.props.moveAboveKeyboard) {
       this.subscriptions = [
         Keyboard.addListener('keyboardWillChangeFrame', this.onKeyboardChange),
         Keyboard.addListener('keyboardDidHide', this.onKeyboardHide)
@@ -283,7 +285,9 @@ var ModalBox = createReactClass({
       }
     );
     this.state.animClose.start(() => {
-      Keyboard.dismiss();
+      if (this.props.moveAboveKeyboard) {
+        Keyboard.dismiss();
+      }
       this.state.isAnimateClose = false;
       this.state.isOpen = false;
       this.setState({});
