@@ -441,7 +441,6 @@ const ModalBox = createReactClass({
     } else if (this.props.entry === 'top') {
       transform = [{ translateY: this.state.position }, { translateX: offsetX }]
     } else { transform = [{ translateY: this.state.position }, { translateX: offsetX }] }
-    console.log(transform)
 
     return (
       <Animated.View
