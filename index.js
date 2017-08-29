@@ -92,9 +92,9 @@ const ModalBox = createReactClass({
   },
 
   getInitialState() {
-    const position = this.props.entry === 'top' ? -screen.height : screen.height
+
     return {
-      position: this.props.startOpen ? new Animated.Value(0) : new Animated.Value(position),
+      position: new Animated.Value(0),
       backdropOpacity: new Animated.Value(0),
       isOpen: this.props.startOpen,
       isAnimateClose: false,
@@ -115,6 +115,11 @@ const ModalBox = createReactClass({
   },
 
   componentWillMount() {
+    const position = this.props.startOpen ?
+      this.getOpenPosition() :
+      this.getClosePosition()
+    this.setState({position: new Animated.Value(position)})
+
     this.createPanResponder()
     this.handleOpenning(this.props)
     // Needed for IOS because the keyboard covers the screen
@@ -230,7 +235,7 @@ const ModalBox = createReactClass({
 
     requestAnimationFrame(() => {
       // Detecting modal position
-      this.state.positionDest = this.calculateModalPosition(this.state.containerHeight - this.state.keyboardOffset, this.state.containerWidth)
+      this.state.positionDest = this.getOpenPosition()
       if (this.state.keyboardOffset && (this.state.positionDest < this.props.keyboardTopOffset)) {
         this.state.positionDest = this.props.keyboardTopOffset
       }
@@ -270,16 +275,7 @@ const ModalBox = createReactClass({
     if (this.props.backdrop) { this.animateBackdropClose() }
 
     this.state.isAnimateClose = true
-    let toValue
-    if (this.props.entry === 'left') {
-      toValue = -this.state.containerWidth
-    } else if (this.props.entry === 'right') {
-      toValue = this.state.containerWidth
-    } else if (this.props.entry === 'top') {
-      toValue = -this.state.containerHeight
-    } else {
-      toValue = this.state.containerHeight
-    }
+    const toValue = this.getClosePosition()
     this.state.animClose = Animated.timing(
       this.state.position,
       {
@@ -295,11 +291,26 @@ const ModalBox = createReactClass({
       if (this.props.onClosed) this.props.onClosed()
     })
   },
+  getClosePosition() {
+    let position
+    if (this.props.entry === 'left') {
+      position = -this.state.containerWidth
+    } else if (this.props.entry === 'right') {
+      position = this.state.containerWidth
+    } else if (this.props.entry === 'top') {
+      position = -this.state.containerHeight
+    } else {
+      position = this.state.containerHeight
+    }
+    return position;
+  },
 
   /*
    * Calculate when should be placed the modal
    */
-  calculateModalPosition(containerHeight, containerWidth) {
+  getOpenPosition() {
+    const containerHeight = this.state.containerHeight - this.state.keyboardOffset;
+    const containerWidth = this.state.containerWidth
     let position = 0
 
     const center = this.props.center || this.props.position === 'center'
@@ -325,6 +336,20 @@ const ModalBox = createReactClass({
     return position
   },
 
+  getMoveDistance(panState)  {
+    let moveDistance = 0
+    if(this.props.entry === "left") {
+      moveDistance = -panState.dx
+    } else if (this.props.entry === "right") {
+      moveDistance = panState.dx
+    } else if (this.props.entry === "top") {
+      moveDistance = -panState.dy
+    } else {
+      moveDistance = panState.dy
+    }
+    return moveDistance;
+  },
+
   /*
    * Create the pan responder to detect gesture
    * Only used if swipeToClose is enabled
@@ -336,17 +361,26 @@ const ModalBox = createReactClass({
     const onPanRelease = (evt, state) => {
       if (!inSwipeArea) return
       inSwipeArea = false
-      if (this.props.entry === 'top' ? -state.dy > this.props.swipeThreshold : state.dy > this.props.swipeThreshold) { this.animateClose() } else { this.animateOpen() }
+      const moveDistance = this.getMoveDistance(state);
+      if (moveDistance > this.props.swipeThreshold) {
+        this.animateClose()
+      } else {
+        this.animateOpen()
+      }
     }
 
-    const animEvt = Animated.event([null, { customY: this.state.position }])
+    const animEvt = Animated.event([null, { moveDistance: this.state.position }])
 
     const onPanMove = (evt, state) => {
-      const newClosingState = this.props.entry === 'top' ? -state.dy > this.props.swipeThreshold : state.dy > this.props.swipeThreshold
-      if (this.props.entry === 'top' ? state.dy > 0 : state.dy < 0) return
-      if (newClosingState != closingState && this.props.onClosingState) { this.props.onClosingState(newClosingState) }
+      const moveDistance = this.getMoveDistance(state);
+      const newClosingState = moveDistance > this.props.swipeThreshold
+
+      if (moveDistance < 0) return
+      if (newClosingState != closingState && this.props.onClosingState) {
+        this.props.onClosingState(newClosingState)
+      }
       closingState = newClosingState
-      state.customY = state.dy + this.state.positionDest
+      state.moveDistance = this.state.positionDest - Math.abs(moveDistance)
 
       animEvt(evt, state)
     }
