@@ -109,19 +109,29 @@ var ModalBox = createReactClass({
   },
 
   onBackPress () {
-    this.close()
-    return true
+    if (this.state.isOpen || this.state.isAnimateOpen) {
+      this.close();
+      return true;
+    }
   },
 
   componentWillMount: function() {
     this.createPanResponder();
     this.handleOpenning(this.props);
+    this.subscriptions = [];
+
     // Needed for IOS because the keyboard covers the screen
     if (Platform.OS === 'ios') {
-      this.subscriptions = [
+      this.subscriptions.concat([
         Keyboard.addListener('keyboardWillChangeFrame', this.onKeyboardChange),
         Keyboard.addListener('keyboardDidHide', this.onKeyboardHide)
-      ];
+      ]);
+    }
+
+    if (this.props.backButtonClose) {
+      this.subscriptions.concat([
+        BackButton.addEventListener('hardwareBackPress', this.onBackPress)
+      ]);
     }
   },
 
@@ -464,7 +474,6 @@ var ModalBox = createReactClass({
       this.onViewLayoutCalculated = () => {
         this.setState({});
         this.animateOpen();
-        if(this.props.backButtonClose && Platform.OS === 'android') BackButton.addEventListener('hardwareBackPress', this.onBackPress)
         delete this.onViewLayoutCalculated;
       };
       this.setState({isAnimateOpen : true});
@@ -475,7 +484,6 @@ var ModalBox = createReactClass({
     if (this.props.isDisabled) return;
     if (!this.state.isAnimateClose && (this.state.isOpen || this.state.isAnimateOpen)) {
       this.animateClose();
-      if(this.props.backButtonClose && Platform.OS === 'android') BackButton.removeEventListener('hardwareBackPress', this.onBackPress)
     }
   }
 
