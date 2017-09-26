@@ -439,14 +439,12 @@ var ModalBox = createReactClass({
     if (!visible) return <View/>
 
     var content = (
-      <Modal transparent visible={visible} onRequestClose={() => this.close()}>
       <View importantForAccessibility="yes" accessibilityViewIsModal={true} style={[styles.transparent, styles.absolute]} pointerEvents={'box-none'}>
         <View style={{ flex: 1 }} pointerEvents={'box-none'} onLayout={this.onContainerLayout}>
           {visible && this.renderBackdrop()}
           {visible && this.renderContent()}
         </View>
       </View>
-      </Modal>
     )
 
 if (!this.props.coverScreen) return content;
