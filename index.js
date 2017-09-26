@@ -435,11 +435,11 @@ var ModalBox = createReactClass({
   render: function() {
     
     var visible = this.state.isOpen || this.state.isAnimateOpen || this.state.isAnimateClose;
-    alert(`is visible ${visible}`)
+
     if (!visible) return <View/>
 
     var content = (
-      <View onStartShouldSetResponder={true} importantForAccessibility="yes" accessibilityViewIsModal={true} style={[styles.transparent, styles.absolute]} pointerEvents={'box-none'}>
+      <View importantForAccessibility="yes" accessibilityViewIsModal={true} style={[styles.transparent, styles.absolute]} pointerEvents={'box-none'}>
         <View style={{ flex: 1 }} pointerEvents={'box-none'} onLayout={this.onContainerLayout}>
           {visible && this.renderBackdrop()}
           {visible && this.renderContent()}
