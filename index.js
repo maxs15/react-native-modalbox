@@ -74,7 +74,6 @@ var ModalBox = createReactClass({
     return {
       startOpen: false,
       backdropPressToClose: true,
-      importantForAccessibility: true,
       swipeToClose: true,
       swipeThreshold: 50,
       position: "center",
@@ -439,7 +438,7 @@ var ModalBox = createReactClass({
     if (!visible) return <View/>
 
     var content = (
-      <View accessibilityViewIsModal={true} style={[styles.transparent, styles.absolute]} pointerEvents={'box-none'}>
+      <View importantForAccessibility={true} accessibilityViewIsModal={true} style={[styles.transparent, styles.absolute]} pointerEvents={'box-none'}>
         <View style={{ flex: 1 }} pointerEvents={'box-none'} onLayout={this.onContainerLayout}>
           {visible && this.renderBackdrop()}
           {visible && this.renderContent()}
