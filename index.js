@@ -65,7 +65,6 @@ var ModalBox = createReactClass({
     easing: PropTypes.func,
     coverScreen: PropTypes.bool,
     keyboardTopOffset: PropTypes.number,
-
     onClosed: PropTypes.func,
     onOpened: PropTypes.func,
     onClosingState: PropTypes.func,
@@ -75,6 +74,7 @@ var ModalBox = createReactClass({
     return {
       startOpen: false,
       backdropPressToClose: true,
+      importantForAccessibility: true,
       swipeToClose: true,
       swipeThreshold: 50,
       position: "center",
