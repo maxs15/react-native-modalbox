@@ -433,9 +433,9 @@ var ModalBox = createReactClass({
    * Render the component
    */
   render: function() {
-    return null
+    
     var visible = this.state.isOpen || this.state.isAnimateOpen || this.state.isAnimateClose;
-  
+    alert(`is visible ${visible}`)
     if (!visible) return <View/>
 
     var content = (
@@ -446,7 +446,7 @@ var ModalBox = createReactClass({
         </View>
       </View>
     )
-
+        alert(`is coverScreen ${this.props.coverScreen}`)
     if (!this.props.coverScreen) return content;
 
     //return (
