@@ -1,6 +1,6 @@
 {
-  "name": "react-native-modalbox",
-  "version": "1.4.2",
+  "name": "@panter/react-native-modalbox",
+  "version": "1.5.3",
   "description": "A <Modal/> component for react-native",
   "main": "index.js",
   "scripts": {
