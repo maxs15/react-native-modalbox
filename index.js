@@ -54,6 +54,8 @@ var ModalBox = createReactClass({
     swipeToClose: PropTypes.bool,
     swipeThreshold: PropTypes.number,
     swipeArea: PropTypes.number,
+    onSwipeStart: PropTypes.func,
+    onSwipeEnd: PropTypes.func,
     position: PropTypes.string,
     entry: PropTypes.string,
     backdrop: PropTypes.bool,
@@ -316,7 +318,8 @@ var ModalBox = createReactClass({
     var closingState = false;
     var inSwipeArea  = false;
 
-    var onPanRelease = (evt, state) => {
+    var onPanRelease = (evt, state) => {
+      if (this.props.onSwipeEnd) this.props.onSwipeEnd();
       if (!inSwipeArea) return;
       inSwipeArea = false;
       if (this.props.entry === 'top' ? -state.dy > this.props.swipeThreshold : state.dy > this.props.swipeThreshold)
@@ -343,6 +346,7 @@ var ModalBox = createReactClass({
         inSwipeArea = false;
         return false;
       }
+      if (this.props.onSwipeStart) this.props.onSwipeStart();
       inSwipeArea = true;
       return true;
     };
