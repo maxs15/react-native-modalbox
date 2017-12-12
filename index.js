@@ -75,7 +75,7 @@ var ModalBox = createReactClass({
     return {
       startOpen: false,
       backdropPressToClose: true,
-      swipeToClose: true,
+      swipeToClose: false,
       swipeThreshold: 50,
       position: "center",
       backdrop: true,
@@ -130,6 +130,9 @@ var ModalBox = createReactClass({
   },
 
   componentWillReceiveProps: function(props) {
+     if(this.state.swipeToClose !== props.swipeToClose){
+       this.setState({swipeToClose: props.swipeToClose});
+     }
      if(this.props.isOpen != props.isOpen){
         this.handleOpenning(props);
      }
@@ -339,7 +342,7 @@ var ModalBox = createReactClass({
     };
 
     var onPanStart = (evt, state) => {
-      if (!this.props.swipeToClose || this.props.isDisabled || (this.props.swipeArea && (evt.nativeEvent.pageY - this.state.positionDest) > this.props.swipeArea)) {
+      if (!this.state.swipeToClose || this.props.isDisabled || (this.props.swipeArea && (evt.nativeEvent.pageY - this.state.positionDest) > this.props.swipeArea)) {
         inSwipeArea = false;
         return false;
       }
