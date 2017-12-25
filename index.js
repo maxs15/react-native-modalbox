@@ -304,7 +304,9 @@ var ModalBox = createReactClass({
       position = containerHeight / 2 - this.state.height / 2;
     }
     // Checking if the position >= 0
-    if (position < 0) position = 0;
+    // Skip this check as it is also checked with keyboardOffsetTop.
+    // allow negative top position...
+    // if (position < 0) position = 0;
     return position;
   },
 
