@@ -63,6 +63,8 @@ var ModalBox = createReactClass({
     animationDuration: PropTypes.number,
     backButtonClose: PropTypes.bool,
     easing: PropTypes.func,
+    easingOpen: PropTypes.func,
+    easingClose: PropTypes.func,
     coverScreen: PropTypes.bool,
     keyboardTopOffset: PropTypes.number,
 
@@ -84,7 +86,9 @@ var ModalBox = createReactClass({
       backdropContent: null,
       animationDuration: 400,
       backButtonClose: false,
-      easing: Easing.elastic(0.8),
+      easing: undefined,
+      easingOpen: Easing.elastic(0.8),
+      easingClose: Easing.inOut(Easing.ease),
       coverScreen: false,
       keyboardTopOffset: Platform.OS == 'ios' ? 22 : 0
     };
@@ -242,7 +246,7 @@ var ModalBox = createReactClass({
         {
           toValue: this.state.positionDest,
           duration: this.props.animationDuration,
-          easing: this.props.easing,
+          easing: this.props.easing || this.props.easingOpen,
         }
       );
       this.state.animOpen.start(() => {
@@ -279,7 +283,8 @@ var ModalBox = createReactClass({
       this.state.position,
       {
         toValue: this.props.entry === 'top' ? -this.state.containerHeight : this.state.containerHeight,
-        duration: this.props.animationDuration
+        duration: this.props.animationDuration,
+        easing: this.props.easingClose
       }
     );
     this.state.animClose.start(() => {
