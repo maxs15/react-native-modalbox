@@ -16,6 +16,10 @@ A react native <Modal> component, easy, fully customizable, implementing the 'sw
 ## Example
 Check [index.js](https://github.com/maxs15/react-native-modalbox/blob/master/Example/index.ios.js) in the Example folder.
 
+## Tests
+If you run the example app, a suite of [Cavy](https://github.com/pixielabs/cavy)
+tests will run.
+
 ## Properties
 
 | Prop  | Default  | Type | Description |
