@@ -57,6 +57,7 @@ var ModalBox = createReactClass({
     position: PropTypes.string,
     entry: PropTypes.string,
     backdrop: PropTypes.bool,
+    screenOpacity: PropTypes.number,
     backdropOpacity: PropTypes.number,
     backdropColor: PropTypes.string,
     backdropContent: PropTypes.element,
@@ -79,6 +80,7 @@ var ModalBox = createReactClass({
       swipeThreshold: 50,
       position: "center",
       backdrop: true,
+      screenOpacity: 0.5,
       backdropOpacity: 0.5,
       backdropColor: "black",
       backdropContent: null,
@@ -94,6 +96,7 @@ var ModalBox = createReactClass({
     var position = this.props.entry === 'top' ? -screen.height : screen.height;
     return {
       position: this.props.startOpen ? new Animated.Value(0) : new Animated.Value(position),
+      screenOpacity: new Animated.Value(0.5),
       backdropOpacity: new Animated.Value(0),
       isOpen: this.props.startOpen,
       isAnimateClose: false,
@@ -178,6 +181,18 @@ var ModalBox = createReactClass({
     }
 
     this.state.isAnimateBackdrop = true;
+    this.state.screenOpacity.setValue(0.5)
+    setTimeout(_ => {
+      this.state.animScreen = Animated.timing(
+        this.state.screenOpacity,
+        {
+          toValue: 1,
+          duration: 200,
+          useNativeDriver: true,
+        }
+      );
+      this.state.animScreen.start()
+    }, this.props.animationDuration / 2)
     this.state.animBackdrop = Animated.timing(
       this.state.backdropOpacity,
       {
@@ -195,11 +210,13 @@ var ModalBox = createReactClass({
    */
   animateBackdropClose: function() {
     if (this.state.isAnimateBackdrop) {
+      this.state.animScreen.stop();
       this.state.animBackdrop.stop();
       this.state.isAnimateBackdrop = false;
     }
 
     this.state.isAnimateBackdrop = true;
+    this.state.screenOpacity.setValue(0)
     this.state.animBackdrop = Animated.timing(
       this.state.backdropOpacity,
       {
@@ -428,7 +445,9 @@ var ModalBox = createReactClass({
         onLayout={this.onViewLayout}
         style={[styles.wrapper, size, this.props.style, {transform: [{translateY: this.state.position}, {translateX: offsetX}]} ]}
         {...this.state.pan.panHandlers}>
-        {this.props.children}
+        <Animated.View style={{flex: 1, opacity: this.state.screenOpacity}}>
+          {this.props.children}
+        </Animated.View>
       </Animated.View>
     )
   },
