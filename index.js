@@ -187,7 +187,7 @@ var ModalBox = createReactClass({
         this.state.screenOpacity,
         {
           toValue: 1,
-          duration: 200,
+          duration: 150,
           useNativeDriver: true,
         }
       );
