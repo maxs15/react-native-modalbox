@@ -80,7 +80,7 @@ var ModalBox = createReactClass({
       swipeThreshold: 50,
       position: "center",
       backdrop: true,
-      screenOpacity: 0.5,
+      screenOpacity: 0.6,
       backdropOpacity: 0.5,
       backdropColor: "black",
       backdropContent: null,
@@ -96,7 +96,7 @@ var ModalBox = createReactClass({
     var position = this.props.entry === 'top' ? -screen.height : screen.height;
     return {
       position: this.props.startOpen ? new Animated.Value(0) : new Animated.Value(position),
-      screenOpacity: new Animated.Value(0.5),
+      screenOpacity: new Animated.Value(0.6),
       backdropOpacity: new Animated.Value(0),
       isOpen: this.props.startOpen,
       isAnimateClose: false,
@@ -175,24 +175,25 @@ var ModalBox = createReactClass({
    * Open animation for the backdrop, will fade in
    */
   animateBackdropOpen: function() {
+    if (!this.state.isAnimateOpen) return // guard
     if (this.state.isAnimateBackdrop) {
       this.state.animBackdrop.stop();
       this.state.isAnimateBackdrop = false;
     }
 
     this.state.isAnimateBackdrop = true;
-    this.state.screenOpacity.setValue(0.5)
+    this.state.screenOpacity.setValue(0.6)
     setTimeout(_ => {
       this.state.animScreen = Animated.timing(
         this.state.screenOpacity,
         {
           toValue: 1,
-          duration: 150,
+          duration: 250,
           useNativeDriver: true,
         }
       );
       this.state.animScreen.start()
-    }, this.props.animationDuration / 2)
+    }, this.props.animationDuration / 3)
     this.state.animBackdrop = Animated.timing(
       this.state.backdropOpacity,
       {
@@ -217,7 +218,6 @@ var ModalBox = createReactClass({
     }
 
     this.state.isAnimateBackdrop = true;
-    this.state.screenOpacity.setValue(0)
     this.state.animBackdrop = Animated.timing(
       this.state.backdropOpacity,
       {
