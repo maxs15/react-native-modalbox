@@ -162,6 +162,7 @@ var ModalBox = createReactClass({
    * The keyboard frame changed, used to detect when the keyboard open, faster than keyboardDidShow (IOS only)
    */
   onKeyboardChange: function(evt) {
+    return;
     if (!evt) return;
     if (!this.state.isOpen) return;
     var keyboardFrame = evt.endCoordinates;
@@ -255,6 +256,7 @@ var ModalBox = createReactClass({
 
     requestAnimationFrame(() => {
       // Detecting modal position
+      if (this.state.positionDest > 0) this.state.positionDest = 0
       this.state.positionDest = this.calculateModalPosition(this.state.containerHeight - this.state.keyboardOffset, this.state.containerWidth);
       if (this.state.keyboardOffset && (this.state.positionDest < this.props.keyboardTopOffset)) {
         this.state.positionDest = this.props.keyboardTopOffset;
