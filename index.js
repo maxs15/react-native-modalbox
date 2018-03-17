@@ -478,7 +478,7 @@ var ModalBox = createReactClass({
             this.close()
           }
         }}
-        supportedOrientations={['landscape', 'portrait']} transparent visible={visible}
+        supportedOrientations={['landscape', 'portrait', 'portrait-upside-down']} transparent visible={visible}
       >
         {content}
       </Modal>
