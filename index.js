@@ -65,7 +65,6 @@ var ModalBox = createReactClass({
     easing: PropTypes.func,
     coverScreen: PropTypes.bool,
     keyboardTopOffset: PropTypes.number,
-
     onClosed: PropTypes.func,
     onOpened: PropTypes.func,
     onClosingState: PropTypes.func,
@@ -426,7 +425,7 @@ var ModalBox = createReactClass({
     if (this.props.backdrop) {
       backdrop = (
         <TouchableWithoutFeedback onPress={this.props.backdropPressToClose ? this.close : null}>
-          <Animated.View style={[styles.absolute, {opacity: this.state.backdropOpacity}]}>
+          <Animated.View importantForAccessibility="no" style={[styles.absolute, {opacity: this.state.backdropOpacity}]}>
             <View style={[styles.absolute, {backgroundColor:this.props.backdropColor, opacity: this.props.backdropOpacity}]}/>
             {this.props.backdropContent || []}
           </Animated.View>
@@ -456,12 +455,13 @@ var ModalBox = createReactClass({
    * Render the component
    */
   render: function() {
+    
     var visible = this.state.isOpen || this.state.isAnimateOpen || this.state.isAnimateClose;
 
     if (!visible) return <View/>
 
     var content = (
-      <View style={[styles.transparent, styles.absolute]} pointerEvents={'box-none'}>
+      <View importantForAccessibility="yes" accessibilityViewIsModal={true} style={[styles.transparent, styles.absolute]} pointerEvents={'box-none'}>
         <View style={{ flex: 1 }} pointerEvents={'box-none'} onLayout={this.onContainerLayout}>
           {visible && this.renderBackdrop()}
           {visible && this.renderContent()}
@@ -469,7 +469,7 @@ var ModalBox = createReactClass({
       </View>
     )
 
-    if (!this.props.coverScreen) return content;
+if (!this.props.coverScreen) return content;
 
     return (
       <Modal
