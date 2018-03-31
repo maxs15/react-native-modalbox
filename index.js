@@ -21,6 +21,9 @@ var createReactClass = require('create-react-class');
 
 var BackButton = BackHandler || BackAndroid;
 
+var timeOut = null
+
+
 var screen = Dimensions.get('window');
 
 var styles = StyleSheet.create({
@@ -470,16 +473,27 @@ var ModalBox = createReactClass({
       this.setState({isAnimateOpen : true});
     }
     if(timeout){
-      setTimeout(()=>{this.close()}, timeout)
+      setTimeout(()=>{
+        console.log(this.state)
+        this.close()
+      }, timeout)
     }
   },
 
-  close: function() {
+  close: function(time) {
+    if(timeOut){
+      clearTimeout(timeOut)
+    }
     if (this.props.isDisabled) return;
     if (!this.state.isAnimateClose && (this.state.isOpen || this.state.isAnimateOpen)) {
       this.animateClose();
       if(this.props.backButtonClose && Platform.OS === 'android') BackButton.removeEventListener('hardwareBackPress', this.onBackPress)
     }
+    if(typeof time === "number" && !!(time)){
+      timeOut =  setTimeout(()=>{
+         this.close()
+      }, time)
+     }
   }
 
 
