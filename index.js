@@ -457,8 +457,8 @@ var ModalBox = createReactClass({
   },
 
   /****************** PUBLIC METHODS **********************/
-
-  open: function() {
+  // if open is called with Argument the modal will close after the specific time in milliseconds automatically 
+  open: function(timeout) {
     if (this.props.isDisabled) return;
     if (!this.state.isAnimateOpen && (!this.state.isOpen || this.state.isAnimateClose)) {
       this.onViewLayoutCalculated = () => {
@@ -468,6 +468,9 @@ var ModalBox = createReactClass({
         delete this.onViewLayoutCalculated;
       };
       this.setState({isAnimateOpen : true});
+    }
+    if(!timeout){
+      setTimeout(this.close(), timeout)
     }
   },
 
