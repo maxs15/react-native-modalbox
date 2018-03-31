@@ -460,7 +460,7 @@ var ModalBox = createReactClass({
   },
 
   /****************** PUBLIC METHODS **********************/
-  open: function(timeout) {
+  open: function() {
     if (this.props.isDisabled) return;
     if (!this.state.isAnimateOpen && (!this.state.isOpen || this.state.isAnimateClose)) {
       this.onViewLayoutCalculated = () => {
