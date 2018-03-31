@@ -53,4 +53,4 @@ These methods are optional, you can use the isOpen property instead
 | Prop  | Params  | Description |
 | :------------ |:---------------:| :---------------:|
 | open | - | Open the modal |
-| close | - | Close the modal |
+| close | (optional) time in milliseconds  | Close the modal |
