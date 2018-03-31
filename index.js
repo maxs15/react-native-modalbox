@@ -469,8 +469,8 @@ var ModalBox = createReactClass({
       };
       this.setState({isAnimateOpen : true});
     }
-    if(!timeout){
-      setTimeout(this.close(), timeout)
+    if(timeout){
+      setTimeout(()=>{this.close()}, timeout)
     }
   },
 
