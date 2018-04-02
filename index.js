@@ -286,7 +286,7 @@ var ModalBox = createReactClass({
       }
     );
     this.state.animClose.start(() => {
-      Keyboard.dismiss();
+     // Keyboard.dismiss();
       this.state.isAnimateClose = false;
       this.state.isOpen = false;
       this.setState({});
