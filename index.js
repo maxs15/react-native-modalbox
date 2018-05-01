@@ -359,7 +359,7 @@ var ModalBox = createReactClass({
       if (newClosingState != closingState && this.props.onClosingState)
         this.props.onClosingState(newClosingState);
       closingState = newClosingState;
-      state.customY = state.dy + this.state.positionDest;
+      state.customY = state.dy + (this.state.positionDest || 0);
 
       animEvt(evt, state);
     };
