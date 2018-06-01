@@ -32,7 +32,7 @@ class Example extends React.Component {
   }
 
   onOpen() {
-    console.log('Modal just openned');
+    console.log('Modal just opened');
   }
 
   onClosingState(state) {
