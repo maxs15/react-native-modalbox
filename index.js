@@ -169,23 +169,24 @@ var ModalBox = createReactClass({
    * Open animation for the backdrop, will fade in
    */
   animateBackdropOpen: function() {
-    if (this.state.isAnimateBackdrop) {
+    if (this.state.isAnimateBackdrop && this.state.animBackdrop) {
       this.state.animBackdrop.stop();
     }
+    this.setState({ isAnimateBackdrop: true });
 
     let animBackdrop = Animated.timing(
       this.state.backdropOpacity,
       {
         toValue: 1,
-        duration: this.props.animationDuration
+        duration: this.props.animationDuration,
+        easing: this.props.easing,
+        useNativeDriver: true,
       }
-    );
-
-    this.setState({
-      isAnimateBackdrop: true,
-      animBackdrop
-    }, () => {
-      this.state.animBackdrop.start();
+    ).start(() => {
+      this.setState({
+        isAnimateBackdrop: false,
+        animBackdrop
+      });
     });
   },
 
@@ -193,23 +194,24 @@ var ModalBox = createReactClass({
    * Close animation for the backdrop, will fade out
    */
   animateBackdropClose: function() {
-    if (this.state.isAnimateBackdrop) {
+    if (this.state.isAnimateBackdrop && this.state.animBackdrop) {
       this.state.animBackdrop.stop();
     }
+    this.setState({ isAnimateBackdrop: true });
 
     let animBackdrop = Animated.timing(
       this.state.backdropOpacity,
       {
         toValue: 0,
-        duration: this.props.animationDuration
+        duration: this.props.animationDuration,
+        easing: this.props.easing,
+        useNativeDriver: true,
       }
-    );
-
-    this.setState({
-      isAnimateBackdrop: false,
-      animBackdrop
-    }, () => {
-      this.state.animBackdrop.start();
+    ).start(() => {
+      this.setState({
+        isAnimateBackdrop: false,
+        animBackdrop
+      });
     });
   },
 
@@ -249,17 +251,15 @@ var ModalBox = createReactClass({
             toValue: positionDest,
             duration: this.props.animationDuration,
             easing: this.props.easing,
+            useNativeDriver: true,
           }
-        );
-
-        this.setState({
-          isAnimateOpen: false,
-          animOpen,
-          positionDest
-        }, () => {
-          animOpen.start(() => {
-            if (!this.state.isOpen && this.props.onOpened) this.props.onOpened();
+        ).start(() => {
+          this.setState({
+            isAnimateOpen: false,
+            animOpen,
+            positionDest
           });
+          if (this.props.onOpened) this.props.onOpened();
         });
       })
     });
@@ -293,17 +293,17 @@ var ModalBox = createReactClass({
         this.state.position,
         {
           toValue: this.props.entry === 'top' ? -this.state.containerHeight : this.state.containerHeight,
-          duration: this.props.animationDuration
+          duration: this.props.animationDuration,
+          easing: this.props.easing,
+          useNativeDriver: true,
         }
-      );
-
-      this.setState({
-        isAnimateClose: false,
-        animClose
-      }, () => {
-        animClose.start(() => {
-          if (this.props.onClosed) this.props.onClosed();
+      ).start(() => {
+        // Keyboard.dismiss();   // make this optional. Easily user defined in .onClosed() callback
+        this.setState({
+          isAnimateClose: false,
+          animClose
         });
+        if (this.props.onClosed) this.props.onClosed();
       });
     });
   },
@@ -479,6 +479,7 @@ if (!this.props.coverScreen) return content;
           }
         }}
         supportedOrientations={['landscape', 'portrait', 'portrait-upside-down']} transparent visible={visible}
+        hardwareAccelerated={true}
       >
         {content}
       </Modal>
