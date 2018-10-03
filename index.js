@@ -164,14 +164,14 @@ export default class ModalBox extends React.PureComponent {
   /*
    * The keyboard is hidden (IOS only)
    */
-  onIOSKeyboardHide: function(evt) {
+  onIOSKeyboardHide(evt) {
     this.setState({ keyboardOffset: 0 });
   },
 
   /*
    * The keyboard frame changed, used to detect when the keyboard open, faster than keyboardDidShow (IOS only)
    */
-  onIOSKeyboardChange: function(evt) {
+  onIOSKeyboardChange(evt) {
     if (!evt) return;
     if (!this.state.isOpen) return;
     const keyboardFrame = evt.endCoordinates;
@@ -185,7 +185,8 @@ export default class ModalBox extends React.PureComponent {
   /*
    * The keyboard is hidden (Android only)
    */
-  onAndroidKeyboardHide: function(evt) {
+  onAndroidKeyboardHide(evt) {
+    console.log(evt);
     this.setState({ keyboardOffset: 0 }, () => {
       this.animateOpen();
     });
@@ -194,7 +195,7 @@ export default class ModalBox extends React.PureComponent {
   /*
    * The keyboard has appeared. Move up now, better late than never!
    */
-  onAndroidKeyboardShow: function(evt) {
+  onAndroidKeyboardShow(evt) {
     if (!evt) return;
     if (!this.state.isOpen) return;
     var keyboardHeight = evt.endCoordinates.height;
