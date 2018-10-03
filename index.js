@@ -185,8 +185,8 @@ export default class ModalBox extends React.PureComponent {
   /*
    * The keyboard is hidden (Android only)
    */
-  onAndroidKeyboardHide(evt) {
-    console.log(evt);
+  onAndroidKeyboardHide: function(evt) {
+    if (!this.state.isOpen) return;
     this.setState({ keyboardOffset: 0 }, () => {
       this.animateOpen();
     });
