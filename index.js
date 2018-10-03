@@ -174,7 +174,7 @@ var ModalBox = createReactClass({
    * The keyboard is hidden (Android only)
    */
   onAndroidKeyboardHide: function(evt) {
-    console.log(evt);
+    if (!this.state.isOpen) return;
     this.setState({ keyboardOffset: 0 }, () => {
       this.animateOpen();
     });
