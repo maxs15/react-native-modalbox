@@ -318,7 +318,6 @@ var ModalBox = createReactClass({
 
     this.setState({
       isAnimateClose: true,
-      isOpen: false,
     }, () => {
       let animClose = Animated.timing(
         this.state.position,
@@ -334,6 +333,7 @@ var ModalBox = createReactClass({
         animClose
       }, () => {
         animClose.start(() => {
+          this.setState({ isOpen: false });
           if (this.props.onClosed) this.props.onClosed();
         });
       });
