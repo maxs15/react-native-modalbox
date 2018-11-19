@@ -323,7 +323,7 @@ var ModalBox = createReactClass({
         this.state.position,
         {
           toValue: this.props.entry === 'top' ? -this.state.containerHeight : this.state.containerHeight,
-          duration: this.props.animationDuration,
+          duration: this.props.animationDuration / 2,
           useNativeDriver: true
         }
       );
