@@ -18,6 +18,7 @@ Check [index.js](https://github.com/maxs15/react-native-modalbox/blob/master/Exa
 
 ## Version note
 | react-native | react-native-modalbox |
+| :------------ |:---------------:|
 | <= 0.57 | <= 1.6.0 |
 | >= 0.58 | >= 1.6.1 |
 
