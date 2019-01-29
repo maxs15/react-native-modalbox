@@ -32,18 +32,19 @@ Check [index.js](https://github.com/maxs15/react-native-modalbox/blob/master/Exa
 | swipeToClose | true | `bool` | Set to `true` to enable the swipe down to close feature |
 | swipeThreshold | 50 | `number` | The threshold to reach in pixels to close the modal |
 | swipeArea | - | `number` | The height in pixels of the swipeable area, window height by default |
-| position | center | `string` | Control the modal position using `top` or `center` or `bottom`
-| entry | bottom | `string` | Control the modal entry position `top` or `bottom`
-| backdrop | true | `bool` | Display a backdrop behind the modal
-| backdropOpacity | 0.5| `number` | Opacity of the backdrop
-| backdropColor | black| `string` | backgroundColor of the backdrop
-| backdropContent | null| `ReactElement` | Add an element in the backdrop (a close button for example)
-| animationDuration | 400| `number` | Duration of the animation
-| easing | Easing.elastic(0.8) | `function` | Easing function applied to opening modal animation
-| backButtonClose | false | `bool` | (Android only) Close modal when receiving back button event
-| startOpen | false | `bool` | Allow modal to appear open without animation upon first mount
-| coverScreen | false | `bool` | Will use RN `Modal` component to cover the entire screen wherever the modal is mounted in the component hierarchy
-| keyboardTopOffset | ios:22, android:0 | `number` | This property prevent the modal to cover the ios status bar when the modal is scrolling up because the keyboard is opening
+| position | center | `string` | Control the modal position using `top` or `center` or `bottom` |
+| entry | bottom | `string` | Control the modal entry position `top` or `bottom` |
+| backdrop | true | `bool` | Display a backdrop behind the modal |
+| backdropOpacity | 0.5| `number` | Opacity of the backdrop |
+| backdropColor | black| `string` | backgroundColor of the backdrop |
+| backdropContent | null| `ReactElement` | Add an element in the backdrop (a close button for example) |
+| animationDuration | 400| `number` | Duration of the animation |
+| easing | Easing.elastic(0.8) | `function` | Easing function applied to opening modal animation |
+| backButtonClose | false | `bool` | (Android only) Close modal when receiving back button event |
+| startOpen | false | `bool` | Allow modal to appear open without animation upon first mount |
+| coverScreen | false | `bool` | Will use RN `Modal` component to cover the entire screen wherever the modal is mounted in the component hierarchy |
+| keyboardTopOffset | ios:22, android:0 | `number` | This property prevent the modal to cover the ios status bar when the modal is scrolling up because the keyboard is opening |
+| useNativeDriver | false | `bool` | Enables the hardware acceleration to animate the modal. Please note that enabling this can cause some flashes in a weird way when animating |
 
 ## Events
 
