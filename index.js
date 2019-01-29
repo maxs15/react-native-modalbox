@@ -85,7 +85,7 @@ var ModalBox = createReactClass({
       easing: Easing.elastic(0.8),
       coverScreen: false,
       keyboardTopOffset: Platform.OS == 'ios' ? 22 : 0,
-      useNativeDriver: false
+      useNativeDriver: true
     };
   },
 

@@ -44,7 +44,7 @@ Check [index.js](https://github.com/maxs15/react-native-modalbox/blob/master/Exa
 | startOpen | false | `bool` | Allow modal to appear open without animation upon first mount |
 | coverScreen | false | `bool` | Will use RN `Modal` component to cover the entire screen wherever the modal is mounted in the component hierarchy |
 | keyboardTopOffset | ios:22, android:0 | `number` | This property prevent the modal to cover the ios status bar when the modal is scrolling up because the keyboard is opening |
-| useNativeDriver | false | `bool` | Enables the hardware acceleration to animate the modal. Please note that enabling this can cause some flashes in a weird way when animating |
+| useNativeDriver | true | `bool` | Enables the hardware acceleration to animate the modal. Please note that enabling this can cause some flashes in a weird way when animating |
 
 ## Events
 
