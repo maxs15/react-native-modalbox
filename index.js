@@ -125,6 +125,7 @@ var ModalBox = createReactClass({
 
   componentWillUnmount: function() {
     if (this.subscriptions) this.subscriptions.forEach((sub) => sub.remove());
+    if (this.props.backButtonClose && Platform.OS === 'android') BackButton.removeEventListener('hardwareBackPress', this.onBackPress);
   },
 
   componentWillReceiveProps: function(props) {
