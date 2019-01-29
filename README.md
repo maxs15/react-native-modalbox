@@ -16,6 +16,12 @@ A react native <Modal> component, easy, fully customizable, implementing the 'sw
 ## Example
 Check [index.js](https://github.com/maxs15/react-native-modalbox/blob/master/Example/index.ios.js) in the Example folder.
 
+## Version note
+| react-native | react-native-modalbox |
+| :------------ |:---------------:|
+| <= 0.57 | <= 1.6.0 |
+| >= 0.58 | >= 1.6.1 |
+
 ## Properties
 
 | Prop  | Default  | Type | Description |
