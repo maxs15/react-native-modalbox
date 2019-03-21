@@ -67,6 +67,7 @@ var ModalBox = createReactClass({
     onClosed: PropTypes.func,
     onOpened: PropTypes.func,
     onClosingState: PropTypes.func,
+    onBackPress: PropTypes.func,
   },
 
   getDefaultProps: function () {
@@ -126,7 +127,7 @@ var ModalBox = createReactClass({
 
   componentWillUnmount: function() {
     if (this.subscriptions) this.subscriptions.forEach((sub) => sub.remove());
-    if (this.props.backButtonClose && Platform.OS === 'android') BackButton.removeEventListener('hardwareBackPress', this.onBackPress);
+    if ((this.props.backButtonClose || this.props.onBackPress) && Platform.OS === 'android') BackButton.removeEventListener('hardwareBackPress', this.onBackPress);
   },
 
   componentWillReceiveProps: function(props) {
@@ -477,6 +478,8 @@ if (!this.props.coverScreen) return content;
         onRequestClose={() => {
           if (this.props.backButtonClose) {
             this.close()
+          }else {
+            this.props.onBackPress();
           }
         }}
         supportedOrientations={['landscape', 'portrait', 'portrait-upside-down']} transparent visible={visible}
@@ -495,7 +498,7 @@ if (!this.props.coverScreen) return content;
       this.onViewLayoutCalculated = () => {
         this.setState({});
         this.animateOpen();
-        if(this.props.backButtonClose && Platform.OS === 'android') BackButton.addEventListener('hardwareBackPress', this.onBackPress)
+        if((this.props.backButtonClose || this.props.onBackPress)&& Platform.OS === 'android') BackButton.addEventListener('hardwareBackPress', this.onBackPress)
         delete this.onViewLayoutCalculated;
       };
       this.setState({isAnimateOpen : true});
@@ -506,7 +509,7 @@ if (!this.props.coverScreen) return content;
     if (this.props.isDisabled) return;
     if (!this.state.isAnimateClose && (this.state.isOpen || this.state.isAnimateOpen)) {
       this.animateClose();
-      if(this.props.backButtonClose && Platform.OS === 'android') BackButton.removeEventListener('hardwareBackPress', this.onBackPress)
+      if((this.props.backButtonClose || this.props.onBackPress) && Platform.OS === 'android') BackButton.removeEventListener('hardwareBackPress', this.onBackPress)
     }
   }
 
