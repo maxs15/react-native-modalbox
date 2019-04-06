@@ -64,6 +64,7 @@ var ModalBox = createReactClass({
     easing: PropTypes.func,
     coverScreen: PropTypes.bool,
     keyboardTopOffset: PropTypes.number,
+    onPressed: PropTypes.func,
     onClosed: PropTypes.func,
     onOpened: PropTypes.func,
     onClosingState: PropTypes.func,
@@ -337,6 +338,8 @@ var ModalBox = createReactClass({
     var onPanRelease = (evt, state) => {
       if (!inSwipeArea) return;
       inSwipeArea = false;
+      if (state.dx === 0 && state.dy === 0)
+        if (this.props.onPressed) return this.props.onPressed()
       if (this.props.entry === 'top' ? -state.dy > this.props.swipeThreshold : state.dy > this.props.swipeThreshold)
         this.animateClose();
       else if (!this.state.isOpen) {
