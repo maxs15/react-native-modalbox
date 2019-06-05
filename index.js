@@ -90,7 +90,7 @@ var ModalBox = createReactClass({
   },
 
   getInitialState: function () {
-    var position = this.props.entry === 'top' ? -screen.height : screen.height;
+    var position = this.props.entry === 'left' ? -screen.width : this.props.entry === 'top' ? -screen.height : screen.height;
     return {
       position: this.props.startOpen ? new Animated.Value(0) : new Animated.Value(position),
       backdropOpacity: new Animated.Value(0),
@@ -242,7 +242,7 @@ var ModalBox = createReactClass({
     }, () => {
       requestAnimationFrame(() => {
         // Detecting modal position
-        let positionDest = this.props.entry == 'left' ? this.calculateModalPosition(this.state.containerWidth, this.state.containerHeight) : this.calculateModalPosition(this.state.containerHeight - this.state.keyboardOffset, this.state.containerWidth);
+        let positionDest = this.props.entry === 'left' ? this.calculateModalPosition(this.state.containerWidth, this.state.containerHeight) : this.calculateModalPosition(this.state.containerHeight - this.state.keyboardOffset, this.state.containerWidth);
         if (this.state.keyboardOffset && (positionDest < this.props.keyboardTopOffset)) {
           positionDest = this.props.keyboardTopOffset;
         }
@@ -293,7 +293,7 @@ var ModalBox = createReactClass({
       let animClose = Animated.timing(
         this.state.position,
         {
-          toValue: this.props.entry === 'top' ? -this.state.containerHeight : this.state.containerHeight,
+          toValue: this.props.entry === 'left' ? -this.state.containerWidth : this.props.entry === 'top' ? -this.state.containerHeight : this.state.containerHeight,
           duration: this.props.animationDuration,
           easing: this.props.easing,
           useNativeDriver: this.props.useNativeDriver,
@@ -337,31 +337,55 @@ var ModalBox = createReactClass({
     var onPanRelease = (evt, state) => {
       if (!inSwipeArea) return;
       inSwipeArea = false;
-      if (this.props.entry === 'top' ? -state.dy > this.props.swipeThreshold : state.dy > this.props.swipeThreshold)
+      if (this.props.entry === 'left' ? -state.dx > this.props.swipeThreshold : this.props.entry === 'top' ? -state.dy > this.props.swipeThreshold : state.dy > this.props.swipeThreshold)
         this.animateClose();
       else if (!this.state.isOpen) {
         this.animateOpen();
       }
     };
 
-    var animEvt = Animated.event([null, { customY: this.state.position }]);
+    var animParams = null;
+    if (this.props.entry === 'left') {
+      animParams = { customX: this.state.position };
+    } else {
+      animParams = { customY: this.state.position };
+    }
+
+    var animEvt = Animated.event([null, animParams]);
 
     var onPanMove = (evt, state) => {
-      var newClosingState = this.props.entry === 'top' ? -state.dy > this.props.swipeThreshold : state.dy > this.props.swipeThreshold;
-      if (this.props.entry === 'top' ? state.dy > 0 : state.dy < 0) return;
+      var newClosingState = this.props.entry === 'left' ? -state.dx > this.props.swipeThreshold : this.props.entry === 'top' ? -state.dy > this.props.swipeThreshold : state.dy > this.props.swipeThreshold;
+
+      if (this.props.entry === 'left' ? state.dx > 0 : this.props.entry === 'top' ? state.dy > 0 : state.dy < 0) {
+        return;
+      }
+
       if (newClosingState != closingState && this.props.onClosingState)
         this.props.onClosingState(newClosingState);
       closingState = newClosingState;
-      state.customY = state.dy + this.state.positionDest;
+
+      if (this.props.entry === 'left') {
+        state.customX = state.dx + this.state.positionDest;
+      } else {
+        state.customY = state.dy + this.state.positionDest;
+      }
 
       animEvt(evt, state);
     };
 
     var onPanStart = (evt, state) => {
-      if (!this.props.swipeToClose || this.props.isDisabled || (this.props.swipeArea && (evt.nativeEvent.pageY - this.state.positionDest) > this.props.swipeArea)) {
-        inSwipeArea = false;
-        return false;
+      if (this.props.entry === 'left') {
+        if (!this.props.swipeToClose || this.props.isDisabled || (this.props.swipeArea && (evt.nativeEvent.pageX - this.state.positionDest) < this.props.swipeArea)) {
+          inSwipeArea = false;
+          return false;
+        }
+      } else {
+        if (!this.props.swipeToClose || this.props.isDisabled || (this.props.swipeArea && (evt.nativeEvent.pageY - this.state.positionDest) > this.props.swipeArea)) {
+          inSwipeArea = false;
+          return false;
+        }
       }
+
       inSwipeArea = true;
       return true;
     };
@@ -444,7 +468,7 @@ var ModalBox = createReactClass({
     return (
       <Animated.View
         onLayout={this.onViewLayout}
-        style={[styles.wrapper, size, this.props.style, { transform: [{ translateY: this.props.entry == 'left' ? offsetX : this.state.position }, { translateX: this.props.entry == 'left' ? this.state.position : offsetX }] }]}
+        style={[styles.wrapper, size, this.props.style, { transform: [{ translateY: this.props.entry === 'left' ? offsetX : this.state.position }, { translateX: this.props.entry === 'left' ? this.state.position : offsetX }] }]}
         {...this.state.pan.panHandlers}>
         {this.props.backdropPressToClose && <TouchableWithoutFeedback onPress={this.close}><View style={[styles.absolute]} /></TouchableWithoutFeedback>}
         {this.props.children}
