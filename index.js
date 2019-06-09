@@ -356,7 +356,7 @@ var ModalBox = createReactClass({
     var onPanMove = (evt, state) => {
       var newClosingState = this.props.entry === 'left' ? -state.dx > this.props.swipeThreshold : this.props.entry === 'top' ? -state.dy > this.props.swipeThreshold : state.dy > this.props.swipeThreshold;
 
-      if (this.props.entry === 'left' ? state.dx > 0 : this.props.entry === 'top' ? state.dy > 0 : state.dy < 0) {
+      if (this.props.entry === 'left' ? state.customX > 0 : this.props.entry === 'top' ? state.customY > 0 : state.customY < 0) {
         return;
       }
 
@@ -366,16 +366,25 @@ var ModalBox = createReactClass({
 
       if (this.props.entry === 'left') {
         state.customX = state.dx + this.state.positionDest;
+        state.customX = state.customX > 0 ? 0 : state.customX;
+      } else if (this.props.entry === 'top') {
+        state.customY = state.dy + this.state.positionDest;
+        state.customY = state.customY > 0 ? 0 : state.customY;
       } else {
         state.customY = state.dy + this.state.positionDest;
+        state.customY = state.customY < 0 ? 0 : state.customY;
       }
 
       animEvt(evt, state);
     };
 
-    var onPanStart = (evt, state) => {
+    var onPanMoveCheck = (evt, state) => {
       if (this.props.entry === 'left') {
         if (!this.props.swipeToClose || this.props.isDisabled || (this.props.swipeArea && (evt.nativeEvent.pageX - this.state.positionDest) < this.props.swipeArea)) {
+          inSwipeArea = false;
+          return false;
+        }
+        if (Math.abs(state.dx) < this.props.swipeThreshold) {
           inSwipeArea = false;
           return false;
         }
@@ -392,7 +401,7 @@ var ModalBox = createReactClass({
 
     this.setState({
       pan: PanResponder.create({
-        onStartShouldSetPanResponder: onPanStart,
+        onMoveShouldSetPanResponderCapture: onPanMoveCheck,
         onPanResponderMove: onPanMove,
         onPanResponderRelease: onPanRelease,
         onPanResponderTerminate: onPanRelease,
