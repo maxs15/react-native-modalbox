@@ -342,7 +342,7 @@ var ModalBox = createReactClass({
       if (!inSwipeArea) return;
       inSwipeArea = false;
       if (this.props.entry === 'top' ? -state.dy > this.props.swipeThreshold : state.dy > this.props.swipeThreshold)
-        this.animateClose();
+        this.close();
       /* BUG FIX */
       /* Prevent swipe from getting stuck when swipeThreshold position not reached */
       else if (this.state.isOpen) {
