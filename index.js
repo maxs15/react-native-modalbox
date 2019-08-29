@@ -97,11 +97,13 @@ export default class ModalBox extends React.PureComponent {
     this.open = this.open.bind(this);
     this.close = this.close.bind(this);
 
-    const position = props.entry === 'top' ? -SCREEN_HEIGHT : SCREEN_HEIGHT;
+    const position = props.startOpen
+      ? new Animated.Value(0)
+      : new Animated.Value(
+          props.entry === 'top' ? -SCREEN_HEIGHT : SCREEN_HEIGHT
+        );
     this.state = {
-      position: props.startOpen
-        ? new Animated.Value(0)
-        : new Animated.Value(position),
+      position,
       backdropOpacity: new Animated.Value(0),
       isOpen: props.startOpen,
       isAnimateClose: false,
@@ -112,19 +114,26 @@ export default class ModalBox extends React.PureComponent {
       containerHeight: SCREEN_HEIGHT,
       containerWidth: SCREEN_WIDTH,
       isInitialized: false,
-      keyboardOffset: 0
+      keyboardOffset: 0,
+      pan: this.createPanResponder(position)
     };
-  }
 
-  componentWillMount() {
-    this.createPanResponder();
-    this.handleOpenning(this.props);
-    // Needed for IOS because the keyboard covers the screen
+    // Needed for iOS because the keyboard covers the screen
     if (Platform.OS === 'ios') {
       this.subscriptions = [
         Keyboard.addListener('keyboardWillChangeFrame', this.onKeyboardChange),
         Keyboard.addListener('keyboardDidHide', this.onKeyboardHide)
       ];
+    }
+  }
+
+  componentDidMount() {
+    this.handleOpenning();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.isOpen != prevProps.isOpen) {
+      this.handleOpenning();
     }
   }
 
@@ -134,20 +143,14 @@ export default class ModalBox extends React.PureComponent {
       BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
   }
 
-  componentWillReceiveProps(props) {
-    if (this.props.isOpen != props.isOpen) {
-      this.handleOpenning(props);
-    }
-  }
-
   onBackPress() {
     this.close();
     return true;
   }
 
-  handleOpenning(props) {
-    if (typeof props.isOpen == 'undefined') return;
-    if (props.isOpen) this.open();
+  handleOpenning() {
+    if (typeof this.props.isOpen == 'undefined') return;
+    if (this.props.isOpen) this.open();
     else this.close();
   }
 
@@ -338,39 +341,9 @@ export default class ModalBox extends React.PureComponent {
    * Create the pan responder to detect gesture
    * Only used if swipeToClose is enabled
    */
-  createPanResponder() {
+  createPanResponder(position) {
     let closingState = false;
     let inSwipeArea = false;
-
-    const onPanRelease = (evt, state) => {
-      if (!inSwipeArea) return;
-      inSwipeArea = false;
-      if (
-        this.props.entry === 'top'
-          ? -state.dy > this.props.swipeThreshold
-          : state.dy > this.props.swipeThreshold
-      )
-        this.animateClose();
-      else if (!this.state.isOpen) {
-        this.animateOpen();
-      }
-    };
-
-    const animEvt = Animated.event([null, {customY: this.state.position}]);
-
-    const onPanMove = (evt, state) => {
-      const newClosingState =
-        this.props.entry === 'top'
-          ? -state.dy > this.props.swipeThreshold
-          : state.dy > this.props.swipeThreshold;
-      if (this.props.entry === 'top' ? state.dy > 0 : state.dy < 0) return;
-      if (newClosingState != closingState && this.props.onClosingState)
-        this.props.onClosingState(newClosingState);
-      closingState = newClosingState;
-      state.customY = state.dy + this.state.positionDest;
-
-      animEvt(evt, state);
-    };
 
     const onPanStart = (evt, state) => {
       if (
@@ -387,13 +360,41 @@ export default class ModalBox extends React.PureComponent {
       return true;
     };
 
-    this.setState({
-      pan: PanResponder.create({
-        onStartShouldSetPanResponder: onPanStart,
-        onPanResponderMove: onPanMove,
-        onPanResponderRelease: onPanRelease,
-        onPanResponderTerminate: onPanRelease
-      })
+    const animEvt = Animated.event([null, {customY: position}]);
+
+    const onPanMove = (evt, state) => {
+      const newClosingState =
+        this.props.entry === 'top'
+          ? -state.dy > this.props.swipeThreshold
+          : state.dy > this.props.swipeThreshold;
+      if (this.props.entry === 'top' ? state.dy > 0 : state.dy < 0) return;
+      if (newClosingState != closingState && this.props.onClosingState)
+        this.props.onClosingState(newClosingState);
+      closingState = newClosingState;
+      state.customY = state.dy + this.state.positionDest;
+
+      animEvt(evt, state);
+    };
+
+    const onPanRelease = (evt, state) => {
+      if (!inSwipeArea) return;
+      inSwipeArea = false;
+      if (
+        this.props.entry === 'top'
+          ? -state.dy > this.props.swipeThreshold
+          : state.dy > this.props.swipeThreshold
+      )
+        this.animateClose();
+      else if (!this.state.isOpen) {
+        this.animateOpen();
+      }
+    };
+
+    return PanResponder.create({
+      onStartShouldSetPanResponder: onPanStart,
+      onPanResponderMove: onPanMove,
+      onPanResponderRelease: onPanRelease,
+      onPanResponderTerminate: onPanRelease
     });
   }
 
@@ -562,11 +563,10 @@ export default class ModalBox extends React.PureComponent {
       (!this.state.isOpen || this.state.isAnimateClose)
     ) {
       this.onViewLayoutCalculated = () => {
-        this.setState({});
         this.animateOpen();
         if (this.props.backButtonClose && Platform.OS === 'android')
           BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
-        delete this.onViewLayoutCalculated;
+        this.onViewLayoutCalculated = null;
       };
       this.setState({isAnimateOpen: true});
     }
