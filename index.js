@@ -303,6 +303,10 @@ var ModalBox = createReactClass({
         this.setState({
           isAnimateClose: false,
           animClose
+        }, () => {
+          / *BUG FIX*/
+          /* Set the state to the starting position of the modal, preventing from animating where the swipe stopped */
+          this.state.position.setValue(this.props.entry === 'top' ? -this.state.containerHeight : this.state.containerHeight);
         });
         if (this.props.onClosed) this.props.onClosed();
       });
@@ -338,8 +342,10 @@ var ModalBox = createReactClass({
       if (!inSwipeArea) return;
       inSwipeArea = false;
       if (this.props.entry === 'top' ? -state.dy > this.props.swipeThreshold : state.dy > this.props.swipeThreshold)
-        this.animateClose();
-      else if (!this.state.isOpen) {
+        this.close();
+      /* BUG FIX */
+      /* Prevent swipe from getting stuck when swipeThreshold position not reached */
+      else if (this.state.isOpen) {
         this.animateOpen();
       }
     };
