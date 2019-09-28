@@ -12,7 +12,6 @@
   "dependencies": {
     "react": "16.9.0",
     "react-native": "0.61.1",
-    "react-native-button": "^2.4.0",
     "react-native-modalbox": "^1.7.1",
     "react-native-slider": "^0.11.0"
   },
