@@ -61,6 +61,7 @@ class Example extends React.Component {
         <Button onPress={() => this.setState({isOpen: true})} style={styles.btn}>Backdrop + backdropContent</Button>
         <Button onPress={() => this.refs.modal6.open()} style={styles.btn}>Position bottom + ScrollView</Button>
         <Button onPress={() => this.refs.modal7.open()} style={styles.btn}>Modal with keyboard support</Button>
+        <Button onPress={() => this.refs.modal8.open()} style={styles.btn}>Entry from top</Button>
 
         <Modal
           style={[styles.modal, styles.modal1]}
@@ -103,6 +104,10 @@ class Example extends React.Component {
           <View>
             <TextInput style={{height: 50, width: 200, backgroundColor: '#DDDDDD'}}/>
           </View>
+        </Modal>
+
+        <Modal ref={"modal8"} style={[styles.modal, styles.modal2]} position={"top"} entry={"top"}>
+          <Text style={[styles.text, {color: "white"}]}>Modal entry from top</Text>
         </Modal>
       </View>
     );
