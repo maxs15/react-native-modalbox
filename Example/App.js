@@ -1,10 +1,10 @@
 import React from 'react';
-import Button from 'react-native-button';
 import Modal from 'react-native-modalbox';
 import Slider from 'react-native-slider';
 
 import {
   Text,
+  Button,
   StyleSheet,
   ScrollView,
   View,
@@ -49,18 +49,22 @@ export default class App extends React.Component {
   }
 
   render() {
-    var BContent = <Button onPress={() => this.setState({isOpen: false})} style={[styles.btn, styles.btnModal]}>X</Button>;
+    var BContent = (
+      <View style={[styles.btn, styles.btnModal]}>
+        <Button title="X" color="white" onPress={() => this.setState({isOpen: false})}/>
+      </View>
+    );
 
     return (
       <View style={styles.wrapper}>
-        <Button onPress={() => this.refs.modal1.open()} style={styles.btn}>Basic modal</Button>
-        <Button onPress={() => this.refs.modal2.open()} style={styles.btn}>Position top</Button>
-        <Button onPress={() => this.refs.modal3.open()} style={styles.btn}>Position centered + backdrop + disable</Button>
-        <Button onPress={() => this.refs.modal4.open()} style={styles.btn}>Position bottom + backdrop + slider</Button>
-        <Button onPress={() => this.setState({isOpen: true})} style={styles.btn}>Backdrop + backdropContent</Button>
-        <Button onPress={() => this.refs.modal6.open()} style={styles.btn}>Position bottom + ScrollView</Button>
-        <Button onPress={() => this.refs.modal7.open()} style={styles.btn}>Modal with keyboard support</Button>
-        <Button onPress={() => this.refs.modal8.open()} style={styles.btn}>Entry from top</Button>
+        <Button title="Basic modal" onPress={() => this.refs.modal1.open()} style={styles.btn}/>
+        <Button title="Position top" onPress={() => this.refs.modal2.open()} style={styles.btn}/>
+        <Button title="Position centered + backdrop + disable" onPress={() => this.refs.modal3.open()} style={styles.btn}/>
+        <Button title="Position bottom + backdrop + slider" onPress={() => this.refs.modal4.open()} style={styles.btn}/>
+        <Button title="Backdrop + backdropContent" onPress={() => this.setState({isOpen: true})} style={styles.btn}/>
+        <Button title="Position bottom + ScrollView" onPress={() => this.refs.modal6.open()} style={styles.btn}/>
+        <Button title="Modal with keyboard support" onPress={() => this.refs.modal7.open()} style={styles.btn}/>
+        <Button title="Entry from top" onPress={() => this.refs.modal8.open()} style={styles.btn}/>
 
         <Modal
           style={[styles.modal, styles.modal1]}
@@ -70,7 +74,7 @@ export default class App extends React.Component {
           onOpened={this.onOpen}
           onClosingState={this.onClosingState}>
             <Text style={styles.text}>Basic modal</Text>
-            <Button onPress={() => this.setState({swipeToClose: !this.state.swipeToClose})} style={styles.btn}>Disable swipeToClose({this.state.swipeToClose ? "true" : "false"})</Button>
+            <Button title={`Disable swipeToClose(${this.state.swipeToClose ? "true" : "false"})`} onPress={() => this.setState({swipeToClose: !this.state.swipeToClose})} style={styles.btn}/>
         </Modal>
 
         <Modal style={[styles.modal, styles.modal2]} backdrop={false}  position={"top"} ref={"modal2"}>
@@ -79,7 +83,7 @@ export default class App extends React.Component {
 
         <Modal style={[styles.modal, styles.modal3]} position={"center"} ref={"modal3"} isDisabled={this.state.isDisabled}>
           <Text style={styles.text}>Modal centered</Text>
-          <Button onPress={() => this.setState({isDisabled: !this.state.isDisabled})} style={styles.btn}>Disable ({this.state.isDisabled ? "true" : "false"})</Button>
+          <Button title={`Disable (${this.state.isDisabled ? "true" : "false"})`} onPress={() => this.setState({isDisabled: !this.state.isDisabled})} style={styles.btn}/>
         </Modal>
 
         <Modal style={[styles.modal, styles.modal4]} position={"bottom"} ref={"modal4"}>
@@ -87,7 +91,7 @@ export default class App extends React.Component {
           <Slider style={{width: 200}} value={this.state.sliderValue} onValueChange={(value) => this.setState({sliderValue: value})} />
         </Modal>
 
-        <Modal isOpen={this.state.isOpen} onClosed={() => this.setState({isOpen: false})} style={[styles.modal, styles.modal4]} position={"center"} backdropContent={BContent}>
+        <Modal isOpen={this.state.isOpen} onClosed={() => this.setState({isOpen: false})} style={[styles.modal, styles.modal4]} position={"center"} backdropPressToClose={false} backdropContent={BContent}>
           <Text style={styles.text}>Modal with backdrop content</Text>
         </Modal>
 
