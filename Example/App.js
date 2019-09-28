@@ -4,7 +4,6 @@ import Modal from 'react-native-modalbox';
 import Slider from 'react-native-slider';
 
 import {
-  AppRegistry,
   Text,
   StyleSheet,
   ScrollView,
@@ -15,7 +14,7 @@ import {
 
 var screen = Dimensions.get('window');
 
-class Example extends React.Component {
+export default class App extends React.Component {
 
   constructor() {
     super();
@@ -163,5 +162,3 @@ const styles = StyleSheet.create({
   }
 
 });
-
-AppRegistry.registerComponent('Example', () => Example);
