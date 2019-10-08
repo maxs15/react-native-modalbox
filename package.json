@@ -1,6 +1,6 @@
 {
   "name": "react-native-modalbox",
-  "version": "1.5.2",
+  "version": "2.0.0",
   "description": "A <Modal/> component for react-native",
   "main": "index.js",
   "scripts": {
@@ -28,7 +28,6 @@
   },
   "homepage": "https://github.com/maxs15/react-native-modalbox#readme",
   "dependencies": {
-    "create-react-class": "^15.6.0",
     "prop-types": "^15.5.10"
   }
 }
