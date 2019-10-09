@@ -80,8 +80,10 @@ export default class ModalBox extends React.PureComponent {
 
     this.onBackPress = this.onBackPress.bind(this);
     this.handleOpenning = this.handleOpenning.bind(this);
-    this.onKeyboardHide = this.onKeyboardHide.bind(this);
-    this.onKeyboardChange = this.onKeyboardChange.bind(this);
+    this.onAndroidKeyboardShow = this.onAndroidKeyboardShow.bind(this);
+    this.onAndroidKeyboardHide = this.onAndroidKeyboardHide.bind(this);
+    this.onIOSKeyboardHide = this.onIOSKeyboardHide.bind(this);
+    this.onIOSKeyboardChange = this.onIOSKeyboardChange.bind(this);
     this.animateBackdropOpen = this.animateBackdropOpen.bind(this);
     this.animateBackdropClose = this.animateBackdropClose.bind(this);
     this.stopAnimateOpen = this.stopAnimateOpen.bind(this);
@@ -178,29 +180,6 @@ export default class ModalBox extends React.PureComponent {
     const keyboardHeight = this.state.containerHeight - keyboardFrame.screenY;
 
     this.setState({keyboardOffset: keyboardHeight}, () => {
-      this.animateOpen();
-    });
-  }
-
-  /*
-   * The keyboard is hidden (Android only)
-   */
-  onAndroidKeyboardHide(evt) {
-    if (!this.state.isOpen) return;
-    this.setState({ keyboardOffset: 0 }, () => {
-      this.animateOpen();
-    });
-  }
-
-  /*
-   * The keyboard has appeared. Move up now, better late than never!
-   */
-  onAndroidKeyboardShow(evt) {
-    if (!evt) return;
-    if (!this.state.isOpen) return;
-    var keyboardHeight = evt.endCoordinates.height;
-
-    this.setState({ keyboardOffset: keyboardHeight }, () => {
       this.animateOpen();
     });
   }
