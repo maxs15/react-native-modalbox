@@ -166,7 +166,7 @@ export default class ModalBox extends React.PureComponent {
    */
   onIOSKeyboardHide(evt) {
     this.setState({ keyboardOffset: 0 });
-  },
+  }
 
   /*
    * The keyboard frame changed, used to detect when the keyboard open, faster than keyboardDidShow (IOS only)
@@ -190,7 +190,7 @@ export default class ModalBox extends React.PureComponent {
     this.setState({ keyboardOffset: 0 }, () => {
       this.animateOpen();
     });
-  },
+  }
 
   /*
    * The keyboard has appeared. Move up now, better late than never!
@@ -203,7 +203,7 @@ export default class ModalBox extends React.PureComponent {
     this.setState({ keyboardOffset: keyboardHeight }, () => {
       this.animateOpen();
     });
-  },
+  }
 
   /*
    * The keyboard is hidden (Android only)
@@ -213,7 +213,7 @@ export default class ModalBox extends React.PureComponent {
     this.setState({ keyboardOffset: 0 }, () => {
       this.animateOpen();
     });
-  },
+  }
 
   /*
    * The keyboard has appeared. Move up now, better late than never!
@@ -226,7 +226,7 @@ export default class ModalBox extends React.PureComponent {
     this.setState({ keyboardOffset: keyboardHeight }, () => {
       this.animateOpen();
     });
-  },
+  }
 
   /*
    * Open animation for the backdrop, will fade in
