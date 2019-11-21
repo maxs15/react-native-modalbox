@@ -132,7 +132,7 @@ export default class ModalBox extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.isOpen != prevProps.isOpen) {
+    if (this.props.isOpen == prevProps.isOpen) {
       this.handleOpenning();
     }
   }
