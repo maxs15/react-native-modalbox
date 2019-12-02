@@ -132,17 +132,18 @@ export default class ModalBox extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.entry !== prevProps.entry) {
-      const position =  new Animated.Value(
-        this.props.entry === 'top' ? -SCREEN_HEIGHT : SCREEN_HEIGHT
-      );
-      this.setState({ position }, () => {
+    if (this.props.isOpen != prevProps.isOpen) {
+      if (this.props.entry !== prevProps.entry) {
+        const position = new Animated.Value(
+          this.props.entry === 'top' ? -SCREEN_HEIGHT : SCREEN_HEIGHT
+        );
+        this.setState({position}, () => {
+          this.handleOpenning();
+        })
+      } else {
         this.handleOpenning();
-      })
-    } else {
-      this.handleOpenning();
+      }
     }
-
   }
 
   componentWillUnmount() {
