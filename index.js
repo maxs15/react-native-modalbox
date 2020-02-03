@@ -11,7 +11,8 @@ import {
   BackHandler,
   Platform,
   Modal,
-  Keyboard
+  Keyboard,
+  SafeAreaView
 } from 'react-native';
 
 const {height: SCREEN_HEIGHT, width: SCREEN_WIDTH} = Dimensions.get('window');
@@ -515,7 +516,7 @@ export default class ModalBox extends React.PureComponent {
     if (!visible) return <View />;
 
     const content = (
-      <View
+      <SafeAreaView
         importantForAccessibility="yes"
         accessibilityViewIsModal={true}
         style={[styles.transparent, styles.absolute]}
@@ -527,7 +528,7 @@ export default class ModalBox extends React.PureComponent {
           {visible && this.renderBackdrop()}
           {visible && this.renderContent()}
         </View>
-      </View>
+      </SafeAreaView>
     );
 
     if (!this.props.coverScreen) return content;
