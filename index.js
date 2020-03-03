@@ -388,7 +388,7 @@ export default class ModalBox extends React.PureComponent {
           : state.dy > this.props.swipeThreshold
       ) {
         this.close();
-      } else if (!this.state.isOpen) {
+      } else {
         this.animateOpen();
       }
     };
