@@ -478,7 +478,6 @@ export default class ModalBox extends React.PureComponent {
 
   renderContent() {
     const size = {
-      height: this.state.containerHeight,
       width: this.state.containerWidth
     };
     const offsetX = (this.state.containerWidth - this.state.width) / 2;
