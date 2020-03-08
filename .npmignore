@@ -1,2 +1,4 @@
 Example
 .npmignore
+.npmrc
+.DS_Store
