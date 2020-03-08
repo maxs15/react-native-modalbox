@@ -5,6 +5,12 @@
 
 A react native <Modal> component, easy, fully customizable, implementing the 'swipe down to close' feature.
 
+## 👇 Give it a try or just some love ⭐
+<a href="https://bit.ly/react-native-iaphub" title="IAPHUB link">
+	<img width=882px src="https://www.iaphub.com/github-rn-ad.png" alt="IAPHUB logo">
+</a>
+<br/>
+
 ## Preview
 ![](https://i.imgur.com/QTAYh81.gif)
 ![](http://i.imgur.com/3XULLt8.gif)
