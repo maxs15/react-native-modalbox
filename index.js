@@ -109,13 +109,14 @@ export default class ModalBox extends React.PureComponent {
       isAnimateClose: false,
       isAnimateOpen: false,
       swipeToClose: false,
-      height: SCREEN_HEIGHT,
+      height: (this.props.style && this.props.style[1] && this.props.style[1].height) || SCREEN_HEIGHT,
       width: SCREEN_WIDTH,
       containerHeight: SCREEN_HEIGHT,
       containerWidth: SCREEN_WIDTH,
       isInitialized: false,
       keyboardOffset: 0,
-      pan: this.createPanResponder(position)
+      pan: this.createPanResponder(position),
+      hideContent: false,
     };
 
     // Needed for iOS because the keyboard covers the screen
@@ -136,6 +137,38 @@ export default class ModalBox extends React.PureComponent {
       this.handleOpenning();
     }
   }
+
+  componentWillReceiveProps(nextProps){
+    if(nextProps.style[1] && nextProps.style[1] !== this.props.style[1]) {
+      const nextHeight = nextProps.style[1].height
+      const prevHeight = this.props.style[1].height  
+        if(nextHeight !== prevHeight && !this.state.isAnimateOpen && !this.state.isAnimateClose ){
+          let positionDest = this.calculateModalPosition(
+            this.state.containerHeight,
+            this.state.containerWidth,
+            nextHeight
+          );
+          if(nextHeight > prevHeight){
+            this.setState({ height: nextHeight, containerHeight:SCREEN_HEIGHT }, 
+              ()=> {
+                this.animateOpen({positionDest})
+              })
+          } else {
+            this.setState({ containerHeight:SCREEN_HEIGHT }, 
+              ()=> {
+                this.animateOpen({positionDest, callback: () => {
+                    this.setState({
+                      height: nextHeight, 
+                    })
+                  } 
+                })
+              })
+          }
+      }else { 
+        this.setState({ height: nextHeight, containerHeight:SCREEN_HEIGHT })
+      }
+    }
+  } 
 
   componentWillUnmount() {
     if (this.subscriptions) this.subscriptions.forEach(sub => sub.remove());
@@ -173,7 +206,8 @@ export default class ModalBox extends React.PureComponent {
     const keyboardHeight = this.state.containerHeight - keyboardFrame.screenY;
 
     this.setState({keyboardOffset: keyboardHeight}, () => {
-      this.animateOpen();
+      if(!this.state.isAnimateOpen)
+        this.animateOpen();
     });
   }
 
@@ -234,12 +268,11 @@ export default class ModalBox extends React.PureComponent {
   /*
    * Open animation for the modal, will move up
    */
-  animateOpen() {
+  animateOpen(config) {
     this.stopAnimateClose();
 
     // Backdrop fadeIn
     if (this.props.backdrop) this.animateBackdropOpen();
-
     this.setState(
       {
         isAnimateOpen: true,
@@ -247,17 +280,10 @@ export default class ModalBox extends React.PureComponent {
       },
       () => {
         requestAnimationFrame(() => {
-          // Detecting modal position
-          let positionDest = this.calculateModalPosition(
+          let positionDest = (config && config.positionDest) || this.calculateModalPosition(
             this.state.containerHeight - this.state.keyboardOffset,
             this.state.containerWidth
           );
-          if (
-            this.state.keyboardOffset &&
-            positionDest < this.props.keyboardTopOffset
-          ) {
-            positionDest = this.props.keyboardTopOffset;
-          }
           let animOpen = Animated.timing(this.state.position, {
             toValue: positionDest,
             duration: this.props.animationDuration,
@@ -268,7 +294,7 @@ export default class ModalBox extends React.PureComponent {
               isAnimateOpen: false,
               animOpen,
               positionDest
-            });
+            }, ()=> config && config.callback && config.callback() );
             if (this.props.onOpened) this.props.onOpened();
           });
         });
@@ -282,7 +308,11 @@ export default class ModalBox extends React.PureComponent {
   stopAnimateClose() {
     if (this.state.isAnimateClose) {
       if (this.state.animClose) this.state.animClose.stop();
-      this.setState({isAnimateClose: false});
+      this.setState({hideContent: true}, () =>
+        this.setState({isAnimateClose: false}, () => {
+          this.setState({hideContent: false});
+        })
+      );
     }
   }
 
@@ -311,13 +341,16 @@ export default class ModalBox extends React.PureComponent {
           useNativeDriver: this.props.useNativeDriver
         }).start(() => {
           // Keyboard.dismiss();   // make this optional. Easily user defined in .onClosed() callback
-          this.setState({
-            isAnimateClose: false,
-            animClose
-          }, () => {
-            /* Set the state to the starting position of the modal, preventing from animating where the swipe stopped */
-            this.state.position.setValue(this.props.entry === 'top' ? -this.state.containerHeight : this.state.containerHeight);
-          });
+          this.setState({hideContent: true}, () => { 
+             this.setState({
+                isAnimateClose: false,
+                animClose
+              }, () => {
+                this.setState({hideContent: false});
+                /* Set the state to the starting position of the modal, preventing from animating where the swipe stopped */
+                this.state.position.setValue(this.props.entry === 'top' ? -this.state.containerHeight : this.state.containerHeight);
+              });
+            });
           if (this.props.onClosed) this.props.onClosed();
         });
       }
@@ -327,14 +360,14 @@ export default class ModalBox extends React.PureComponent {
   /*
    * Calculate when should be placed the modal
    */
-  calculateModalPosition(containerHeight, containerWidth) {
+  calculateModalPosition(containerHeight, containerWidth, nextHeight) {
     let position = 0;
 
     if (this.props.position == 'bottom') {
-      position = containerHeight - this.state.height;
+      position = containerHeight - (nextHeight || this.state.height);
     } else if (this.props.position == 'center') {
-      position = containerHeight / 2 - this.state.height / 2;
-    }
+      position = containerHeight / 2 - (nextHeight || this.state.height) / 2;
+    } 
     // Checking if the position >= 0
     if (position < 0) position = 0;
     return position;
@@ -407,7 +440,6 @@ export default class ModalBox extends React.PureComponent {
   onViewLayout(evt) {
     const height = evt.nativeEvent.layout.height;
     const width = evt.nativeEvent.layout.width;
-
     // If the dimensions are still the same we're done
     let newState = {};
     if (height !== this.state.height) newState.height = height;
@@ -423,7 +455,6 @@ export default class ModalBox extends React.PureComponent {
   onContainerLayout(evt) {
     const height = evt.nativeEvent.layout.height;
     const width = evt.nativeEvent.layout.width;
-
     // If the container size is still the same we're done
     if (
       height == this.state.containerHeight &&
@@ -491,6 +522,10 @@ export default class ModalBox extends React.PureComponent {
           size,
           this.props.style,
           {
+            height: this.state.height,
+            width: this.state.width,
+          },
+          {
             transform: [
               {translateY: this.state.position},
               {translateX: offsetX}
@@ -547,7 +582,7 @@ export default class ModalBox extends React.PureComponent {
         transparent
         visible={visible}
         hardwareAccelerated={true}>
-        {content}
+         {this.state.hideContent ? null : content}
       </Modal>
     );
   }
