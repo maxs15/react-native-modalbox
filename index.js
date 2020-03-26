@@ -141,7 +141,7 @@ export default class ModalBox extends React.PureComponent {
     if (this.props.isOpen != prevProps.isOpen) {
       this.handleOpenning();
     }
-    if (this.props.style) {
+    if (this.props.style && this.props.isOpen) {
       const nextFlattenedPropsStyle = StyleSheet.flatten(this.props.style);
       const flattenedPropsStyle = StyleSheet.flatten(prevProps.style);
       if (
