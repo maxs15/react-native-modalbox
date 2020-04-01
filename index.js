@@ -80,8 +80,6 @@ export default class ModalBox extends React.PureComponent {
 
     this.onBackPress = this.onBackPress.bind(this);
     this.handleOpenning = this.handleOpenning.bind(this);
-    this.onKeyboardHide = this.onKeyboardHide.bind(this);
-    this.onKeyboardChange = this.onKeyboardChange.bind(this);
     this.animateBackdropOpen = this.animateBackdropOpen.bind(this);
     this.animateBackdropClose = this.animateBackdropClose.bind(this);
     this.stopAnimateOpen = this.stopAnimateOpen.bind(this);
@@ -96,6 +94,10 @@ export default class ModalBox extends React.PureComponent {
     this.renderContent = this.renderContent.bind(this);
     this.open = this.open.bind(this);
     this.close = this.close.bind(this);
+    this.onIOSKeyboardHide = this.onIOSKeyboardHide.bind(this);
+    this.onIOSKeyboardChange = this.onIOSKeyboardChange.bind(this);
+    this.onAndroidKeyboardHide = this.onAndroidKeyboardHide.bind(this);
+    this.onAndroidKeyboardShow = this.onAndroidKeyboardShow.bind(this);
 
     const position = props.startOpen
       ? new Animated.Value(0)
