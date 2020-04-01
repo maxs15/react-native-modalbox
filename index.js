@@ -240,7 +240,9 @@ export default class ModalBox extends React.PureComponent {
    */
   onAndroidKeyboardHide(evt) {
     this.setState({ keyboardOffset: 0 }, () => {
-      if (!this.state.isAnimateOpen) this.animateOpen();
+      if (this.state.isOpen) {
+        this.animateOpen();
+      }
     });
   }
 
@@ -251,7 +253,6 @@ export default class ModalBox extends React.PureComponent {
     if (!evt) return;
     if (!this.state.isOpen) return;
     var keyboardHeight = evt.endCoordinates.height;
-
     this.setState({ keyboardOffset: keyboardHeight }, () => {
       if (!this.state.isAnimateOpen) this.animateOpen();
     });
