@@ -127,12 +127,19 @@ export default class ModalBox extends React.PureComponent {
     // Needed for iOS because the keyboard covers the screen
     if (Platform.OS === "ios") {
       this.subscriptions = [
-        Keyboard.addListener("keyboardWillChangeFrame", this.onKeyboardChange),
-        Keyboard.addListener("keyboardDidHide", this.onKeyboardHide)
+        Keyboard.addListener(
+          "keyboardWillChangeFrame",
+          this.onIOSKeyboardChange
+        ),
+        Keyboard.addListener("keyboardDidHide", this.onIOSKeyboardHide)
+      ];
+    } else {
+      this.subscriptions = [
+        Keyboard.addListener("keyboardDidShow", this.onAndroidKeyboardShow),
+        Keyboard.addListener("keyboardDidHide", this.onAndroidKeyboardHide)
       ];
     }
   }
-
   componentDidMount() {
     this.handleOpenning();
   }
@@ -208,18 +215,40 @@ export default class ModalBox extends React.PureComponent {
   /*
    * The keyboard is hidden (IOS only)
    */
-  onKeyboardHide(evt) {
+  onIOSKeyboardHide(evt) {
     this.setState({ keyboardOffset: 0 });
   }
 
   /*
    * The keyboard frame changed, used to detect when the keyboard open, faster than keyboardDidShow (IOS only)
    */
-  onKeyboardChange(evt) {
+  onIOSKeyboardChange(evt) {
     if (!evt) return;
     if (!this.state.isOpen) return;
     const keyboardFrame = evt.endCoordinates;
     const keyboardHeight = this.state.containerHeight - keyboardFrame.screenY;
+
+    this.setState({ keyboardOffset: keyboardHeight }, () => {
+      if (!this.state.isAnimateOpen) this.animateOpen();
+    });
+  }
+
+  /*
+   * The keyboard is hidden (Android only)
+   */
+  onAndroidKeyboardHide(evt) {
+    this.setState({ keyboardOffset: 0 }, () => {
+      this.animateOpen();
+    });
+  }
+
+  /*
+   * The keyboard has appeared. Move up now, better late than never!
+   */
+  onAndroidKeyboardShow(evt) {
+    if (!evt) return;
+    if (!this.state.isOpen) return;
+    var keyboardHeight = evt.endCoordinates.height;
 
     this.setState({ keyboardOffset: keyboardHeight }, () => {
       if (!this.state.isAnimateOpen) this.animateOpen();
