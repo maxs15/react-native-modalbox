@@ -11,25 +11,25 @@ import {
   BackHandler,
   Platform,
   Modal,
-  Keyboard
+  Keyboard,
 } from "react-native";
 
 const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } = Dimensions.get("window");
 const styles = StyleSheet.create({
   wrapper: {
-    backgroundColor: "white"
+    backgroundColor: "white",
   },
   transparent: {
     zIndex: 2,
-    backgroundColor: "rgba(0,0,0,0)"
+    backgroundColor: "rgba(0,0,0,0)",
   },
   absolute: {
     position: "absolute",
     top: 0,
     bottom: 0,
     left: 0,
-    right: 0
-  }
+    right: 0,
+  },
 });
 
 export default class ModalBox extends React.PureComponent {
@@ -54,7 +54,7 @@ export default class ModalBox extends React.PureComponent {
     keyboardTopOffset: PropTypes.number,
     onClosed: PropTypes.func,
     onOpened: PropTypes.func,
-    onClosingState: PropTypes.func
+    onClosingState: PropTypes.func,
   };
 
   static defaultProps = {
@@ -72,7 +72,7 @@ export default class ModalBox extends React.PureComponent {
     easing: Easing.elastic(0.8),
     coverScreen: false,
     keyboardTopOffset: Platform.OS == "ios" ? 22 : 0,
-    useNativeDriver: true
+    useNativeDriver: true,
   };
 
   constructor(props) {
@@ -123,7 +123,7 @@ export default class ModalBox extends React.PureComponent {
       isInitialized: false,
       keyboardOffset: 0,
       pan: this.createPanResponder(position),
-      hideContent: false
+      hideContent: false,
     };
 
     // Needed for iOS because the keyboard covers the screen
@@ -133,12 +133,12 @@ export default class ModalBox extends React.PureComponent {
           "keyboardWillChangeFrame",
           this.onIOSKeyboardChange
         ),
-        Keyboard.addListener("keyboardDidHide", this.onIOSKeyboardHide)
+        Keyboard.addListener("keyboardDidHide", this.onIOSKeyboardHide),
       ];
     } else {
       this.subscriptions = [
         Keyboard.addListener("keyboardDidShow", this.onAndroidKeyboardShow),
-        Keyboard.addListener("keyboardDidHide", this.onAndroidKeyboardHide)
+        Keyboard.addListener("keyboardDidHide", this.onAndroidKeyboardHide),
       ];
     }
   }
@@ -182,9 +182,9 @@ export default class ModalBox extends React.PureComponent {
                 positionDest,
                 callback: () => {
                   this.setState({
-                    height: nextHeight
+                    height: nextHeight,
                   });
-                }
+                },
               });
             });
           }
@@ -196,7 +196,7 @@ export default class ModalBox extends React.PureComponent {
   }
 
   componentWillUnmount() {
-    if (this.subscriptions) this.subscriptions.forEach(sub => sub.remove());
+    if (this.subscriptions) this.subscriptions.forEach((sub) => sub.remove());
     if (this.props.backButtonClose && Platform.OS === "android")
       BackHandler.removeEventListener("hardwareBackPress", this.onBackPress);
   }
@@ -271,11 +271,11 @@ export default class ModalBox extends React.PureComponent {
       toValue: 1,
       duration: this.props.animationDuration,
       easing: this.props.easing,
-      useNativeDriver: this.props.useNativeDriver
+      useNativeDriver: this.props.useNativeDriver,
     }).start(() => {
       this.setState({
         isAnimateBackdrop: false,
-        animBackdrop
+        animBackdrop,
       });
     });
   }
@@ -293,11 +293,11 @@ export default class ModalBox extends React.PureComponent {
       toValue: 0,
       duration: this.props.animationDuration,
       easing: this.props.easing,
-      useNativeDriver: this.props.useNativeDriver
+      useNativeDriver: this.props.useNativeDriver,
     }).start(() => {
       this.setState({
         isAnimateBackdrop: false,
-        animBackdrop
+        animBackdrop,
       });
     });
   }
@@ -323,7 +323,7 @@ export default class ModalBox extends React.PureComponent {
     this.setState(
       {
         isAnimateOpen: true,
-        isOpen: true
+        isOpen: true,
       },
       () => {
         requestAnimationFrame(() => {
@@ -337,13 +337,13 @@ export default class ModalBox extends React.PureComponent {
             toValue: positionDest,
             duration: this.props.animationDuration,
             easing: this.props.easing,
-            useNativeDriver: this.props.useNativeDriver
+            useNativeDriver: this.props.useNativeDriver,
           }).start(() => {
             this.setState(
               {
                 isAnimateOpen: false,
                 animOpen,
-                positionDest
+                positionDest,
               },
               () => config && config.callback && config.callback()
             );
@@ -380,7 +380,7 @@ export default class ModalBox extends React.PureComponent {
     this.setState(
       {
         isAnimateClose: true,
-        isOpen: false
+        isOpen: false,
       },
       () => {
         let animClose = Animated.timing(this.state.position, {
@@ -390,14 +390,14 @@ export default class ModalBox extends React.PureComponent {
               : this.state.containerHeight,
           duration: this.props.animationDuration,
           easing: this.props.easing,
-          useNativeDriver: this.props.useNativeDriver
+          useNativeDriver: this.props.useNativeDriver,
         }).start(() => {
           // Keyboard.dismiss();   // make this optional. Easily user defined in .onClosed() callback
           this.setState({ hideContent: true }, () => {
             this.setState(
               {
                 isAnimateClose: false,
-                animClose
+                animClose,
               },
               () => {
                 this.setState({ hideContent: false });
@@ -489,7 +489,7 @@ export default class ModalBox extends React.PureComponent {
       onStartShouldSetPanResponder: onPanStart,
       onPanResponderMove: onPanMove,
       onPanResponderRelease: onPanRelease,
-      onPanResponderTerminate: onPanRelease
+      onPanResponderTerminate: onPanRelease,
     });
   }
 
@@ -531,7 +531,7 @@ export default class ModalBox extends React.PureComponent {
     this.setState({
       isInitialized: true,
       containerHeight: height,
-      containerWidth: width
+      containerWidth: width,
     });
   }
 
@@ -555,8 +555,8 @@ export default class ModalBox extends React.PureComponent {
                 styles.absolute,
                 {
                   backgroundColor: this.props.backdropColor,
-                  opacity: this.props.backdropOpacity
-                }
+                  opacity: this.props.backdropOpacity,
+                },
               ]}
             />
             {this.props.backdropContent || []}
@@ -571,7 +571,7 @@ export default class ModalBox extends React.PureComponent {
   renderContent() {
     const size = {
       height: this.state.containerHeight,
-      width: this.state.containerWidth
+      width: this.state.containerWidth,
     };
     const offsetX = (this.state.containerWidth - this.state.width) / 2;
 
@@ -584,14 +584,14 @@ export default class ModalBox extends React.PureComponent {
           this.props.style,
           {
             height: this.state.height,
-            width: this.state.width
+            width: this.state.width,
           },
           {
             transform: [
               { translateY: this.state.position },
-              { translateX: offsetX }
-            ]
-          }
+              { translateX: offsetX },
+            ],
+          },
         ]}
         {...this.state.pan.panHandlers}
       >
@@ -633,6 +633,7 @@ export default class ModalBox extends React.PureComponent {
 
     return (
       <Modal
+        statusBarTranslucent
         onRequestClose={() => {
           if (this.props.backButtonClose) {
             this.close();
@@ -641,7 +642,7 @@ export default class ModalBox extends React.PureComponent {
         supportedOrientations={[
           "landscape",
           "portrait",
-          "portrait-upside-down"
+          "portrait-upside-down",
         ]}
         transparent
         visible={visible}
