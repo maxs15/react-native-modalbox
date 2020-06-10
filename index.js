@@ -54,7 +54,8 @@ export default class ModalBox extends React.PureComponent {
     keyboardTopOffset: PropTypes.number,
     onClosed: PropTypes.func,
     onOpened: PropTypes.func,
-    onClosingState: PropTypes.func
+    onClosingState: PropTypes.func,
+    onSwipeToClose: PropTypes.func
   };
 
   static defaultProps = {
@@ -387,6 +388,7 @@ export default class ModalBox extends React.PureComponent {
           ? -state.dy > this.props.swipeThreshold
           : state.dy > this.props.swipeThreshold
       ) {
+        if(this.props.onSwipeToClose) this.props.onSwipeToClose()
         this.close();
       } else if (!this.state.isOpen) {
         this.animateOpen();
