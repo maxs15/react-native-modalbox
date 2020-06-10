@@ -395,6 +395,7 @@ export default class ModalBox extends React.PureComponent {
 
     return PanResponder.create({
       onStartShouldSetPanResponder: onPanStart,
+      onMoveShouldSetPanResponder: onPanStart,
       onPanResponderMove: onPanMove,
       onPanResponderRelease: onPanRelease,
       onPanResponderTerminate: onPanRelease
