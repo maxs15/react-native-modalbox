@@ -54,6 +54,7 @@ export default class ModalBox extends React.PureComponent {
     keyboardTopOffset: PropTypes.number,
     onClosed: PropTypes.func,
     onOpened: PropTypes.func,
+    onRequestClose: PropTypes.func,
     onClosingState: PropTypes.func
   };
 
@@ -535,7 +536,9 @@ export default class ModalBox extends React.PureComponent {
     return (
       <Modal
         onRequestClose={() => {
-          if (this.props.backButtonClose) {
+          if(this.props.onRequestClose) {
+            this.props.onRequestClose();
+          } else if (this.props.backButtonClose) {
             this.close();
           }
         }}
