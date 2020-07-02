@@ -140,7 +140,7 @@ export default class ModalBox extends React.PureComponent {
 
   componentWillUnmount() {
     if (this.subscriptions) this.subscriptions.forEach(sub => sub.remove());
-    if (this.props.backButtonClose && Platform.OS === 'android')
+    if (this.props.backButtonClose && !this.props.onRequestClose && Platform.OS === 'android')
       BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
   }
 
@@ -565,7 +565,7 @@ export default class ModalBox extends React.PureComponent {
     ) {
       this.onViewLayoutCalculated = () => {
         this.animateOpen();
-        if (this.props.backButtonClose && Platform.OS === 'android')
+        if (this.props.backButtonClose && !this.props.onRequestClose && Platform.OS === 'android')
           BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
         this.onViewLayoutCalculated = null;
       };
@@ -580,7 +580,7 @@ export default class ModalBox extends React.PureComponent {
       (this.state.isOpen || this.state.isAnimateOpen)
     ) {
       this.animateClose();
-      if (this.props.backButtonClose && Platform.OS === 'android')
+      if (this.props.backButtonClose && !this.props.onRequestClose && Platform.OS === 'android')
         BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
     }
   }
