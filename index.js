@@ -403,7 +403,9 @@ export default class ModalBox extends React.PureComponent {
       return true;
     };
 
-    const animEvt = Animated.event([null, { customY: position }], {});
+    const animEvt = Animated.event([null, { customY: position }], {
+      useNativeDriver: true
+    });
 
     const onPanMove = (evt, state) => {
       const newClosingState =
