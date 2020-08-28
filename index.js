@@ -51,6 +51,7 @@ export default class ModalBox extends React.PureComponent {
     backButtonClose: PropTypes.bool,
     easing: PropTypes.func,
     coverScreen: PropTypes.bool,
+    statusBarTranslucent: PropTypes.bool,
     keyboardTopOffset: PropTypes.number,
     onClosed: PropTypes.func,
     onOpened: PropTypes.func,
@@ -71,6 +72,7 @@ export default class ModalBox extends React.PureComponent {
     backButtonClose: false,
     easing: Easing.elastic(0.8),
     coverScreen: false,
+    statusBarTranslucent: true,
     keyboardTopOffset: Platform.OS == 'ios' ? 22 : 0,
     useNativeDriver: true
   };
@@ -531,7 +533,6 @@ export default class ModalBox extends React.PureComponent {
     );
 
     if (!this.props.coverScreen) return content;
-
     return (
       <Modal
         onRequestClose={() => {
@@ -545,6 +546,7 @@ export default class ModalBox extends React.PureComponent {
           'portrait-upside-down'
         ]}
         transparent
+        statusBarTranslucent={this.props.statusBarTranslucent}
         visible={visible}
         hardwareAccelerated={true}>
         {content}
