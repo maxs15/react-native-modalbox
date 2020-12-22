@@ -497,6 +497,7 @@ export default class ModalBox extends React.PureComponent {
 
     return (
       <Animated.View
+	pointerEvents={this.props.pointerEvents || 'auto'}
         onLayout={this.onViewLayout}
         style={[
           styles.wrapper,
