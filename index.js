@@ -172,7 +172,9 @@ export default class ModalBox extends React.PureComponent {
     const keyboardFrame = evt.endCoordinates;
     const keyboardHeight = this.state.containerHeight - keyboardFrame.screenY;
 
-    this.setState({keyboardOffset: keyboardHeight}, () => {
+    const isFloatingKeyboard = Dimensions.get('window').width !== keyboardFrame.width;
+
+    this.setState({keyboardOffset: isFloatingKeyboard ? 0 : keyboardHeight}, () => {
       this.animateOpen();
     });
   }
