@@ -512,7 +512,7 @@ export default class ModalBox extends React.PureComponent {
       this.state.isAnimateOpen ||
       this.state.isAnimateClose;
 
-    if (!visible) return <View />;
+    if (!visible) return <View style={styles.transparent}/>;
 
     const content = (
       <View
