@@ -109,6 +109,7 @@ export default class ModalBox extends React.PureComponent {
       isAnimateClose: false,
       isAnimateOpen: false,
       swipeToClose: false,
+      showContent: true,
       height: SCREEN_HEIGHT,
       width: SCREEN_WIDTH,
       containerHeight: SCREEN_HEIGHT,
@@ -312,11 +313,15 @@ export default class ModalBox extends React.PureComponent {
         }).start(() => {
           // Keyboard.dismiss();   // make this optional. Easily user defined in .onClosed() callback
           this.setState({
-            isAnimateClose: false,
-            animClose
+            showContent: false
           }, () => {
-            /* Set the state to the starting position of the modal, preventing from animating where the swipe stopped */
-            this.state.position.setValue(this.props.entry === 'top' ? -this.state.containerHeight : this.state.containerHeight);
+            this.setState({
+              isAnimateClose: false,
+              animClose
+            }, () => {
+              /* Set the state to the starting position of the modal, preventing from animating where the swipe stopped */
+              this.state.position.setValue(this.props.entry === 'top' ? -this.state.containerHeight : this.state.containerHeight);
+            });
           });
           if (this.props.onClosed) this.props.onClosed();
         });
@@ -547,7 +552,7 @@ export default class ModalBox extends React.PureComponent {
         transparent
         visible={visible}
         hardwareAccelerated={true}>
-        {content}
+        {this.state.showContent ? content : <View />}
       </Modal>
     );
   }
@@ -566,7 +571,10 @@ export default class ModalBox extends React.PureComponent {
           BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
         this.onViewLayoutCalculated = null;
       };
-      this.setState({isAnimateOpen: true});
+      this.setState({
+        isAnimateOpen: true,
+        showContent: true
+      });
     }
   }
 
