@@ -135,6 +135,9 @@ export default class ModalBox extends React.PureComponent {
     if (this.props.isOpen != prevProps.isOpen) {
       this.handleOpenning();
     }
+    if(!this.state.isOpen){
+      this.ignoreOnOpened=false
+    }
   }
 
   componentWillUnmount() {
@@ -269,7 +272,7 @@ export default class ModalBox extends React.PureComponent {
               animOpen,
               positionDest
             });
-            if (this.props.onOpened) this.props.onOpened();
+            if (this.props.onOpened && !this.ignoreOnOpened) this.props.onOpened();
           });
         });
       }
@@ -410,9 +413,20 @@ export default class ModalBox extends React.PureComponent {
 
     // If the dimensions are still the same we're done
     let newState = {};
-    if (height !== this.state.height) newState.height = height;
-    if (width !== this.state.width) newState.width = width;
+    this.layoutChanged=false
+    if (height !== this.state.height) {
+      newState.height = height;
+      this.layoutChanged=true
+    }
+    if (width !== this.state.width) {
+      newState.width = width;
+      this.layoutChanged=true
+    }
     this.setState(newState);
+    if(this.state.isOpen && this.layoutChanged){
+      this.ignoreOnOpened=true
+      this.animateOpen();
+    }
 
     if (this.onViewLayoutCalculated) this.onViewLayoutCalculated();
   }
